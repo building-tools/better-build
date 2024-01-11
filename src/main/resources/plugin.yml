@@ -1,0 +1,4 @@
+name: BetterBuild
+version: '${version}'
+main: de.raphaelgoetz.betterbuild.BetterBuild
+api-version: '1.20'
