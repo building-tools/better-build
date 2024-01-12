@@ -3,7 +3,7 @@ package de.raphaelgoetz.betterbuild.manager
 import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.WorldCreator
-import de.raphaelgoetz.betterbuild.util.VoidGenerator
+import de.raphaelgoetz.betterbuild.utils.VoidGenerator
 import java.io.File
 
 class WorldManager {

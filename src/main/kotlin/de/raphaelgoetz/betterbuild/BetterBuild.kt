@@ -31,6 +31,8 @@ class BetterBuild : JavaPlugin() {
 
     override fun onEnable() {
 
+        getCommand("text")?.setExecutor(TeleportToLastLocation(this))
+
         registerListener()
     }
     
