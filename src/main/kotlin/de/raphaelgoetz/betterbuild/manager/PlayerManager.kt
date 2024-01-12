@@ -16,6 +16,10 @@ class PlayerManager {
         return lastPlayerLocation[player]
     }
 
+    fun setLastLocation(player: Player, location: Location) {
+        this.lastPlayerLocation[player] = location
+    }
+
     fun toggleBuildMode(player: Player) {
 
         if (player.isActiveBuilder()) {
