@@ -1,6 +1,8 @@
 package de.raphaelgoetz.betterbuild
 
 import de.raphaelgoetz.betterbuild.commands.player.TeleportToLastLocation
+import de.raphaelgoetz.betterbuild.commands.player.TogglePlayerMode
+import de.raphaelgoetz.betterbuild.commands.player.TogglePlayerSpeed
 import de.raphaelgoetz.betterbuild.listeners.block.*
 import de.raphaelgoetz.betterbuild.listeners.hanging.HangingBreakByEntityListener
 import de.raphaelgoetz.betterbuild.listeners.hanging.HangingPlaceListener
@@ -14,13 +16,6 @@ import de.raphaelgoetz.betterbuild.manager.PlayerManager
 import de.raphaelgoetz.betterbuild.manager.WorldManager
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
-import org.bukkit.event.block.BlockDropItemEvent
-import org.bukkit.event.block.BlockGrowEvent
-import org.bukkit.event.block.BlockIgniteEvent
-import org.bukkit.event.block.BlockPhysicsEvent
-import org.bukkit.event.block.BlockPistonRetractEvent
-import org.bukkit.event.block.BlockPlaceEvent
-import org.bukkit.event.hanging.HangingBreakEvent
 import org.bukkit.plugin.PluginManager
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -31,65 +26,75 @@ class BetterBuild : JavaPlugin() {
 
     override fun onEnable() {
 
-        getCommand("text")?.setExecutor(TeleportToLastLocation(this))
-
+        registerCommands()
         registerListener()
+    }
+
+    private fun registerCommands() {
+
+        //PLAYER
+        getCommand("back")?.setExecutor(TeleportToLastLocation(this))
+        getCommand("build")?.setExecutor(TogglePlayerMode(this))
+        getCommand("clip")?.setExecutor(TogglePlayerMode(this))
+        getCommand("fly")?.setExecutor(TogglePlayerSpeed(this))
+        getCommand("walk")?.setExecutor(TogglePlayerSpeed(this))
+
     }
     
     private fun registerListener() {
 
-        val playerManager = Bukkit.getPluginManager()
-
         //BLOCK
-        playerManager.registerEvents(BlockBurnListener(), this)
-        playerManager.registerEvents(BlockDispenseArmorListener(), this)
-        playerManager.registerEvents(BlockDispenseListener(), this)
-        playerManager.registerEvents(BlockDropItemListener(), this)
-        playerManager.registerEvents(BlockExplodeListener(), this)
-        playerManager.registerEvents(BlockFadeListener(), this)
-        playerManager.registerEvents(BlockGrowListener(), this)
-        playerManager.registerEvents(BlockIgniteListener(), this)
-        playerManager.registerEvents(BlockPhysicsListener(), this)
-        playerManager.registerEvents(BlockPistonExtendListener(), this)
-        playerManager.registerEvents(BlockPistonListener(), this)
-        playerManager.registerEvents(BlockPistonRetractListener(), this)
-        playerManager.registerEvents(BlockPlaceListener(this), this)
-        playerManager.registerEvents(BlockReceiveGameListener(), this)
-        playerManager.registerEvents(BlockSpreadListener(), this)
-        playerManager.registerEvents(FluidLevelChangeListener(), this)
-        playerManager.registerEvents(LeavesDecayListener(), this)
+        register(BlockBurnListener())
+        register(BlockDispenseArmorListener())
+        register(BlockDispenseListener())
+        register(BlockDropItemListener())
+        register(BlockExplodeListener())
+        register(BlockFadeListener())
+        register(BlockGrowListener())
+        register(BlockIgniteListener())
+        register(BlockPhysicsListener())
+        register(BlockPistonExtendListener())
+        register(BlockPistonRetractListener())
+        register(BlockPlaceListener(this))
+        register(BlockReceiveGameListener())
+        register(BlockSpreadListener())
+        register(FluidLevelChangeListener())
+        register(LeavesDecayListener())
 
         //PICTURES
-        playerManager.registerEvents(HangingBreakByEntityListener(this), this)
-        playerManager.registerEvents(HangingPlaceListener(this), this)
+        register(HangingBreakByEntityListener(this))
+        register(HangingPlaceListener(this))
 
         //PLAYER-CONNECTION
-        playerManager.registerEvents(PlayerJoinListener(), this)
-        playerManager.registerEvents(PlayerQuitListener(), this)
+        register(PlayerJoinListener())
+        register(PlayerQuitListener())
 
         //PLAYER-INTERACTION
-        playerManager.registerEvents(PlayerArmorStandManipulateListener(this), this)
-        playerManager.registerEvents(PlayerBedEnterListener(), this)
-        playerManager.registerEvents(PlayerBucketEmptyListener(this), this)
-        playerManager.registerEvents(PlayerBucketEntityListener(this), this)
-        playerManager.registerEvents(PlayerBucketFillListener(this), this)
-        playerManager.registerEvents(PlayerChangedWorldListener(this), this)
-        playerManager.registerEvents(PlayerDeathListener(), this)
-        playerManager.registerEvents(PlayerDropItemListener(), this)
-        playerManager.registerEvents(PlayerEggThrowListener(), this)
-        playerManager.registerEvents(PlayerFishListener(), this)
-        playerManager.registerEvents(PlayerInteractListener(this), this)
-        playerManager.registerEvents(PlayerItemConsumeListener(), this)
-        playerManager.registerEvents(PlayerPortalListener(), this)
-        playerManager.registerEvents(PlayerSwapHandItemsListener(this), this)
-        playerManager.registerEvents(PlayerTeleportListener(this), this)
+        register(PlayerArmorStandManipulateListener(this))
+        register(PlayerBedEnterListener())
+        register(PlayerBucketEmptyListener(this))
+        register(PlayerBucketEntityListener(this))
+        register(PlayerBucketFillListener(this))
+        register(PlayerChangedWorldListener(this))
+        register(PlayerDeathListener())
+        register(PlayerDropItemListener())
+        register(PlayerEggThrowListener())
+        register(PlayerFishListener())
+        register(PlayerInteractListener(this))
+        register(PlayerItemConsumeListener())
+        register(PlayerPortalListener())
+        register(PlayerSwapHandItemsListener(this))
+        register(PlayerTeleportListener(this))
 
         //RAID
-        playerManager.registerEvents(RaidTriggerListener(), this)
+        register(RaidTriggerListener())
 
         //VEHICLE
-        playerManager.registerEvents(VehicleCreateListener(), this)
-        playerManager.registerEvents(VehicleEnterListener(), this)
+        register(VehicleCreateListener())
+        register(VehicleEnterListener())
+    }
 
+    private fun register(listener: Listener) {
+        Bukkit.getPluginManager().registerEvents(listener, this)
     }
 }
