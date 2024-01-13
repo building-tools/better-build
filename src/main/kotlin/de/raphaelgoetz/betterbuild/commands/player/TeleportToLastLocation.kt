@@ -14,7 +14,13 @@ data class TeleportToLastLocation(val betterBuild: BetterBuild) : CommandExecuto
         if (args?.size!! > 0) return true
 
         val lastLocation = betterBuild.playerManager.getLastLocation(sender)
-        sender.teleport(lastLocation ?: sender.location)
+
+        if (lastLocation?.world == null) {
+            sender.sendMessage("World was unloaded, cant go back")
+            return true
+        }
+
+        sender.teleport(lastLocation)
         return false
     }
 }
