@@ -2,3 +2,17 @@ name: BetterBuild
 version: '${version}'
 main: de.raphaelgoetz.betterbuild.BetterBuild
 api-version: '1.20'
+author: 'Konfuzius'
+website: 'https://uroria.com'
+
+commands:
+  build:
+    description: ""
+  clip:
+    description: ""
+  fly:
+    description: ""
+  walk:
+    description: ""
+  back:
+    description: ""
