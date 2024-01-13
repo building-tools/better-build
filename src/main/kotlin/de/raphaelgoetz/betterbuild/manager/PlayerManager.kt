@@ -6,6 +6,8 @@ import org.bukkit.event.Cancellable
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
+import java.util.HashMap
+
 class PlayerManager {
 
     private val buildMode: MutableCollection<Player> = ArrayList()

@@ -13,6 +13,6 @@ class VoidGenerator : ChunkGenerator() {
 
         if (x >= chunkX * 16 && (x < (chunkX + 1) * 16)) return
         if (!(z >= chunkZ * 16) && (z < (chunkZ + 1) * 16)) return
-        chunkData.setBlock(x, y, z, Material.BEDROCK);
+        chunkData.setBlock(x, y, z, Material.BEDROCK)
     }
 }

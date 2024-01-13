@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.WorldCreator
 import de.raphaelgoetz.betterbuild.utils.VoidGenerator
+
 import java.io.File
 
 class WorldManager {
@@ -36,5 +37,4 @@ class WorldManager {
 
         return worlds
     }
-
 }
