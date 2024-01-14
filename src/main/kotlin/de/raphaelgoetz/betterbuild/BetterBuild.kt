@@ -3,6 +3,7 @@ package de.raphaelgoetz.betterbuild
 import de.raphaelgoetz.betterbuild.commands.player.TeleportToLastLocation
 import de.raphaelgoetz.betterbuild.commands.player.TogglePlayerMode
 import de.raphaelgoetz.betterbuild.commands.player.TogglePlayerSpeed
+import de.raphaelgoetz.betterbuild.commands.world.MangeWorlds
 import de.raphaelgoetz.betterbuild.listeners.block.*
 import de.raphaelgoetz.betterbuild.listeners.hanging.HangingBreakByEntityListener
 import de.raphaelgoetz.betterbuild.listeners.hanging.HangingPlaceListener
@@ -12,6 +13,7 @@ import de.raphaelgoetz.betterbuild.listeners.player.connection.PlayerQuitListene
 import de.raphaelgoetz.betterbuild.listeners.raid.RaidTriggerListener
 import de.raphaelgoetz.betterbuild.listeners.vehicle.VehicleCreateListener
 import de.raphaelgoetz.betterbuild.listeners.vehicle.VehicleEnterListener
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import de.raphaelgoetz.betterbuild.manager.PlayerManager
 import de.raphaelgoetz.betterbuild.manager.WorldManager
 import org.bukkit.Bukkit
@@ -22,9 +24,9 @@ class BetterBuild : JavaPlugin() {
 
     val playerManager: PlayerManager = PlayerManager()
     val worldManager: WorldManager = WorldManager()
+    val languageManager: LanguageManager = LanguageManager()
 
     override fun onEnable() {
-
         registerCommands()
         registerListener()
     }
@@ -38,6 +40,8 @@ class BetterBuild : JavaPlugin() {
         getCommand("fly")?.setExecutor(TogglePlayerSpeed(this))
         getCommand("walk")?.setExecutor(TogglePlayerSpeed(this))
 
+        //WORLD
+        getCommand("world")?.setExecutor(MangeWorlds(this))
     }
     
     private fun registerListener() {
