@@ -28,13 +28,44 @@ class WorldManager {
 
         for (file in folders) {
 
-            val lockFile = File(file, "session.lock")
-            if (!lockFile.exists()) continue
+            if (!isWorldFolder(file)) continue
             if (worlds.contains(file.name)) continue
             worlds.add(file.name)
 
         }
 
         return worlds
+    }
+
+    fun isWorld(name: String): Boolean {
+        return getWorldNames().contains(name)
+    }
+
+    private fun isWorldFolder(file: File): Boolean {
+        val lockFile = File(file, "session.lock")
+        return lockFile.exists()
+    }
+
+    fun deleteWorld(name: String) {
+        if (!isWorld(name)) return
+        Bukkit.unloadWorld(name, false)
+        val folders = Bukkit.getWorldContainer().listFiles() ?: return
+
+        for (folder in folders) {
+            if (folder.name != name) continue
+            deleteFiles(folder)
+
+        }
+    }
+
+    private fun deleteFiles(file: File) {
+
+        if (!file.isDirectory) {
+            file.delete()
+            return
+        }
+
+        val directory = file.listFiles()
+        for (currentFile in directory!!) deleteFiles(currentFile)
     }
 }
