@@ -7,7 +7,11 @@ import de.raphaelgoetz.betterbuild.utils.VoidGenerator
 
 import java.io.File
 
-class WorldManager {
+class WorldManager(
+
+    private val physics: Map<World, Boolean> = mutableMapOf()
+
+) {
 
     fun createEmptyWorld(name: String): World? {
 
