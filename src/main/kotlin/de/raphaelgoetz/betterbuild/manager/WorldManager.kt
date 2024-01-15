@@ -57,8 +57,7 @@ class WorldManager(
 
         for (folder in folders) {
             if (folder.name != name) continue
-            deleteFiles(folder)
-
+            deleteFilesInsideFolder(folder)
         }
     }
 
@@ -71,5 +70,13 @@ class WorldManager(
 
         val directory = file.listFiles()
         for (currentFile in directory!!) deleteFiles(currentFile)
+    }
+
+    private fun deleteFilesInsideFolder(file: File) {
+        if (!file.isDirectory() && file.delete()) return;
+        val files = file.listFiles();
+        if (files == null || file.delete()) return;
+        for (content in files) if (!content.delete()) deleteFilesInsideFolder(content);
+        if (!file.delete()) deleteFilesInsideFolder(file);
     }
 }
