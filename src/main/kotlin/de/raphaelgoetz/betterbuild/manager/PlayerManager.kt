@@ -1,5 +1,6 @@
 package de.raphaelgoetz.betterbuild.manager
 
+import de.raphaelgoetz.betterbuild.BetterBuild
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
@@ -8,7 +9,7 @@ import org.bukkit.potion.PotionEffectType
 
 import java.util.HashMap
 
-class PlayerManager {
+class PlayerManager(betterBuild: BetterBuild) {
 
     private val buildMode: MutableCollection<Player> = ArrayList()
     private val noClipMode: MutableCollection<Player> = ArrayList()

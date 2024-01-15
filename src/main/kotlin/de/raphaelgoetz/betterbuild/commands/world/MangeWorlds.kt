@@ -13,13 +13,13 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
 
         if (sender !is Player) return true
-        if (args?.size!! < 1) return true
+        if (args == null || args.isEmpty()) return true
 
         val operation = args[0]
         val name = args[1]
 
         if (operation == "create") createWorld(name, sender)
-        if (operation == "deleteWorld") deleteWorld(name, sender)
+        if (operation == "delete") deleteWorld(name, sender)
         return false
     }
 

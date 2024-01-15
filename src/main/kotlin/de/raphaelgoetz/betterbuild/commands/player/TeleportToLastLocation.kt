@@ -11,11 +11,16 @@ data class TeleportToLastLocation(val betterBuild: BetterBuild) : CommandExecuto
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
 
         if (sender !is Player) return true
-        if (args?.size!! > 0) return true
+        if (args == null || args.isNotEmpty()) return true
 
         val lastLocation = betterBuild.playerManager.getLastLocation(sender)
 
-        if (lastLocation?.world == null) {
+        if (lastLocation == null) {
+            sender.sendMessage("No known last location")
+            return true
+        }
+
+        if (lastLocation.world == null) {
             sender.sendMessage("World was unloaded, cant go back")
             return true
         }

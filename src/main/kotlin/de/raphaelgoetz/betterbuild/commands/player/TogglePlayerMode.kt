@@ -13,7 +13,7 @@ data class TogglePlayerMode(val betterBuild: BetterBuild) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
 
         if (sender !is Player) return true
-        if (args?.size!! > 1) return true
+        if (args == null) return true
 
         val target = if (args.size == 1) Bukkit.getPlayer(args[0]) else sender
 
