@@ -1,0 +1,9 @@
+{
+    "gui.deletion.title": "<gradient:#232526:#414345>Confirm world deletion!</gradient>",
+
+    "gui.deletion.item.display.accept": "",
+    "gui.deletion.item.display.deny": "",
+
+    "command.player.teleport.error": "",
+    ""
+}
