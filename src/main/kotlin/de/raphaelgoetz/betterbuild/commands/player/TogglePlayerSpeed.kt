@@ -12,7 +12,10 @@ data class TogglePlayerSpeed(val betterBuild: BetterBuild) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
 
         if (sender !is Player) return true
-        if (args == null || args.size != 1) return true
+        if (args == null || args.size != 1) {
+            sender.sendMessage("No value set (1 - 10)")
+            return true
+        }
         val values = (0 until 11).map { it.toString() }
 
         if (!values.contains(args[0])) {

@@ -1,19 +1,20 @@
 package de.raphaelgoetz.betterbuild.manager
 
-import de.raphaelgoetz.betterbuild.BetterBuild
+import  de.raphaelgoetz.betterbuild.BetterBuild
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-import java.util.HashMap
+class PlayerManager(
 
-class PlayerManager(betterBuild: BetterBuild) {
-
-    private val buildMode: MutableCollection<Player> = ArrayList()
-    private val noClipMode: MutableCollection<Player> = ArrayList()
+    private val betterBuild: BetterBuild,
+    private val buildMode: MutableCollection<Player> = ArrayList(),
+    private val noClipMode: MutableCollection<Player> = ArrayList(),
     private val lastPlayerLocation: MutableMap<Player, Location> = HashMap()
+
+) {
 
     fun getLastLocation(player: Player): Location? {
         return lastPlayerLocation[player]
@@ -49,7 +50,16 @@ class PlayerManager(betterBuild: BetterBuild) {
 
     fun toggleNightVision(player: Player) {
         if (player.hasActiveNightVision()) player.removePotionEffect(PotionEffectType.NIGHT_VISION)
-        else player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 1, false, false, false))
+        else player.addPotionEffect(
+            PotionEffect(
+                PotionEffectType.NIGHT_VISION,
+                PotionEffect.INFINITE_DURATION,
+                1,
+                false,
+                false,
+                false
+            )
+        )
     }
 
     fun cancelWhenBuilder(player: Player, event: Cancellable) {
