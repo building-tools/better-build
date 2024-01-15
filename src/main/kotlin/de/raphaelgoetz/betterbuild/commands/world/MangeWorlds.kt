@@ -14,6 +14,10 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor {
 
         if (sender !is Player) return true
         if (args == null || args.isEmpty()) return true
+        if (args.size < 2) {
+            sender.sendMessage("Missing name of world")
+            return true
+        }
 
         val operation = args[0]
         val name = args[1]
