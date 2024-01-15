@@ -11,14 +11,16 @@ import org.bukkit.entity.Player
 
 import java.io.*
 
-class LanguageManager {
+class LanguageManager(
 
+    private val singleMessage: MutableMap<String, String> = mutableMapOf(),
+    private val multiMessage: MutableMap<String, List<String>> = mutableMapOf()
+
+) {
     init {
         readConfig()
     }
 
-    private val singleMessage: MutableMap<String, String> = mutableMapOf()
-    private val multiMessage: MutableMap<String, List<String>> = mutableMapOf()
 
     fun sendPlayerMessage(player: Player, key: String) {
         player.sendMessage(getComponent(key))
