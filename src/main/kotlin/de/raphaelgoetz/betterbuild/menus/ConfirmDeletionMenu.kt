@@ -24,17 +24,18 @@ data class ConfirmDeletionMenu(
 
     private fun setConfirmItem() {
 
-        setSlot(2, ItemBuilder(Material.GREEN_DYE).setName("Confirm delete").build(), consumer = {
+        setSlot(3, ItemBuilder(Material.GREEN_DYE).setName("Confirm delete").build(), consumer = {
             it.isCancelled = true
             betterBuild.worldManager.deleteWorld(name)
             player.sendMessage("world has been deleted")
+            player.closeInventory()
         })
 
     }
 
     private fun setCancelItem() {
 
-        setSlot(4, ItemBuilder(Material.RED_DYE).setName("Cancel delete").build(), consumer = {
+        setSlot(5, ItemBuilder(Material.RED_DYE).setName("Cancel delete").build(), consumer = {
             it.isCancelled = true
             player.closeInventory()
             player.sendMessage("world hasn't been deleted")
