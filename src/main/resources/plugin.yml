@@ -7,14 +7,16 @@ website: 'https://uroria.com'
 
 commands:
   build:
-    description: ""
+    description: "Toggle Build-Mode. When activated players can interact with the world!"
   clip:
-    description: ""
+    description: "Toggle Clip-Mode. When activated you get put into spectator mode when colliding with blocks!"
   fly:
-    description: ""
+    description: "Sets the fly-speed of a player. Only values from 0-10."
   walk:
-    description: ""
+    description: "Sets the walk-speed of a player. Only values from 0-10."
   back:
-    description: ""
+    description: "Teleports a player to the last known location after switching worlds."
   world:
-    description: ""
+    description: "Creates and deletes words."
+  physics:
+    description: "Toggle Physics-Mode. When activated physics of a world will be at minecraft's-default."
