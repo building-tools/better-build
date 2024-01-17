@@ -12,6 +12,6 @@ But what does it do?
   - Manipulates many Minecraft-Events for better building experience
 
 # Specs:
-## Supprted Minecraft-Version: 1.20.4
+## Supported Minecraft-Version: 1.20.4
 ## Current Java-Version: 17
 ## Developed for Paper
