@@ -1,15 +1,14 @@
 package de.raphaelgoetz.betterbuild.manager
 
+import de.raphaelgoetz.betterbuild.utils.VoidGenerator
 import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.WorldCreator
-import de.raphaelgoetz.betterbuild.utils.VoidGenerator
-
 import java.io.File
 
 class WorldManager(
 
-    private val physics: Map<World, Boolean> = mutableMapOf()
+    private val physics: MutableMap<World, Boolean> = mutableMapOf()
 
 ) {
 
@@ -43,6 +42,21 @@ class WorldManager(
 
     fun isWorld(name: String): Boolean {
         return getWorldNames().contains(name)
+    }
+
+    fun hasPhysics(world: World): Boolean {
+        return this.physics[world] ?: false;
+    }
+
+    fun togglePhysics(world: World) {
+        val value = this.physics[world]
+
+        if (value == null) {
+            this.physics[world] = false
+            return
+        }
+
+        this.physics[world] = !value
     }
 
     private fun isWorldFolder(file: File): Boolean {

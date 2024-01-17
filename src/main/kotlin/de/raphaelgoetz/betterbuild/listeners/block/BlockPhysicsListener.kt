@@ -1,11 +1,12 @@
 package de.raphaelgoetz.betterbuild.listeners.block
 
+import de.raphaelgoetz.betterbuild.BetterBuild
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockPhysicsEvent
 
-class BlockPhysicsListener : Listener {
+data class BlockPhysicsListener(val betterBuild: BetterBuild) : Listener {
 
     @EventHandler
     fun onBlockPhysicsEvent(blockPhysicsEvent: BlockPhysicsEvent) {
@@ -24,6 +25,8 @@ class BlockPhysicsListener : Listener {
         materials.add(Material.WARPED_DOOR)
 
         if (materials.contains(material)) return
-        //if (!bm.getWorldManager().isPhysics()) blockPhysicsEvent.setCancelled(true);
+        val world = blockPhysicsEvent.block.world
+        val value = betterBuild.worldManager.hasPhysics(world)
+        blockPhysicsEvent.isCancelled = !value
     }
 }

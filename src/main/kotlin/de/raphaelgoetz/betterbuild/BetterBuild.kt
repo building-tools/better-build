@@ -36,6 +36,7 @@ class BetterBuild : JavaPlugin() {
 
         //WORLD
         getCommand("world")?.setExecutor(MangeWorlds(this))
+        getCommand("physics")?.setExecutor(ToggleWorldPhysics(this))
     }
     
     private fun registerListener() {
@@ -49,7 +50,7 @@ class BetterBuild : JavaPlugin() {
         register(BlockFadeListener())
         register(BlockGrowListener())
         register(BlockIgniteListener())
-        register(BlockPhysicsListener())
+        register(BlockPhysicsListener(this))
         register(BlockPistonExtendListener())
         register(BlockPistonRetractListener())
         register(BlockPlaceListener(this))
