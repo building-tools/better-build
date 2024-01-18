@@ -36,38 +36,42 @@ data class MainMenu(
 
     private fun setPlayerItems() {
         this.setSlot(1, ItemBuilder(Material.PLAYER_HEAD).build(), consumer = {
-
-
+            it.isCancelled = true
+            PlayerOverviewMenu(player, Component.text("Players")).open()
         })
     }
 
     private fun setBannerItems() {
         this.setSlot(2, ItemBuilder(Material.GREEN_BANNER).build(), consumer = {
-
+            it.isCancelled = true
 
         })
     }
 
     private fun setPhysicItems() {
         this.setSlot(5, ItemBuilder(Material.GRAVEL).build(), consumer = {
-
+            it.isCancelled = true
+            betterBuild.worldManager.togglePhysics(player.world)
         })
     }
 
     private fun setBuildItems() {
         this.setSlot(6, ItemBuilder(Material.DIAMOND_AXE).build(), consumer = {
+            it.isCancelled = true
             betterBuild.playerManager.toggleBuildMode(player)
         })
     }
 
     private fun setClipItems() {
         this.setSlot(7, ItemBuilder(Material.ELYTRA).build(), consumer = {
+            it.isCancelled = true
             betterBuild.playerManager.toggleNoClipMode(player)
         })
     }
 
     private fun setNightVisionItems() {
         this.setSlot(8, ItemBuilder(Material.ENDER_EYE).build(), consumer = {
+            it.isCancelled = true
             betterBuild.playerManager.toggleNightVision(player)
         })
     }
