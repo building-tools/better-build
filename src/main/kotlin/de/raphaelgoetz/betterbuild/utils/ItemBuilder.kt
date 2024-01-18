@@ -4,6 +4,8 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.OfflinePlayer
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import java.net.URL
@@ -24,6 +26,17 @@ class ItemBuilder(material: Material) {
         val itemMeta = itemStack.itemMeta
         itemMeta.lore(components)
         itemStack.setItemMeta(itemMeta)
+        return this
+    }
+
+    fun setPlayerHead(player: OfflinePlayer): ItemBuilder {
+
+        if (Material.PLAYER_HEAD == itemStack.type) {
+            val skullMeta = itemStack.itemMeta as SkullMeta
+            skullMeta.setOwningPlayer(player)
+            itemStack.setItemMeta(skullMeta)
+        }
+
         return this
     }
 
