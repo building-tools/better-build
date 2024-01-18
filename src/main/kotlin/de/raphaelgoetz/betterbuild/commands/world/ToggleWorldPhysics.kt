@@ -11,10 +11,10 @@ data class ToggleWorldPhysics(val betterBuild: BetterBuild) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
 
         if (sender !is Player) return true
+
         val world = sender.world
         betterBuild.worldManager.togglePhysics(world)
-        sender.sendMessage("Physics toggled for all worlds!")
-
+        betterBuild.languageManager.sendPlayerMessage(sender, "command.world.physics.toggle")
         return false
     }
 }

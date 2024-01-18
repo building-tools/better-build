@@ -27,24 +27,24 @@ class PlayerManager(
     fun toggleBuildMode(player: Player) {
 
         if (player.isActiveBuilder()) {
-            player.sendMessage("You have been removed from buildMode")
+            betterBuild.languageManager.sendPlayerMessage(player, "manager.player.build.remove")
             buildMode.remove(player)
             return
         }
 
-        player.sendMessage("Add to BuildMode")
+        betterBuild.languageManager.sendPlayerMessage(player, "manager.player.build.add")
         buildMode.add(player)
     }
 
     fun toggleNoClipMode(player: Player) {
 
         if (player.isActiveNoClip()) {
-            player.sendMessage("You have been removed from noClipMode")
+            betterBuild.languageManager.sendPlayerMessage(player, "manager.player.clip.remove")
             noClipMode.remove(player)
             return
         }
 
-        player.sendMessage("Add to noClipMode")
+        betterBuild.languageManager.sendPlayerMessage(player, "manager.player.clip.add")
         noClipMode.add(player)
     }
 

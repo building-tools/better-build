@@ -16,15 +16,16 @@ data class TeleportToLastLocation(val betterBuild: BetterBuild) : CommandExecuto
         val lastLocation = betterBuild.playerManager.getLastLocation(sender)
 
         if (lastLocation == null) {
-            sender.sendMessage("No known last location")
+            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.teleport.error")
             return true
         }
 
         if (lastLocation.world == null) {
-            sender.sendMessage("World was unloaded, cant go back")
+            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.teleport.unloaded")
             return true
         }
 
+        betterBuild.languageManager.sendPlayerMessage(sender, "command.player.teleport.success")
         sender.teleport(lastLocation)
         return false
     }

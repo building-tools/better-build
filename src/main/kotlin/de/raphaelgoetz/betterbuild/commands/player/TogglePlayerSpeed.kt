@@ -13,18 +13,18 @@ data class TogglePlayerSpeed(val betterBuild: BetterBuild) : CommandExecutor {
 
         if (sender !is Player) return true
         if (args == null || args.size != 1) {
-            sender.sendMessage("No value set (1 - 10)")
+            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.missing")
             return true
         }
         val values = (0 until 11).map { it.toString() }
 
         if (!values.contains(args[0])) {
-            sender.sendMessage(MiniMessage.miniMessage().deserialize("<gradient:#EB3349:#F45C43>⚠ Only values from 0 to 10!"));
+            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.error")
             return true;
         }
 
         val speed = ((args[0]).toFloat() / 10);
-        sender.sendMessage(MiniMessage.miniMessage().deserialize("<gradient:#a8ff78:#78ffd6>✔ Speed updated to: $speed"));
+        betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.success", "%speed%", speed.toString())
 
         if ("fly" == label) sender.flySpeed = speed;
         if ("walk" == label) sender.walkSpeed = speed;

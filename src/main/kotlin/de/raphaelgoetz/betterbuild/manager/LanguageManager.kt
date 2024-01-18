@@ -26,6 +26,10 @@ class LanguageManager(
         player.sendMessage(getComponent(key))
     }
 
+    fun sendPlayerMessage(player: Player, key: String, regex: String, value: String) {
+        player.sendMessage(getComponent(key, regex, value))
+    }
+
     fun sendPlayersMessage(players: Collection<Player>, key: String) {
         players.forEach { player ->
             sendPlayerMessage(player, key)

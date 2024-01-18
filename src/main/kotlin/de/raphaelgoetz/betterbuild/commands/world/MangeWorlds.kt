@@ -2,7 +2,6 @@ package de.raphaelgoetz.betterbuild.commands.world
 
 import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.menus.ConfirmDeletionMenu
-import net.kyori.adventure.text.Component
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -15,7 +14,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor {
         if (sender !is Player) return true
         if (args == null || args.isEmpty()) return true
         if (args.size < 2) {
-            sender.sendMessage("Missing name of world")
+            betterBuild.languageManager.sendPlayerMessage(sender, "command.world.manage.missing")
             return true
         }
 
@@ -30,22 +29,21 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor {
     private fun createWorld(name: String, player: Player) {
 
         if (betterBuild.worldManager.isWorld(name)) {
-            player.sendMessage("already exist")
+            betterBuild.languageManager.sendPlayerMessage(player, "command.world.manage.exists")
             return
         }
 
         betterBuild.worldManager.createEmptyWorld(name)
-        player.sendMessage("world has been created")
-
+        betterBuild.languageManager.sendPlayerMessage(player, "command.world.manage.create")
     }
 
     private fun deleteWorld(name: String, player: Player) {
 
         if (!betterBuild.worldManager.isWorld(name)) {
-            player.sendMessage("don't exist")
+            betterBuild.languageManager.sendPlayerMessage(player, "command.world.manage.unknown")
             return
         }
 
-        ConfirmDeletionMenu(betterBuild, player, name, Component.text("Confirm"))
+        ConfirmDeletionMenu(betterBuild, player, name, betterBuild.languageManager.getComponent("gui.deletion.title"))
     }
 }
