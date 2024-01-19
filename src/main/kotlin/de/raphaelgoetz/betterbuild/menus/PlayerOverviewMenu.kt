@@ -13,9 +13,7 @@ data class PlayerOverviewMenu(
     val player: Player,
     val title: Component
 
-) : BukkitPlayerInventory(
-    title, 6
-) {
+) : BukkitPlayerInventory(title, 6) {
 
     init {
         setPlayerItems()
