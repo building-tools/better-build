@@ -15,3 +15,29 @@ But what does it do?
 ## Supported Minecraft-Version: 1.20.4
 ## Current Java-Version: 17
 ## Developed for Paper
+
+# Permissions
+
+```
+betterbuild.player.back
+```
+
+```
+betterbuild.player.mode
+```
+
+```
+betterbuild.player.speed
+```
+
+```
+betterbuild.world.physics
+```
+
+```
+betterbuild.world.create
+```
+
+```
+betterbuild.world.delete
+```
