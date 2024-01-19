@@ -15,6 +15,12 @@ data class TogglePlayerMode(val betterBuild: BetterBuild) : CommandExecutor {
         if (sender !is Player) return true
         if (args == null) return true
 
+        if (sender.hasPermission("betterbuild.player.mode")) {
+            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.mode.permission")
+            return true
+        }
+
+
         val target = if (args.size == 1) Bukkit.getPlayer(args[0]) else sender
 
         if (target == null) return true

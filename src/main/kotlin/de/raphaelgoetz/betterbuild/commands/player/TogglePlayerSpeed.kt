@@ -12,6 +12,13 @@ data class TogglePlayerSpeed(val betterBuild: BetterBuild) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
 
         if (sender !is Player) return true
+
+        if (sender.hasPermission("betterbuild.player.speed")) {
+            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.permission")
+            return true
+        }
+
+
         if (args == null || args.size != 1) {
             betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.missing")
             return true
