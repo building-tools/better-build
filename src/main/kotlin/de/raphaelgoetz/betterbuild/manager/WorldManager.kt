@@ -1,16 +1,16 @@
 package de.raphaelgoetz.betterbuild.manager
 
+import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.utils.VoidGenerator
 import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.WorldCreator
+import org.bukkit.entity.Player
 import java.io.File
 
-class WorldManager(
+class WorldManager(val betterBuild: BetterBuild) {
 
     private val physics: MutableMap<World, Boolean> = mutableMapOf()
-
-) {
 
     fun createEmptyWorld(name: String): World? {
 
@@ -73,6 +73,35 @@ class WorldManager(
             if (folder.name != name) continue
             deleteFilesInsideFolder(folder)
         }
+    }
+
+    fun teleportPlayer(worldName: String, player: Player) {
+
+        val world = Bukkit.getWorld(worldName)
+
+        if (world != null) {
+            player.teleport(world.spawnLocation)
+            return
+        }
+
+        //TODO teleport player when loaded
+    }
+
+    fun getWorldCategories(): Map<String, String> {
+        val names = mutableMapOf<String, String>()
+        for (name in getWorldNames()) {
+
+            if (!name.contains("__")) {
+                names[name] = "none"
+                continue
+            }
+
+            val splitterIndex = name.indexOf("__")
+            val category = name.substring(0, splitterIndex)
+            names[name] = category
+        }
+
+        return names
     }
 
     private fun deleteFiles(file: File) {

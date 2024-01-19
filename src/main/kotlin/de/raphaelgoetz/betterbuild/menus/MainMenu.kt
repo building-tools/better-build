@@ -30,7 +30,8 @@ data class MainMenu(
 
     private fun setWorldItems() {
         this.setSlot(0, ItemBuilder(Material.GRASS_BLOCK).build(), consumer = {
-
+            it.isCancelled = true
+            WorldOverviewMenu(betterBuild, player, Component.text("Worlds")).open()
         })
     }
 
