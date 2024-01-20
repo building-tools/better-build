@@ -5,7 +5,9 @@ import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import java.net.URL
@@ -54,6 +56,15 @@ class ItemBuilder(material: Material) {
             skullMeta.playerProfile = playerProfile
             itemStack.setItemMeta(skullMeta)
         }
+        return this
+    }
+
+    fun setGlowing(value: Boolean): ItemBuilder {
+        if (value.not()) return this
+        val itemMeta = itemStack.itemMeta
+        itemMeta.addEnchant(Enchantment.PROTECTION_FALL, 1, false)
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+        itemStack.setItemMeta(itemMeta)
         return this
     }
 
