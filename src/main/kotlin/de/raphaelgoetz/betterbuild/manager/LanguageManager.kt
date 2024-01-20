@@ -21,7 +21,6 @@ class LanguageManager(
         readConfig()
     }
 
-
     fun sendPlayerMessage(player: Player, key: String) {
         player.sendMessage(getComponent(key))
     }
@@ -111,7 +110,7 @@ class LanguageManager(
 
     private fun readConfig() {
 
-        val path = Bukkit.getPluginsFolder().toString() + "/BetterFlowers"
+        val path = Bukkit.getPluginsFolder().toString() + "/BetterBuild"
         val file = File("$path/language.json")
 
         if (File(path).mkdir()) throw FileNotFoundException()
