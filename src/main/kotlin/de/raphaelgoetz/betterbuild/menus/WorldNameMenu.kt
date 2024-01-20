@@ -1,16 +1,21 @@
 package de.raphaelgoetz.betterbuild.menus
 
+import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.utils.BukkitAnvilInventory
 import de.raphaelgoetz.betterbuild.utils.BukkitAnvilInventorySlots
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
+import de.raphaelgoetz.betterbuild.world.BuildWorld
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class WorldNameMenu(
 
+    val betterBuild: BetterBuild,
+    val buildWorld: BuildWorld,
     val player: Player,
-    val title: Component
+    val title: Component,
+
 
 ) : BukkitAnvilInventory(title) {
 

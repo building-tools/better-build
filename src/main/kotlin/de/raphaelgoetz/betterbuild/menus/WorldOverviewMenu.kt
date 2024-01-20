@@ -41,6 +41,11 @@ data class WorldOverviewMenu(
             inventoryClickEvent.isCancelled = true
         }
 
+        this.setSlot(49, ItemBuilder(Material.GRASS_BLOCK).setName("Create").build(), consumer =  {
+            it.isCancelled = true
+            WorldCreationMenu(betterBuild, player, Component.text("CACACACACC")).open()
+        })
+
         this.setSlot(50, ItemBuilder(Material.BARRIER).setName("Close").build()) { inventoryClickEvent ->
             inventoryClickEvent.isCancelled = true
             player.closeInventory()

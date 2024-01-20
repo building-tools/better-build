@@ -2,9 +2,12 @@ package de.raphaelgoetz.betterbuild.manager
 
 import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.utils.VoidGenerator
+import de.raphaelgoetz.betterbuild.world.BuildWorld
+import de.raphaelgoetz.betterbuild.world.BuildWorldTypes
 import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.WorldCreator
+import org.bukkit.WorldType
 import org.bukkit.entity.Player
 import java.io.File
 
@@ -21,6 +24,21 @@ class WorldManager(val betterBuild: BetterBuild) {
         worldCreator.generator(VoidGenerator())
 
         return worldCreator.createWorld()
+    }
+
+    fun generateWorld(buildWorld: BuildWorld): World? {
+        val creator = WorldCreator(buildWorld.name)
+
+        creator.environment(buildWorld.environment)
+        creator.generateStructures(buildWorld.generateStructures)
+
+        when(buildWorld.types) {
+            BuildWorldTypes.VOID -> creator.generator(VoidGenerator())
+            BuildWorldTypes.FLAT -> creator.type(WorldType.FLAT)
+            BuildWorldTypes.NORMAL -> creator.type(WorldType.NORMAL)
+        }
+
+        return Bukkit.createWorld(creator);
     }
 
     fun getWorldNames(): List<String> {
