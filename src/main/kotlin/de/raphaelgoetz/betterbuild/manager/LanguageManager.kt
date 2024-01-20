@@ -113,7 +113,7 @@ class LanguageManager(
         val path = Bukkit.getPluginsFolder().toString() + "/BetterBuild"
         val file = File("$path/language.json")
 
-        if (File(path).mkdir()) throw FileNotFoundException()
+        if (!File(path).mkdir() && !File(path).exists()) throw FileNotFoundException()
         if (file.exists()) {
             readLanguageFileFromJson(file)
             return

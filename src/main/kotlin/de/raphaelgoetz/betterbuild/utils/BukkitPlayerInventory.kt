@@ -18,25 +18,21 @@ import java.util.function.Consumer
 
 abstract class BukkitPlayerInventory(title: Component, rows: Int) {
 
-    protected val clickActions: MutableMap<Int, Consumer<InventoryClickEvent>> = HashMap()
-    protected val closeActions: Collection<Runnable> = ArrayList()
-    protected val inventory: Inventory = Bukkit.createInventory(null, rows * 9, title)
+    val clickActions: MutableMap<Int, Consumer<InventoryClickEvent>> = HashMap()
+    val closeActions: Collection<Runnable> = ArrayList()
+    val inventory: Inventory = Bukkit.createInventory(null, rows * 9, title)
 
     protected fun openInventory(player: Player) {
         player.openInventory(inventory)
         OPEN_INVENTORIES[player.uniqueId] = this
     }
 
-    protected fun setSlot(slot: Int, itemStack: ItemStack?) {
+    protected fun setSlot(slot: Int, itemStack: ItemStack) {
         clickActions.remove(slot)
         inventory.setItem(slot, itemStack)
     }
 
-    protected fun setSlot(slot: Int, itemStack: ItemStack, consumer: Consumer<InventoryClickEvent>?) {
-        if (consumer == null) {
-            this.setSlot(slot, itemStack)
-            return
-        }
+    protected fun setSlot(slot: Int, itemStack: ItemStack, consumer: Consumer<InventoryClickEvent>) {
         clickActions[slot] = consumer
         inventory.setItem(slot, itemStack)
     }
@@ -105,6 +101,6 @@ abstract class BukkitPlayerInventory(title: Component, rows: Int) {
             Bukkit.getPluginManager().registerEvents(EventAdapter(), JavaPlugin.getPlugin(BetterBuild::class.java))
         }
 
-        protected val OPEN_INVENTORIES: MutableMap<UUID, BukkitPlayerInventory> = HashMap()
+        val OPEN_INVENTORIES: MutableMap<UUID, BukkitPlayerInventory> = HashMap()
     }
 }
