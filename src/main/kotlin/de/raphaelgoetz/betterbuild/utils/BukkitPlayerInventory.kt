@@ -32,7 +32,7 @@ abstract class BukkitPlayerInventory(title: Component, rows: Int) {
         inventory.setItem(slot, itemStack)
     }
 
-    protected fun setSlot(slot: Int, itemStack: ItemStack?, consumer: Consumer<InventoryClickEvent>?) {
+    protected fun setSlot(slot: Int, itemStack: ItemStack, consumer: Consumer<InventoryClickEvent>?) {
         if (consumer == null) {
             this.setSlot(slot, itemStack)
             return
@@ -41,20 +41,20 @@ abstract class BukkitPlayerInventory(title: Component, rows: Int) {
         inventory.setItem(slot, itemStack)
     }
 
-    protected fun addSlot(itemStack: ItemStack?) {
-        inventory.addItem(itemStack!!)
+    protected fun addSlot(itemStack: ItemStack) {
+        inventory.addItem(itemStack)
         val slot = inventory.first(itemStack)
         clickActions.remove(slot)
     }
 
-    protected fun addSlot(itemStack: ItemStack?, consumer: Consumer<InventoryClickEvent>?) {
+    protected fun addSlot(itemStack: ItemStack, consumer: Consumer<InventoryClickEvent>?) {
         if (consumer == null) {
             this.addSlot(itemStack)
             return
         }
-        val slot = inventory.first(itemStack!!)
+        this.inventory.addItem(itemStack)
+        val slot = this.inventory.first(itemStack)
         clickActions[slot] = consumer
-        inventory.setItem(slot, itemStack)
     }
 
     protected fun clearSlot(slot: Int) {
