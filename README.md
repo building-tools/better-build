@@ -21,23 +21,29 @@ But what does it do?
 ```
 betterbuild.player.back
 ```
+The permission to use the /back command, to get to your last known location.
 
 ```
 betterbuild.player.mode
 ```
+The permission to use the /build and /clip command.
 
 ```
 betterbuild.player.speed
 ```
+The permission to update your fly- and walk speed.
 
 ```
 betterbuild.world.physics
 ```
+The permission to toggle the physics of a world.
 
 ```
 betterbuild.world.create
 ```
+The permission to create a new world.
 
 ```
 betterbuild.world.delete
 ```
+The permission to delete an existing world.
