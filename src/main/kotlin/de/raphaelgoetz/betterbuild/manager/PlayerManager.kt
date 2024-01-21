@@ -63,7 +63,7 @@ class PlayerManager(
     }
 
     fun cancelWhenBuilder(player: Player, event: Cancellable) {
-        event.isCancelled = player.isActiveBuilder()
+        event.isCancelled = !player.isActiveBuilder()
     }
 
     private fun Player.isActiveBuilder(): Boolean {

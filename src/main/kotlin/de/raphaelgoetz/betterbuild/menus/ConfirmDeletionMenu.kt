@@ -24,21 +24,28 @@ data class ConfirmDeletionMenu(
 
     private fun setConfirmItem() {
 
-        setSlot(3, ItemBuilder(Material.GREEN_DYE).setName("Confirm delete").build(), consumer = {
-            it.isCancelled = true
-            betterBuild.worldManager.deleteWorld(name)
-            player.sendMessage("world has been deleted")
-            player.closeInventory()
-        })
+        setSlot(3, ItemBuilder(Material.GREEN_DYE)
+                .setName(betterBuild.languageManager.getComponent("gui.deletion.item.confirm.name"))
+                .setLore(betterBuild.languageManager.getComponents("gui.deletion.item.confirm.lore")).build(),
 
+            consumer = {
+                it.isCancelled = true
+                betterBuild.worldManager.deleteWorld(name)
+                betterBuild.languageManager.sendPlayerMessage(player, "gui.message.world.delete")
+                player.closeInventory()
+            })
     }
 
     private fun setCancelItem() {
 
-        setSlot(5, ItemBuilder(Material.RED_DYE).setName("Cancel delete").build(), consumer = {
-            it.isCancelled = true
-            player.closeInventory()
-            player.sendMessage("world hasn't been deleted")
-        })
+        setSlot(5, ItemBuilder(Material.RED_DYE)
+                .setName(betterBuild.languageManager.getComponent("gui.deletion.item.delete.name"))
+                .setLore(betterBuild.languageManager.getComponents("gui.deletion.item.delete.lore")).build(),
+
+            consumer = {
+                it.isCancelled = true
+                player.closeInventory()
+                betterBuild.languageManager.sendPlayerMessage(player, "gui.message.world.delete.error")
+            })
     }
 }

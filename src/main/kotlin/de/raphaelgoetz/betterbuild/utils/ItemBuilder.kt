@@ -17,9 +17,9 @@ class ItemBuilder(material: Material) {
 
     private val itemStack = ItemStack(material)
 
-    fun setName(string: String): ItemBuilder {
+    fun setName(component: Component): ItemBuilder {
         val itemMeta = itemStack.itemMeta
-        itemMeta.displayName(MiniMessage.miniMessage().deserialize(string))
+        itemMeta.displayName(component)
         itemStack.setItemMeta(itemMeta)
         return this
     }
@@ -56,6 +56,7 @@ class ItemBuilder(material: Material) {
             skullMeta.playerProfile = playerProfile
             itemStack.setItemMeta(skullMeta)
         }
+
         return this
     }
 

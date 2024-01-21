@@ -3,6 +3,7 @@ package de.raphaelgoetz.betterbuild.menus
 import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -31,16 +32,12 @@ data class PlayerOverviewMenu(
 
             if (player == this.player) continue
 
-            this.addSlot(
-                ItemBuilder(Material.PLAYER_HEAD)
-                    .setPlayerHead(player)
-                    .setName(player.name)
-                    .build(),
+            this.addSlot(ItemBuilder(Material.PLAYER_HEAD).setPlayerHead(player)
+                .setName(MiniMessage.miniMessage().deserialize(player.name)).build(),
 
                 consumer = {
                     onClick(it, player.name)
                 }
-
             )
         }
     }

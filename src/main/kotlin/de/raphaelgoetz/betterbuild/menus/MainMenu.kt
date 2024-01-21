@@ -29,51 +29,87 @@ data class MainMenu(
     }
 
     private fun setWorldItems() {
-        this.setSlot(0, ItemBuilder(Material.GRASS_BLOCK).build(), consumer = {
-            it.isCancelled = true
-            WorldOverviewMenu(betterBuild, player, Component.text("Worlds")).open()
+        this.setSlot(0, ItemBuilder(Material.GRASS_BLOCK)
+            .setName(betterBuild.languageManager.getComponent("gui.main.item.world.name"))
+            .setLore(betterBuild.languageManager.getComponents("gui.main.item.world.lore")).build(),
+
+            consumer = {
+                it.isCancelled = true
+                WorldOverviewMenu(betterBuild, player, betterBuild.languageManager.getComponent("gui.world.title")).open()
         })
     }
 
     private fun setPlayerItems() {
-        this.setSlot(1, ItemBuilder(Material.PLAYER_HEAD).build(), consumer = {
-            it.isCancelled = true
-            PlayerOverviewMenu(player, Component.text("Players")).open()
+        this.setSlot(1, ItemBuilder(Material.PLAYER_HEAD).setPlayerHead(player)
+            .setName(betterBuild.languageManager.getComponent("gui.player.item.world.name"))
+            .setLore(betterBuild.languageManager.getComponents("gui.player.item.world.lore")).build(),
+
+            consumer = {
+                it.isCancelled = true
+                PlayerOverviewMenu(player, betterBuild.languageManager.getComponent("gui.player.title")).open()
         })
     }
 
     private fun setBannerItems() {
-        this.setSlot(2, ItemBuilder(Material.GREEN_BANNER).build(), consumer = {
-            it.isCancelled = true
+        this.setSlot(2, ItemBuilder(Material.GREEN_BANNER)
+            .setName(betterBuild.languageManager.getComponent("gui.banner.item.world.name"))
+            .setLore(betterBuild.languageManager.getComponents("gui.banner.item.world.lore")).build(),
 
+            consumer = {
+                it.isCancelled = true
+                BannerCreationMenu(player, betterBuild.languageManager.getComponent("gui.banner.title")).open()
         })
     }
 
     private fun setPhysicItems() {
-        this.setSlot(5, ItemBuilder(Material.GRAVEL).build(), consumer = {
-            it.isCancelled = true
-            betterBuild.worldManager.togglePhysics(player.world)
-        })
+
+        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.physics.enabled" else "gui.main.item.physics.disabled"
+        this.setSlot(5, ItemBuilder(Material.GRAVEL)
+            .setName(betterBuild.languageManager.getComponent(name))
+            .setLore(betterBuild.languageManager.getComponents("gui.main.item.physics.lore")).build(),
+
+            consumer = {
+                it.isCancelled = true
+                betterBuild.worldManager.togglePhysics(player.world)
+            })
     }
 
     private fun setBuildItems() {
-        this.setSlot(6, ItemBuilder(Material.DIAMOND_AXE).build(), consumer = {
-            it.isCancelled = true
-            betterBuild.playerManager.toggleBuildMode(player)
+
+        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.build.enabled" else "gui.main.item.build.disabled"
+        this.setSlot(6, ItemBuilder(Material.DIAMOND_AXE)
+            .setName(betterBuild.languageManager.getComponent(name))
+            .setLore(betterBuild.languageManager.getComponents("gui.main.item.build.lore")).build(),
+
+            consumer = {
+                it.isCancelled = true
+                betterBuild.playerManager.toggleBuildMode(player)
         })
     }
 
     private fun setClipItems() {
-        this.setSlot(7, ItemBuilder(Material.ELYTRA).build(), consumer = {
-            it.isCancelled = true
-            betterBuild.playerManager.toggleNoClipMode(player)
-        })
+
+        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.clip.enabled" else "gui.main.item.clip.disabled"
+        this.setSlot(7, ItemBuilder(Material.ELYTRA)
+            .setName(betterBuild.languageManager.getComponent(name))
+            .setLore(betterBuild.languageManager.getComponents("gui.main.item.clip.lore")).build(),
+
+            consumer = {
+                it.isCancelled = true
+                betterBuild.playerManager.toggleNoClipMode(player)
+            })
     }
 
     private fun setNightVisionItems() {
-        this.setSlot(8, ItemBuilder(Material.ENDER_EYE).build(), consumer = {
-            it.isCancelled = true
-            betterBuild.playerManager.toggleNightVision(player)
-        })
+
+        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.night.enabled" else "gui.main.item.night.disabled"
+        this.setSlot(8, ItemBuilder(Material.ENDER_EYE)
+            .setName(betterBuild.languageManager.getComponent(name))
+            .setLore(betterBuild.languageManager.getComponents("gui.main.item.night.lore")).build(),
+
+            consumer = {
+                it.isCancelled = true
+                betterBuild.playerManager.toggleNightVision(player)
+            })
     }
 }

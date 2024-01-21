@@ -69,6 +69,10 @@ class WorldManager(val betterBuild: BetterBuild) {
     fun togglePhysics(world: World) {
         val value = this.physics[world]
 
+        world.players.forEach {
+            betterBuild.languageManager.sendPlayerMessage(it, "manager.world.toggle")
+        }
+
         if (value == null) {
             this.physics[world] = false
             return

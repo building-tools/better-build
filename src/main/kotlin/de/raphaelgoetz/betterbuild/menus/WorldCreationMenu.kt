@@ -21,8 +21,8 @@ data class WorldCreationMenu(
     var world: BuildWorld = BuildWorld("Name", BuildWorldTypes.FLAT, World.Environment.NORMAL, false)
 
     init {
-        //generateGeneratorItems(false, true, false)
-        //generateEnvironmentItems(true, false, false)
+        generateGeneratorItems(false, true, false)
+        generateEnvironmentItems(true, false, false)
         generateStructureToggleItems()
         generateNameItems()
     }
@@ -42,11 +42,11 @@ data class WorldCreationMenu(
             generateGeneratorItems(true, false, false)
         }
 
-        this.setSlot(1, ItemBuilder(Material.GRASS_BLOCK).setName("Flat").build()) {
+        this.setSlot(1, ItemBuilder(Material.GRASS_BLOCK).setName("Flat").build(), consumer = {
             it.isCancelled = true
             world.types = BuildWorldTypes.FLAT
             generateGeneratorItems(false, true, false)
-        }
+        })
 
         this.setSlot(2, ItemBuilder(Material.OAK_SAPLING).setName("Normal").build()){
             it.isCancelled = true
