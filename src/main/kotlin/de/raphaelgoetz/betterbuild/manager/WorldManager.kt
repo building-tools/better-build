@@ -105,23 +105,6 @@ class WorldManager(val betterBuild: BetterBuild) {
         //TODO teleport player when loaded
     }
 
-    fun getWorldCategories(): Map<String, String> {
-        val names = mutableMapOf<String, String>()
-        for (name in getWorldNames()) {
-
-            if (!name.contains("__")) {
-                names[name] = "none"
-                continue
-            }
-
-            val splitterIndex = name.indexOf("__")
-            val category = name.substring(0, splitterIndex)
-            names[name] = category
-        }
-
-        return names
-    }
-
     private fun deleteFiles(file: File) {
 
         if (!file.isDirectory) {

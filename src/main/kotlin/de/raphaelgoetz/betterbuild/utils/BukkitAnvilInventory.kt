@@ -20,8 +20,8 @@ import java.util.function.Consumer
 
 abstract class BukkitAnvilInventory(title: Component) {
 
-    private val clickActions: MutableMap<Int, Consumer<InventoryClickEvent>> = HashMap()
     protected val closeActions: Collection<Runnable> = ArrayList()
+    private val clickActions: MutableMap<Int, Consumer<InventoryClickEvent>> = HashMap()
     private val inventory: Inventory = Bukkit.createInventory(null, InventoryType.ANVIL)
 
     protected fun open(player: Player) {

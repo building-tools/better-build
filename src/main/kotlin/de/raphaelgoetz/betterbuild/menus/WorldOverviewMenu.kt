@@ -30,10 +30,9 @@ data class WorldOverviewMenu(
         val categories = categories
 
         for (index in 45..53) {
-            this.setSlot(
-                index,
-                ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(" ").build(),
-                consumer = { inventoryClickEvent -> inventoryClickEvent.isCancelled = true
+            this.setSlot(index, ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(" ").build(),
+                consumer = {
+                    inventoryClickEvent -> inventoryClickEvent.isCancelled = true
                 })
         }
 
