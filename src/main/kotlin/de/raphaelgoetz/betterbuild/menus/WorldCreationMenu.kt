@@ -16,7 +16,7 @@ data class WorldCreationMenu(
     val player: Player,
     val title: Component
 
-) : BukkitPlayerInventory(title, 6) {
+) : BukkitPlayerInventory(title, 4) {
 
     var world: BuildWorld = BuildWorld("Name", BuildWorldTypes.FLAT, World.Environment.NORMAL, false)
 
@@ -32,47 +32,69 @@ data class WorldCreationMenu(
     }
 
     private fun generateGeneratorItems(isVoid: Boolean, isFlat: Boolean, isNormal: Boolean) {
-        this.setSlot(
-            0,
-            ItemBuilder(Material.GREEN_STAINED_GLASS).setName("Void Generator").build()
-        )
-        {
-            it.isCancelled = true
-            world.types = BuildWorldTypes.VOID
-            generateGeneratorItems(true, false, false)
-        }
+        this.setSlot(0, ItemBuilder(Material.GREEN_STAINED_GLASS)
+                .setName(betterBuild.languageManager.getComponent("gui.world.item.void.name"))
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.void.lore"))
+                .setGlowing(isVoid).build(),
 
-        this.setSlot(1, ItemBuilder(Material.GRASS_BLOCK).setName("Flat").build(), consumer = {
-            it.isCancelled = true
-            world.types = BuildWorldTypes.FLAT
-            generateGeneratorItems(false, true, false)
+            consumer =  {
+                it.isCancelled = true
+                world.types = BuildWorldTypes.VOID
+                generateGeneratorItems(true, false, false)
         })
 
-        this.setSlot(2, ItemBuilder(Material.OAK_SAPLING).setName("Normal").build()){
-            it.isCancelled = true
-            world.types = BuildWorldTypes.NORMAL
-            generateGeneratorItems(false, false, true)
-        }
+        this.setSlot(1, ItemBuilder(Material.GRASS_BLOCK)
+                .setName(betterBuild.languageManager.getComponent("gui.world.item.flat.name"))
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.flat.lore"))
+                .setGlowing(isFlat).build(),
+
+            consumer = {
+                it.isCancelled = true
+                world.types = BuildWorldTypes.FLAT
+                generateGeneratorItems(false, true, false)
+        })
+
+        this.setSlot(2, ItemBuilder(Material.OAK_SAPLING)
+            .setName(betterBuild.languageManager.getComponent("gui.world.item.land.name"))
+            .setLore(betterBuild.languageManager.getComponents("gui.world.item.land.lore"))
+            .setGlowing(isNormal).build(),
+
+            consumer = {
+                it.isCancelled = true
+                world.types = BuildWorldTypes.NORMAL
+                generateGeneratorItems(false, false, true)
+        })
     }
 
     private fun generateEnvironmentItems(isOverword: Boolean, isNether: Boolean, isEnd: Boolean) {
+        this.setSlot(9, ItemBuilder(Material.GRASS_BLOCK)
+                .setName(betterBuild.languageManager.getComponent("gui.world.item.normal.name"))
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.normal.lore"))
+                .setGlowing(isOverword).build(),
 
-        this.setSlot(
-            9,
-            ItemBuilder(Material.GRASS_BLOCK).setName("Overworld").setGlowing(isOverword).build(),
             consumer = {
                 it.isCancelled = true
                 world.environment = World.Environment.NORMAL
                 generateEnvironmentItems(true, false, false)
-            })
-
-        this.setSlot(10, ItemBuilder(Material.NETHERRACK).setName("Nether").setGlowing(isNether).build(), consumer = {
-            it.isCancelled = true
-            world.environment = World.Environment.NETHER
-            generateEnvironmentItems(false, true, false)
         })
 
-        this.setSlot(11, ItemBuilder(Material.END_STONE).setName("End").setGlowing(isEnd).build(), consumer = {
+        this.setSlot(10, ItemBuilder(Material.NETHERRACK)
+                .setName(betterBuild.languageManager.getComponent("gui.world.item.nether.name"))
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.nether.lore"))
+                .setGlowing(isNether).build(),
+
+            consumer = {
+                it.isCancelled = true
+                world.environment = World.Environment.NETHER
+                generateEnvironmentItems(false, true, false)
+        })
+
+        this.setSlot(11, ItemBuilder(Material.END_STONE)
+                .setName(betterBuild.languageManager.getComponent("gui.world.item.end.name"))
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.end.lore"))
+                .setGlowing(isEnd).build(),
+
+            consumer = {
             it.isCancelled = true
             world.environment = World.Environment.THE_END
             generateEnvironmentItems(false, false, true)
@@ -81,8 +103,13 @@ data class WorldCreationMenu(
 
     private fun generateStructureToggleItems() {
 
-        val trueItem = ItemBuilder(Material.GREEN_DYE).setName("with struc").build()
-        val falseItem = ItemBuilder(Material.RED_DYE).setName("without stric").build()
+        val trueItem = ItemBuilder(Material.GREEN_DYE)
+            .setName(betterBuild.languageManager.getComponent("gui.world.item.true.name"))
+            .setLore(betterBuild.languageManager.getComponents("gui.world.item.true.lore")).build()
+
+        val falseItem = ItemBuilder(Material.RED_DYE)
+            .setName(betterBuild.languageManager.getComponent("gui.world.item.false.name"))
+            .setLore(betterBuild.languageManager.getComponents("gui.world.item.false.lore")).build()
 
         this.setSlot(17, if (world.generateStructures) trueItem else falseItem, consumer = {
             it.isCancelled = true
@@ -92,9 +119,13 @@ data class WorldCreationMenu(
     }
 
     private fun generateNameItems() {
-        this.setSlot(26, ItemBuilder(Material.NAME_TAG).setName("Set name").build(), consumer = {
-            it.isCancelled = true
-            //WorldNameMenu(betterBuild, world, player, Component.text("Create AAA")).open()
+        this.setSlot(26, ItemBuilder(Material.NAME_TAG)
+            .setName(betterBuild.languageManager.getComponent("gui.world.item.name.name"))
+            .setLore(betterBuild.languageManager.getComponents("gui.world.item.name.lore")).build(),
+
+            consumer = {
+                it.isCancelled = true
+                //WorldNameMenu(betterBuild, world, player, Component.text("Create AAA")).open()
         })
     }
 }

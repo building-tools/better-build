@@ -63,7 +63,7 @@ data class MainMenu(
 
     private fun setPhysicItems() {
 
-        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.physics.enabled" else "gui.main.item.physics.disabled"
+        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.physics.enable.name" else "gui.main.item.physics.disable.name"
         this.setSlot(5, ItemBuilder(Material.GRAVEL)
             .setName(betterBuild.languageManager.getComponent(name))
             .setLore(betterBuild.languageManager.getComponents("gui.main.item.physics.lore")).build(),
@@ -76,7 +76,7 @@ data class MainMenu(
 
     private fun setBuildItems() {
 
-        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.build.enabled" else "gui.main.item.build.disabled"
+        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.build.enable.name" else "gui.main.item.build.disable.name"
         this.setSlot(6, ItemBuilder(Material.DIAMOND_AXE)
             .setName(betterBuild.languageManager.getComponent(name))
             .setLore(betterBuild.languageManager.getComponents("gui.main.item.build.lore")).build(),
@@ -89,7 +89,7 @@ data class MainMenu(
 
     private fun setClipItems() {
 
-        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.clip.enabled" else "gui.main.item.clip.disabled"
+        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.clip.enable.name" else "gui.main.item.clip.disable.name"
         this.setSlot(7, ItemBuilder(Material.ELYTRA)
             .setName(betterBuild.languageManager.getComponent(name))
             .setLore(betterBuild.languageManager.getComponents("gui.main.item.clip.lore")).build(),
@@ -102,7 +102,7 @@ data class MainMenu(
 
     private fun setNightVisionItems() {
 
-        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.night.enabled" else "gui.main.item.night.disabled"
+        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.night.enable.name" else "gui.main.item.night.disable.name"
         this.setSlot(8, ItemBuilder(Material.ENDER_EYE)
             .setName(betterBuild.languageManager.getComponent(name))
             .setLore(betterBuild.languageManager.getComponents("gui.main.item.night.lore")).build(),
