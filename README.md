@@ -16,6 +16,10 @@ But what does it do?
 ## Current Java-Version: 17
 ## Developed for Paper
 
+# Explanation
+
+Explanatory video coming soon...
+
 # Permissions
 
 ```
@@ -47,3 +51,49 @@ The permission to create a new world.
 betterbuild.world.delete
 ```
 The permission to delete an existing world.
+
+# Commands
+
+```
+/back
+```
+By using the command /back, the user will be teleported to his last known location.
+```
+/build <player>
+```
+By using the command /build, the given user will be added to build-mode. If no name is present the command-executer will be the user.
+
+```
+/clip <player>
+```
+By using the command /clip, the given user will be added to clip-mode. If no name is present the command-executer will be the user.
+
+```
+/fly <0 - 10>
+```
+By using the command /fly the flying-speed will be updated.
+
+```
+/walk <0 - 10>
+```
+By using the command /walk the walking-speed will be updated.
+
+```
+/physics
+```
+By using the command /physics the physics of the world where the command has been executed will be toggled..
+
+```
+/world delete <name>
+```
+By using the command /world delete the world by the given name will be deleted.
+
+```
+/world create <name> <category>
+```
+By using the command /world create a new world by the given name will be created. When a category is given, it will be automatically sorted by the given category.
+
+# Menus
+- World-Overview (Menu to visit/create worlds)
+- Player-Overview (Menu to visit all online-players)
+- Banner-Creation (Menu to create banners)
