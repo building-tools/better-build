@@ -71,12 +71,13 @@ data class MainMenu(
             consumer = {
                 it.isCancelled = true
                 betterBuild.worldManager.togglePhysics(player.world)
+                setPhysicItems()
             })
     }
 
     private fun setBuildItems() {
 
-        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.build.enable.name" else "gui.main.item.build.disable.name"
+        val name = if (betterBuild.playerManager.isActiveBuilder(player)) "gui.main.item.build.enable.name" else "gui.main.item.build.disable.name"
         this.setSlot(6, ItemBuilder(Material.DIAMOND_AXE)
             .setName(betterBuild.languageManager.getComponent(name))
             .setLore(betterBuild.languageManager.getComponents("gui.main.item.build.lore")).build(),
@@ -84,12 +85,13 @@ data class MainMenu(
             consumer = {
                 it.isCancelled = true
                 betterBuild.playerManager.toggleBuildMode(player)
+                setBuildItems()
         })
     }
 
     private fun setClipItems() {
 
-        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.clip.enable.name" else "gui.main.item.clip.disable.name"
+        val name = if (betterBuild.playerManager.isActiveNoClip(player)) "gui.main.item.clip.enable.name" else "gui.main.item.clip.disable.name"
         this.setSlot(7, ItemBuilder(Material.ELYTRA)
             .setName(betterBuild.languageManager.getComponent(name))
             .setLore(betterBuild.languageManager.getComponents("gui.main.item.clip.lore")).build(),
@@ -97,12 +99,13 @@ data class MainMenu(
             consumer = {
                 it.isCancelled = true
                 betterBuild.playerManager.toggleNoClipMode(player)
+                setClipItems()
             })
     }
 
     private fun setNightVisionItems() {
 
-        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.night.enable.name" else "gui.main.item.night.disable.name"
+        val name = if (betterBuild.playerManager.hasActiveNightVision(player)) "gui.main.item.night.enable.name" else "gui.main.item.night.disable.name"
         this.setSlot(8, ItemBuilder(Material.ENDER_EYE)
             .setName(betterBuild.languageManager.getComponent(name))
             .setLore(betterBuild.languageManager.getComponents("gui.main.item.night.lore")).build(),
@@ -110,6 +113,7 @@ data class MainMenu(
             consumer = {
                 it.isCancelled = true
                 betterBuild.playerManager.toggleNightVision(player)
+                setNightVisionItems()
             })
     }
 }

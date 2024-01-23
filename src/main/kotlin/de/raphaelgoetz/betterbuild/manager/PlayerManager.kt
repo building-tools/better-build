@@ -26,7 +26,7 @@ class PlayerManager(
 
     fun toggleBuildMode(player: Player) {
 
-        if (player.isActiveBuilder()) {
+        if (isActiveBuilder(player)) {
             betterBuild.languageManager.sendPlayerMessage(player, "manager.player.build.remove")
             buildMode.remove(player)
             return
@@ -38,7 +38,7 @@ class PlayerManager(
 
     fun toggleNoClipMode(player: Player) {
 
-        if (player.isActiveNoClip()) {
+        if (isActiveNoClip(player)) {
             betterBuild.languageManager.sendPlayerMessage(player, "manager.player.clip.remove")
             noClipMode.remove(player)
             return
@@ -49,7 +49,7 @@ class PlayerManager(
     }
 
     fun toggleNightVision(player: Player) {
-        if (player.hasActiveNightVision()) player.removePotionEffect(PotionEffectType.NIGHT_VISION)
+        if (hasActiveNightVision(player)) player.removePotionEffect(PotionEffectType.NIGHT_VISION)
         else player.addPotionEffect(
             PotionEffect(
                 PotionEffectType.NIGHT_VISION,
@@ -63,20 +63,20 @@ class PlayerManager(
     }
 
     fun cancelWhenBuilder(player: Player, event: Cancellable) {
-        event.isCancelled = !player.isActiveBuilder()
+        event.isCancelled = !isActiveBuilder(player)
     }
 
-    private fun Player.isActiveBuilder(): Boolean {
+    fun isActiveBuilder(player: Player): Boolean {
         return buildMode.contains(player)
     }
 
-    private fun Player.isActiveNoClip(): Boolean {
+    fun isActiveNoClip(player: Player): Boolean {
         return noClipMode.contains(player)
     }
 
-    private fun Player.hasActiveNightVision(): Boolean {
+    fun hasActiveNightVision(player: Player): Boolean {
 
-        for (potions in player?.activePotionEffects!!) {
+        for (potions in player.activePotionEffects) {
 
             if (potions.type != PotionEffectType.NIGHT_VISION) continue
             return true
