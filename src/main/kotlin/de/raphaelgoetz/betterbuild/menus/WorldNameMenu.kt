@@ -29,7 +29,7 @@ class WorldNameMenu(
 
     private fun setItems() {
 
-        this.setSlot(BukkitAnvilInventorySlots.FIRST, ItemBuilder(Material.RED_DYE).setName("Cancel").build(), consumer = {
+        this.setSlot(BukkitAnvilInventorySlots.FIRST, ItemBuilder(Material.RED_DYE).build(), consumer = {
             it.isCancelled = true
             player.closeInventory()
             player.sendMessage("canceled")

@@ -30,22 +30,24 @@ data class WorldOverviewMenu(
         val categories = categories
 
         for (index in 45..53) {
-            this.setSlot(index, ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(" ").build(),
+            this.setSlot(index, ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(betterBuild.languageManager.getComponent("gui.world.item.placeholder.name")).build(),
                 consumer = {
                     inventoryClickEvent -> inventoryClickEvent.isCancelled = true
                 })
         }
 
-        this.setSlot(48, ItemBuilder(Material.RESPAWN_ANCHOR).setName("Home").build()) { inventoryClickEvent ->
+        this.setSlot(48, ItemBuilder(Material.RESPAWN_ANCHOR)
+            .setName(betterBuild.languageManager.getComponent("gui.world.item.spawn.name")).build()) { inventoryClickEvent ->
             inventoryClickEvent.isCancelled = true
         }
 
-        this.setSlot(49, ItemBuilder(Material.GRASS_BLOCK).setName("Create").build(), consumer =  {
+        this.setSlot(49, ItemBuilder(Material.GRASS_BLOCK)
+            .setName(betterBuild.languageManager.getComponent("gui.world.item.create.name")).build(), consumer =  {
             it.isCancelled = true
-            WorldCreationMenu(betterBuild, player, Component.text("CACACACACC")).open()
+            WorldCreationMenu(betterBuild, player, Component.text("create")).open()
         })
 
-        this.setSlot(50, ItemBuilder(Material.BARRIER).setName("Close").build()) { inventoryClickEvent ->
+        this.setSlot(50, ItemBuilder(Material.BARRIER).setName(betterBuild.languageManager.getComponent("gui.world.item.close.name")).build()) { inventoryClickEvent ->
             inventoryClickEvent.isCancelled = true
             player.closeInventory()
         }
@@ -66,7 +68,7 @@ data class WorldOverviewMenu(
             this.addSlot(getItemWithURL(
                     Material.NAME_TAG,
                     "http://textures.minecraft.net/texture/56330a4a22ff55871fc8c618e421a37733ac1dcab9c8e1a4bb73ae645a4a4e"
-                ).setName(category).setLore(lores).build())
+                ).setName(Component.text(category)).setLore(lores).build())
 
             { inventoryClickEvent ->
                 inventoryClickEvent.isCancelled = true
@@ -90,11 +92,11 @@ data class WorldOverviewMenu(
         }
 
         for (index in 45..53) {
-            this.setSlot(index, ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(" ").build())
+            this.setSlot(index, ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(betterBuild.languageManager.getComponent("gui.world.item.placeholder.name")).build())
             { inventoryClickEvent -> inventoryClickEvent.isCancelled = true }
         }
 
-        this.setSlot(49, ItemBuilder(Material.STRUCTURE_VOID).setName("Back").build()) { inventoryClickEvent ->
+        this.setSlot(49, ItemBuilder(Material.STRUCTURE_VOID).setName(betterBuild.languageManager.getComponent("gui.world.item.back.name")).build()) { inventoryClickEvent ->
             inventoryClickEvent.isCancelled = true
             generateCategories()
         }
@@ -104,7 +106,7 @@ data class WorldOverviewMenu(
                 getItemWithURL(
                     Material.GRASS_BLOCK,
                     "http://textures.minecraft.net/texture/438cf3f8e54afc3b3f91d20a49f324dca1486007fe545399055524c17941f4dc"
-                ).setName(world).build()
+                ).setName(Component.text(world)).build()
             ) { inventoryClickEvent ->
                 inventoryClickEvent.setCancelled(true)
                 player.closeInventory()
