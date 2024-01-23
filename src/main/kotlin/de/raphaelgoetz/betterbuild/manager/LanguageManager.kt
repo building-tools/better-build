@@ -53,7 +53,7 @@ class LanguageManager(
 
     private fun readLangaugeFromResources(path: String) {
 
-        val inputStream = javaClass.classLoader.getResourceAsStream("langauge.json") ?: return
+        val inputStream = javaClass.classLoader.getResourceAsStream("language.json") ?: throw NullPointerException("RessourceSteam is empty!")
         val reader = BufferedReader(InputStreamReader(inputStream))
         val stringBuilder = StringBuilder()
 
