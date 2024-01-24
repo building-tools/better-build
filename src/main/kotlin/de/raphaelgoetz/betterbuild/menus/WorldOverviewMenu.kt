@@ -65,15 +65,15 @@ data class WorldOverviewMenu(
             }
 
             //Creating the category items in the category inventory
-            this.addSlot(getItemWithURL(
-                    Material.NAME_TAG,
-                    "http://textures.minecraft.net/texture/56330a4a22ff55871fc8c618e421a37733ac1dcab9c8e1a4bb73ae645a4a4e"
-                ).setName(Component.text(category)).setLore(lores).build())
+            this.addSlot(getItemWithURL(Material.NAME_TAG,
+                "http://textures.minecraft.net/texture/56330a4a22ff55871fc8c618e421a37733ac1dcab9c8e1a4bb73ae645a4a4e")
+                .setName(betterBuild.languageManager.getComponent("gui.world.item.category.name", "%category%", category))
+                .setLore(lores).build(),
 
-            { inventoryClickEvent ->
-                inventoryClickEvent.isCancelled = true
-                generateCategory(category, worlds)
-            }
+                consumer = { inventoryClickEvent ->
+                    inventoryClickEvent.isCancelled = true
+                    generateCategory(category, worlds)
+            })
         }
     }
 
@@ -102,16 +102,15 @@ data class WorldOverviewMenu(
         }
 
         for (world in worlds) {
-            this.addSlot(
-                getItemWithURL(
-                    Material.GRASS_BLOCK,
-                    "http://textures.minecraft.net/texture/438cf3f8e54afc3b3f91d20a49f324dca1486007fe545399055524c17941f4dc"
-                ).setName(Component.text(world)).build()
-            ) { inventoryClickEvent ->
-                inventoryClickEvent.setCancelled(true)
-                player.closeInventory()
-                betterBuild.worldManager.teleportPlayer(world, player)
-            }
+            this.addSlot(getItemWithURL(Material.GRASS_BLOCK,
+                "http://textures.minecraft.net/texture/438cf3f8e54afc3b3f91d20a49f324dca1486007fe545399055524c17941f4dc")
+                .setName(betterBuild.languageManager.getComponent("gui.world.item.world.name", "%world%", world)).build(),
+
+                consumer =  { inventoryClickEvent ->
+                    inventoryClickEvent.isCancelled = true
+                    player.closeInventory()
+                    betterBuild.worldManager.teleportPlayer(world, player)
+            })
         }
     }
 
@@ -130,20 +129,21 @@ data class WorldOverviewMenu(
             val categories: MutableCollection<String> = ArrayList()
             val categoryLessWorld: MutableList<String> = ArrayList()
 
-            worldNames.forEach(Consumer { worldName: String ->
+            worldNames.forEach { worldName: String ->
                 if (worldName.contains("_")) {
                     val rest = worldName.substring(0, worldName.indexOf("_"))
                     if (!categories.contains(rest)) categories.add(rest)
                 } else categoryLessWorld.add(worldName)
-            })
+            }
 
-            categories.forEach(Consumer { category: String ->
+            categories.forEach { category: String ->
                 val contents: MutableList<String> = ArrayList()
-                worldNames.forEach(Consumer { worldName: String ->
+
+                worldNames.forEach { worldName: String ->
                     if (worldName.startsWith(category) && worldName.contains("_")) contents.add(worldName)
-                })
+                }
                 result[category] = contents
-            })
+            }
 
             result["NONE"] = categoryLessWorld
             return result

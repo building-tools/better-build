@@ -20,6 +20,8 @@
   "gui.world.item.create.name": "<gradient:#a8ff78:#78ffd6>Create a new world!</gradient>",
   "gui.world.item.close.name": "<gradient:#EB3349:#F45C43>Close menu</gradient>",
   "gui.world.item.back.name": "<gradient:#EB3349:#F45C43>Back to main-menu</gradient>",
+  "gui.world.item.category.name": "<gradient:#a8ff78:#78ffd6>%category%</gradient>",
+  "gui.world.item.world.name": "<gradient:#a8ff78:#78ffd6>%world%</gradient>",
 
   "gui.banner.item.world.lore": [
     "<gray> | by interacting, a menu</gray>",
