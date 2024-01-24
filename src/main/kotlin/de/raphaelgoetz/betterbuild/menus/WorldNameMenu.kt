@@ -16,7 +16,6 @@ class WorldNameMenu(
     val player: Player,
     val title: Component,
 
-
 ) : BukkitAnvilInventory(title) {
 
     init {

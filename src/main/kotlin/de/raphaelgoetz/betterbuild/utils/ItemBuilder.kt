@@ -1,12 +1,10 @@
 package de.raphaelgoetz.betterbuild.utils
 
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
@@ -24,7 +22,7 @@ class ItemBuilder(material: Material) {
         return this
     }
 
-    fun setLore(components: List<Component?>?): ItemBuilder {
+    fun setLore(components: List<Component>): ItemBuilder {
         val itemMeta = itemStack.itemMeta
         itemMeta.lore(components)
         itemStack.setItemMeta(itemMeta)
@@ -42,7 +40,7 @@ class ItemBuilder(material: Material) {
         return this
     }
 
-    fun setPlayerHeadTexture(skinTextureURL: URL?): ItemBuilder {
+    fun setPlayerHeadTexture(skinTextureURL: URL): ItemBuilder {
 
         if (Material.PLAYER_HEAD == itemStack.type) {
 
