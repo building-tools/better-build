@@ -1,4 +1,4 @@
-package de.raphaelgoetz.betterbuild.utils
+package de.raphaelgoetz.betterbuild.world
 
 import org.bukkit.Material
 import org.bukkit.generator.ChunkGenerator

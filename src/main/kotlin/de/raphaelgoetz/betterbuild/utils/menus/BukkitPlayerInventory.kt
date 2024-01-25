@@ -1,4 +1,4 @@
-package de.raphaelgoetz.betterbuild.utils
+package de.raphaelgoetz.betterbuild.utils.menus
 
 import de.raphaelgoetz.betterbuild.BetterBuild
 import net.kyori.adventure.text.Component
@@ -10,47 +10,57 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
-import org.bukkit.event.inventory.InventoryType
-import org.bukkit.inventory.AnvilInventory
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 import java.util.function.Consumer
 
-abstract class BukkitAnvilInventory(title: Component) {
+abstract class BukkitPlayerInventory(title: Component, rows: Int) {
 
-    protected val closeActions: Collection<Runnable> = ArrayList()
-    private val clickActions: MutableMap<Int, Consumer<InventoryClickEvent>> = HashMap()
-    private val inventory: Inventory = Bukkit.createInventory(null, InventoryType.ANVIL)
+    val clickActions: MutableMap<Int, Consumer<InventoryClickEvent>> = HashMap()
+    val closeActions: Collection<Runnable> = ArrayList()
+    val inventory: Inventory = Bukkit.createInventory(null, rows * 9, title)
 
-    protected fun open(player: Player) {
+    protected fun openInventory(player: Player) {
         player.openInventory(inventory)
         OPEN_INVENTORIES[player.uniqueId] = this
     }
 
-    protected fun setSlot(slot: BukkitAnvilInventorySlots, item: ItemStack) {
-        this.clickActions.remove(slot.index)
-        this.inventory.setItem(slot.index, item)
+    protected fun setSlot(slot: Int, itemStack: ItemStack) {
+        clickActions.remove(slot)
+        inventory.setItem(slot, itemStack)
     }
 
-    protected fun setSlot(slot: BukkitAnvilInventorySlots, item: ItemStack, consumer: Consumer<InventoryClickEvent>) {
-        this.clickActions[slot.index] = consumer
-        this.inventory.setItem(slot.index, item)
+    protected fun setSlot(slot: Int, itemStack: ItemStack, consumer: Consumer<InventoryClickEvent>) {
+        clickActions[slot] = consumer
+        inventory.setItem(slot, itemStack)
     }
 
-    protected fun removeSlot(slot: BukkitAnvilInventorySlots) {
-        this.clickActions.remove(slot.index)
-        this.inventory.clear(slot.index)
+    protected fun addSlot(itemStack: ItemStack) {
+        inventory.addItem(itemStack)
+        val slot = inventory.first(itemStack)
+        clickActions.remove(slot)
     }
 
-    protected fun getText(): String {
-
-        if (inventory is AnvilInventory) {
-            return inventory.renameText ?: ""
+    protected fun addSlot(itemStack: ItemStack, consumer: Consumer<InventoryClickEvent>?) {
+        if (consumer == null) {
+            this.addSlot(itemStack)
+            return
         }
+        this.inventory.addItem(itemStack)
+        val slot = this.inventory.first(itemStack)
+        clickActions[slot] = consumer
+    }
 
-        return ""
+    protected fun clearSlot(slot: Int) {
+        inventory.clear(slot)
+        clickActions.remove(slot)
+    }
+
+    protected fun clearSlots() {
+        inventory.clear()
+        clickActions.clear()
     }
 
     private class EventAdapter : Listener {
@@ -75,23 +85,22 @@ abstract class BukkitAnvilInventory(title: Component) {
         @EventHandler
         fun onInventoryCloseEvent(inventoryCloseEvent: InventoryCloseEvent) {
             val player = inventoryCloseEvent.player
-            if (inventoryCloseEvent.player !is Player) return
-            if (!(BukkitPlayerInventory.OPEN_INVENTORIES.containsKey(player.uniqueId))) return
+            if (player !is Player) return
+            if (!(OPEN_INVENTORIES.containsKey(player.getUniqueId()))) return
 
-            val currentInventory = BukkitPlayerInventory.OPEN_INVENTORIES[player.uniqueId]
+            val currentInventory = OPEN_INVENTORIES[player.getUniqueId()]
             if (inventoryCloseEvent.inventory != currentInventory!!.inventory) return
             currentInventory.closeActions.forEach(Consumer { obj: Runnable -> obj.run() })
 
-            BukkitPlayerInventory.OPEN_INVENTORIES.remove(player.uniqueId)
+            OPEN_INVENTORIES.remove(player.getUniqueId())
         }
     }
 
     companion object {
-
         init {
             Bukkit.getPluginManager().registerEvents(EventAdapter(), JavaPlugin.getPlugin(BetterBuild::class.java))
         }
 
-        private val OPEN_INVENTORIES: MutableMap<UUID, BukkitAnvilInventory> = HashMap()
+        val OPEN_INVENTORIES: MutableMap<UUID, BukkitPlayerInventory> = HashMap()
     }
 }

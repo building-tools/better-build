@@ -1,8 +1,8 @@
 package de.raphaelgoetz.betterbuild.menus
 
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.utils.BukkitAnvilInventory
-import de.raphaelgoetz.betterbuild.utils.BukkitAnvilInventorySlots
+import de.raphaelgoetz.betterbuild.utils.menus.BukkitAnvilInventory
+import de.raphaelgoetz.betterbuild.utils.menus.BukkitAnvilInventorySlots
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
 import de.raphaelgoetz.betterbuild.world.BuildWorld
 import net.kyori.adventure.text.Component

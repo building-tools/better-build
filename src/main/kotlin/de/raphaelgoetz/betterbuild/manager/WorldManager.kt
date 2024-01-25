@@ -1,9 +1,9 @@
 package de.raphaelgoetz.betterbuild.manager
 
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.utils.VoidGenerator
 import de.raphaelgoetz.betterbuild.world.BuildWorld
 import de.raphaelgoetz.betterbuild.world.BuildWorldTypes
+import de.raphaelgoetz.betterbuild.world.VoidGenerator
 import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.WorldCreator
@@ -32,7 +32,7 @@ class WorldManager(val betterBuild: BetterBuild) {
         creator.environment(buildWorld.environment)
         creator.generateStructures(buildWorld.generateStructures)
 
-        when(buildWorld.types) {
+        when (buildWorld.types) {
             BuildWorldTypes.VOID -> creator.generator(VoidGenerator())
             BuildWorldTypes.FLAT -> creator.type(WorldType.FLAT)
             BuildWorldTypes.NORMAL -> creator.type(WorldType.NORMAL)
@@ -105,8 +105,6 @@ class WorldManager(val betterBuild: BetterBuild) {
             player.teleport(world.spawnLocation)
             return
         }
-
-        //TODO teleport player when loaded
     }
 
     private fun deleteFiles(file: File) {

@@ -1,7 +1,7 @@
 package de.raphaelgoetz.betterbuild.menus
 
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
+import de.raphaelgoetz.betterbuild.utils.menus.BukkitPlayerInventory
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
 import net.kyori.adventure.text.Component
 import org.bukkit.Material

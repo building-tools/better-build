@@ -1,7 +1,7 @@
 package de.raphaelgoetz.betterbuild.menus
 
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
+import de.raphaelgoetz.betterbuild.utils.menus.BukkitPlayerInventory
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
@@ -22,14 +22,13 @@ data class MainMenu(
 
         setPhysicItems()
         setBuildItems()
-        setClipItems()
         setNightVisionItems()
 
         openInventory(player)
     }
 
     private fun setWorldItems() {
-        this.setSlot(0, ItemBuilder(Material.GRASS_BLOCK)
+        this.setSlot(1, ItemBuilder(Material.GRASS_BLOCK)
             .setName(betterBuild.languageManager.getComponent("gui.main.item.world.name"))
             .setLore(betterBuild.languageManager.getComponents("gui.main.item.world.lore")).build(),
 
@@ -40,7 +39,7 @@ data class MainMenu(
     }
 
     private fun setPlayerItems() {
-        this.setSlot(1, ItemBuilder(Material.PLAYER_HEAD).setPlayerHead(player)
+        this.setSlot(2, ItemBuilder(Material.PLAYER_HEAD).setPlayerHead(player)
             .setName(betterBuild.languageManager.getComponent("gui.player.item.world.name"))
             .setLore(betterBuild.languageManager.getComponents("gui.player.item.world.lore")).build(),
 
@@ -51,7 +50,7 @@ data class MainMenu(
     }
 
     private fun setBannerItems() {
-        this.setSlot(2, ItemBuilder(Material.GREEN_BANNER)
+        this.setSlot(3, ItemBuilder(Material.GREEN_BANNER)
             .setName(betterBuild.languageManager.getComponent("gui.banner.item.world.name"))
             .setLore(betterBuild.languageManager.getComponents("gui.banner.item.world.lore")).build(),
 
@@ -106,7 +105,7 @@ data class MainMenu(
     private fun setNightVisionItems() {
 
         val name = if (betterBuild.playerManager.hasActiveNightVision(player)) "gui.main.item.night.enable.name" else "gui.main.item.night.disable.name"
-        this.setSlot(8, ItemBuilder(Material.ENDER_EYE)
+        this.setSlot(7, ItemBuilder(Material.ENDER_EYE)
             .setName(betterBuild.languageManager.getComponent(name))
             .setLore(betterBuild.languageManager.getComponents("gui.main.item.night.lore")).build(),
 
