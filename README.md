@@ -30,7 +30,7 @@ The permission to use the /back command, to get to your last known location.
 ```
 betterbuild.player.mode
 ```
-The permission to use the /build and /clip command.
+The permission to use the /build command.
 
 ```
 betterbuild.player.speed
@@ -62,11 +62,6 @@ By using the command /back, the user will be teleported to his last known locati
 /build <player>
 ```
 By using the command /build, the given user will be added to build-mode. If no name is present the command-executer will be the user.
-
-```
-/clip <player>
-```
-By using the command /clip, the given user will be added to clip-mode. If no name is present the command-executer will be the user.
 
 ```
 /fly <0 - 10>
