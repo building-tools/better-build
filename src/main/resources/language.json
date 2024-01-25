@@ -70,6 +70,7 @@
   "command.world.manage.create": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You've successfully created a new world.</gradient>",
   "command.world.physics.toggle": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You've toggled the physics of your current world.</gradient>",
 
+  "manager.world.toggle": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You toggled the physics of the current world!</gradient>",
   "manager.player.build.remove": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You have been removed from the Build-Mode.</gradient>",
   "manager.player.build.add": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You have been added to the Build-Mode.</gradient>",
   "manager.player.clip.remove": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You have been removed from the Clip-Mode.</gradient>",
