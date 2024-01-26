@@ -2,8 +2,8 @@ package de.raphaelgoetz.betterbuild.listeners.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
 import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.Bukkit
 import org.bukkit.Sound
-import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerChangedWorldEvent
@@ -15,6 +15,8 @@ class PlayerChangedWorldListener(val betterBuild: BetterBuild) : Listener {
 
         val player = playerChangedWorldEvent.player
         val lastWorld = playerChangedWorldEvent.from
+
+        if (lastWorld.players.isEmpty()) Bukkit.unloadWorld(lastWorld.name, true)
 
         player.playSound(player, Sound.ENTITY_ILLUSIONER_CAST_SPELL, 1f, 1f)
         player.sendActionBar(

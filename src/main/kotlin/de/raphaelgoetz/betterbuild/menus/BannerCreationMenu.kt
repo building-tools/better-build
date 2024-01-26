@@ -82,6 +82,8 @@ class BannerCreationMenu(
         }
 
         for (index in bannerHistory.indices) {
+            if (8 + (index * 9) > 53) break
+
             this.setSlot(8 + (index * 9), bannerHistory[index],
                 consumer = { inventoryClickEvent ->
                     inventoryClickEvent.isCancelled = true

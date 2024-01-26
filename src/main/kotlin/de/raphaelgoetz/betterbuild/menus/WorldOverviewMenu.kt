@@ -1,10 +1,12 @@
 package de.raphaelgoetz.betterbuild.menus
 
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.utils.menus.BukkitPlayerInventory
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
+import de.raphaelgoetz.betterbuild.utils.menus.BukkitPlayerInventory
 import net.kyori.adventure.text.Component
+import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.WorldCreator
 import org.bukkit.entity.Player
 import java.net.URL
 
@@ -29,24 +31,38 @@ data class WorldOverviewMenu(
         val categories = categories
 
         for (index in 45..53) {
-            this.setSlot(index, ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(betterBuild.languageManager.getComponent("gui.world.item.placeholder.name")).build(),
-                consumer = {
-                    inventoryClickEvent -> inventoryClickEvent.isCancelled = true
+            this.setSlot(index,
+                ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(betterBuild.languageManager.getComponent("gui.world.item.placeholder.name"))
+                    .build(),
+                consumer = { inventoryClickEvent ->
+                    inventoryClickEvent.isCancelled = true
                 })
         }
 
-        this.setSlot(48, ItemBuilder(Material.RESPAWN_ANCHOR)
-            .setName(betterBuild.languageManager.getComponent("gui.world.item.spawn.name")).build()) { inventoryClickEvent ->
+        this.setSlot(
+            48, ItemBuilder(Material.RESPAWN_ANCHOR)
+                .setName(betterBuild.languageManager.getComponent("gui.world.item.spawn.name")).build()
+        ) { inventoryClickEvent ->
             inventoryClickEvent.isCancelled = true
+            val world = Bukkit.getWorld("world")
+            if (world != null) {
+                player.teleport(world.spawnLocation)
+            }
         }
 
-        this.setSlot(49, ItemBuilder(Material.GRASS_BLOCK)
-            .setName(betterBuild.languageManager.getComponent("gui.world.item.create.name")).build(), consumer =  {
-            it.isCancelled = true
-            WorldCreationMenu(betterBuild, player, Component.text("create")).open()
-        })
+        /*
+    this.setSlot(49, ItemBuilder(Material.GRASS_BLOCK)
+        .setName(betterBuild.languageManager.getComponent("gui.world.item.create.name")).build(), consumer =  {
+        it.isCancelled = true
+        WorldCreationMenu(betterBuild, player, Component.text("create")).open()
+    })
+     */
 
-        this.setSlot(50, ItemBuilder(Material.BARRIER).setName(betterBuild.languageManager.getComponent("gui.world.item.close.name")).build()) { inventoryClickEvent ->
+        this.setSlot(
+            50,
+            ItemBuilder(Material.BARRIER).setName(betterBuild.languageManager.getComponent("gui.world.item.close.name"))
+                .build()
+        ) { inventoryClickEvent ->
             inventoryClickEvent.isCancelled = true
             player.closeInventory()
         }
@@ -64,15 +80,23 @@ data class WorldOverviewMenu(
             }
 
             //Creating the category items in the category inventory
-            this.addSlot(getItemWithURL(Material.NAME_TAG,
-                "http://textures.minecraft.net/texture/56330a4a22ff55871fc8c618e421a37733ac1dcab9c8e1a4bb73ae645a4a4e")
-                .setName(betterBuild.languageManager.getComponent("gui.world.item.category.name", "%category%", category))
+            this.addSlot(getItemWithURL(
+                Material.NAME_TAG,
+                "http://textures.minecraft.net/texture/56330a4a22ff55871fc8c618e421a37733ac1dcab9c8e1a4bb73ae645a4a4e"
+            )
+                .setName(
+                    betterBuild.languageManager.getComponent(
+                        "gui.world.item.category.name",
+                        "%category%",
+                        category
+                    )
+                )
                 .setLore(lores).build(),
 
                 consumer = { inventoryClickEvent ->
                     inventoryClickEvent.isCancelled = true
                     generateCategory(category, worlds)
-            })
+                })
         }
     }
 
@@ -91,25 +115,40 @@ data class WorldOverviewMenu(
         }
 
         for (index in 45..53) {
-            this.setSlot(index, ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(betterBuild.languageManager.getComponent("gui.world.item.placeholder.name")).build())
+            this.setSlot(
+                index,
+                ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(betterBuild.languageManager.getComponent("gui.world.item.placeholder.name"))
+                    .build()
+            )
             { inventoryClickEvent -> inventoryClickEvent.isCancelled = true }
         }
 
-        this.setSlot(49, ItemBuilder(Material.STRUCTURE_VOID).setName(betterBuild.languageManager.getComponent("gui.world.item.back.name")).build()) { inventoryClickEvent ->
+        this.setSlot(
+            49,
+            ItemBuilder(Material.STRUCTURE_VOID).setName(betterBuild.languageManager.getComponent("gui.world.item.back.name"))
+                .build()
+        ) { inventoryClickEvent ->
             inventoryClickEvent.isCancelled = true
             generateCategories()
         }
 
         for (world in worlds) {
-            this.addSlot(getItemWithURL(Material.GRASS_BLOCK,
-                "http://textures.minecraft.net/texture/438cf3f8e54afc3b3f91d20a49f324dca1486007fe545399055524c17941f4dc")
-                .setName(betterBuild.languageManager.getComponent("gui.world.item.world.name", "%world%", world)).build(),
+            this.addSlot(getItemWithURL(
+                Material.GRASS_BLOCK,
+                "http://textures.minecraft.net/texture/438cf3f8e54afc3b3f91d20a49f324dca1486007fe545399055524c17941f4dc"
+            )
+                .setName(betterBuild.languageManager.getComponent("gui.world.item.world.name", "%world%", world))
+                .build(),
 
-                consumer =  { inventoryClickEvent ->
+                consumer = { inventoryClickEvent ->
                     inventoryClickEvent.isCancelled = true
                     player.closeInventory()
-                    betterBuild.worldManager.teleportPlayer(world, player)
-            })
+                    val bukkitWorld = Bukkit.getWorld(world)
+                    if (bukkitWorld == null) {
+                        betterBuild.worldManager.addPlayerToQueue(world, player.uniqueId)
+                        Bukkit.createWorld(WorldCreator(world))
+                    } else player.teleport(bukkitWorld.spawnLocation)
+                })
         }
     }
 

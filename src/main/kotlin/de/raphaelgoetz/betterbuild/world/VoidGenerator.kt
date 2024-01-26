@@ -11,8 +11,10 @@ class VoidGenerator : ChunkGenerator() {
 
         val x = 0; val y = 64; val z = 0
 
-        if (x >= chunkX * 16 && (x < (chunkX + 1) * 16)) return
-        if (!(z >= chunkZ * 16) && (z < (chunkZ + 1) * 16)) return
-        chunkData.setBlock(x, y, z, Material.BEDROCK)
+        if ((x >= chunkX * 16) && (x < (chunkX + 1) * 16)) {
+            if ((z >= chunkZ * 16) && (z < (chunkZ + 1) * 16)) {
+                chunkData.setBlock(x, y, z, Material.BEDROCK);
+            }
+        }
     }
 }
