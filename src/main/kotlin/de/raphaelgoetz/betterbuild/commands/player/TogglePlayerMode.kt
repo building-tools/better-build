@@ -14,7 +14,7 @@ data class TogglePlayerMode(val betterBuild: BetterBuild) : CommandExecutor {
         if (sender !is Player) return true
         if (args == null) return true
 
-        if (sender.hasPermission("betterbuild.player.mode")) {
+        if (!sender.hasPermission("betterbuild.player.mode")) {
             betterBuild.languageManager.sendPlayerMessage(sender, "command.player.mode.permission")
             return true
         }

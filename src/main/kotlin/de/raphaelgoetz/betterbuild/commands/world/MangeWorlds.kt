@@ -28,7 +28,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor {
 
     private fun createWorld(name: String, player: Player) {
 
-        if (player.hasPermission("betterbuild.world.create")) {
+        if (!player.hasPermission("betterbuild.world.create")) {
             betterBuild.languageManager.sendPlayerMessage(player, "command.world.permission.create")
             return
         }
@@ -44,7 +44,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor {
 
     private fun deleteWorld(name: String, player: Player) {
 
-        if (player.hasPermission("betterbuild.world.delete")) {
+        if (!player.hasPermission("betterbuild.world.delete")) {
             betterBuild.languageManager.sendPlayerMessage(player, "command.world.permission.deletion")
             return
         }

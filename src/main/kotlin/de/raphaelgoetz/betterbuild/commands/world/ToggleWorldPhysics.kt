@@ -12,11 +12,10 @@ data class ToggleWorldPhysics(val betterBuild: BetterBuild) : CommandExecutor {
 
         if (sender !is Player) return true
 
-        if (sender.hasPermission("betterbuild.world.physics")) {
+        if (!sender.hasPermission("betterbuild.world.physics")) {
             betterBuild.languageManager.sendPlayerMessage(sender, "command.player.teleport.permission")
             return true
         }
-
 
         val world = sender.world
         betterBuild.worldManager.togglePhysics(world)

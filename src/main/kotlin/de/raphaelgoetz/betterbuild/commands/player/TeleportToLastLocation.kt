@@ -15,7 +15,7 @@ data class TeleportToLastLocation(val betterBuild: BetterBuild) : CommandExecuto
 
         val lastLocation = betterBuild.playerManager.getLastLocation(sender)
 
-        if (sender.hasPermission("betterbuild.player.back")) {
+        if (!sender.hasPermission("betterbuild.player.back")) {
             betterBuild.languageManager.sendPlayerMessage(sender, "command.player.teleport.permission")
             return true
         }

@@ -12,7 +12,7 @@ data class TogglePlayerSpeed(val betterBuild: BetterBuild) : CommandExecutor {
 
         if (sender !is Player) return true
 
-        if (sender.hasPermission("betterbuild.player.speed")) {
+        if (!sender.hasPermission("betterbuild.player.speed")) {
             betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.permission")
             return true
         }
