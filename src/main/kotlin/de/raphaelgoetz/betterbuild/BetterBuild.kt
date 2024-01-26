@@ -8,6 +8,7 @@ import de.raphaelgoetz.betterbuild.listeners.player.*
 import de.raphaelgoetz.betterbuild.listeners.player.connection.*
 import de.raphaelgoetz.betterbuild.listeners.raid.*
 import de.raphaelgoetz.betterbuild.listeners.vehicle.*
+import de.raphaelgoetz.betterbuild.listeners.world.WorldLoadListener
 import de.raphaelgoetz.betterbuild.manager.*
 
 import org.bukkit.Bukkit
@@ -90,6 +91,9 @@ class BetterBuild : JavaPlugin() {
         //VEHICLE
         register(VehicleCreateListener())
         register(VehicleEnterListener())
+
+        //WORLD
+        register(WorldLoadListener(this))
     }
 
     private fun register(listener: Listener) {

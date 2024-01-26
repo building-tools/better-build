@@ -18,5 +18,9 @@ class PlayerJoinListener : Listener {
         if (world != null) player.teleport(world.spawnLocation)
 
         playerJoinEvent.joinMessage(MiniMessage.miniMessage().deserialize("<gradient:#a8ff78:#78ffd6>+ " + player.name))
+        player.playerListName(
+            MiniMessage.miniMessage().deserialize(
+                "<gradient:#a8ff78:#78ffd6>" + player.name + " <gradient:#00b09b:#96c93d>[" + player.world.name + "]"
+            ))
     }
 }

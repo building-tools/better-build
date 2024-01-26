@@ -10,10 +10,12 @@ import org.bukkit.WorldCreator
 import org.bukkit.WorldType
 import org.bukkit.entity.Player
 import java.io.File
+import java.util.UUID
 
 class WorldManager(val betterBuild: BetterBuild) {
 
     private val physics: MutableMap<World, Boolean> = mutableMapOf()
+    private val worldQueue: MutableMap<String, MutableList<UUID>> = mutableMapOf()
 
     fun createEmptyWorld(name: String): World? {
 
@@ -39,6 +41,25 @@ class WorldManager(val betterBuild: BetterBuild) {
         }
 
         return Bukkit.createWorld(creator);
+    }
+
+    fun removeFromQueue(name: String) {
+        worldQueue.remove(name)
+    }
+
+    fun addPlayerToQueue(name: String, uuid: UUID) {
+        val players = worldQueue[name]
+
+        if (players == null) {
+            worldQueue[name] = mutableListOf(uuid)
+            return
+        }
+
+        players.add(uuid)
+    }
+
+    fun getWaitingPlayers(name: String): MutableList<UUID>? {
+        return worldQueue[name]
     }
 
     fun getWorldNames(): List<String> {
