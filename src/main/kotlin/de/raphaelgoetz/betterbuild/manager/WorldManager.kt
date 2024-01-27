@@ -8,7 +8,6 @@ import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.WorldCreator
 import org.bukkit.WorldType
-import org.bukkit.entity.Player
 import java.io.File
 import java.util.UUID
 
@@ -41,7 +40,7 @@ class WorldManager(val betterBuild: BetterBuild) {
             BuildWorldTypes.NORMAL -> creator.type(WorldType.NORMAL)
         }
 
-        return Bukkit.createWorld(creator);
+        return Bukkit.createWorld(creator)
     }
 
     fun removeFromQueue(name: String) {
@@ -85,7 +84,7 @@ class WorldManager(val betterBuild: BetterBuild) {
     }
 
     fun hasPhysics(world: World): Boolean {
-        return this.physics[world] ?: false;
+        return this.physics[world] ?: false
     }
 
     fun togglePhysics(world: World) {
@@ -120,32 +119,11 @@ class WorldManager(val betterBuild: BetterBuild) {
         }
     }
 
-    fun teleportPlayer(worldName: String, player: Player) {
-
-        val world = Bukkit.getWorld(worldName)
-
-        if (world != null) {
-            player.teleport(world.spawnLocation)
-            return
-        }
-    }
-
-    private fun deleteFiles(file: File) {
-
-        if (!file.isDirectory) {
-            file.delete()
-            return
-        }
-
-        val directory = file.listFiles()
-        for (currentFile in directory!!) deleteFiles(currentFile)
-    }
-
     private fun deleteFilesInsideFolder(file: File) {
-        if (!file.isDirectory() && file.delete()) return;
-        val files = file.listFiles();
-        if (files == null || file.delete()) return;
-        for (content in files) if (!content.delete()) deleteFilesInsideFolder(content);
-        if (!file.delete()) deleteFilesInsideFolder(file);
+        if (!file.isDirectory() && file.delete()) return
+        val files = file.listFiles()
+        if (files == null || file.delete()) return
+        for (content in files) if (!content.delete()) deleteFilesInsideFolder(content)
+        if (!file.delete()) deleteFilesInsideFolder(file)
     }
 }

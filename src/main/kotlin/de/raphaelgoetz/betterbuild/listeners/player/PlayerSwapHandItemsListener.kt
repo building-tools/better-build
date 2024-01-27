@@ -2,7 +2,6 @@ package de.raphaelgoetz.betterbuild.listeners.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.menus.MainMenu
-import de.raphaelgoetz.betterbuild.menus.WorldNameMenu
 import net.kyori.adventure.text.Component
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

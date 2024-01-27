@@ -1,20 +1,27 @@
 package de.raphaelgoetz.betterbuild
 
-import de.raphaelgoetz.betterbuild.commands.player.*
-import de.raphaelgoetz.betterbuild.commands.world.*
+import de.raphaelgoetz.betterbuild.commands.player.TeleportToLastLocation
+import de.raphaelgoetz.betterbuild.commands.player.TogglePlayerGamemode
+import de.raphaelgoetz.betterbuild.commands.player.TogglePlayerMode
+import de.raphaelgoetz.betterbuild.commands.player.TogglePlayerSpeed
+import de.raphaelgoetz.betterbuild.commands.world.MangeWorlds
+import de.raphaelgoetz.betterbuild.commands.world.ToggleWorldPhysics
 import de.raphaelgoetz.betterbuild.listeners.block.*
 import de.raphaelgoetz.betterbuild.listeners.custom.PlayerIronDoorInteractListener
 import de.raphaelgoetz.betterbuild.listeners.custom.PlayerLitBlockListener
-import de.raphaelgoetz.betterbuild.listeners.custom.PlayerSlabBreakListener
 import de.raphaelgoetz.betterbuild.listeners.custom.PlayerTerracottaInteractListener
-import de.raphaelgoetz.betterbuild.listeners.hanging.*
+import de.raphaelgoetz.betterbuild.listeners.hanging.HangingBreakByEntityListener
+import de.raphaelgoetz.betterbuild.listeners.hanging.HangingPlaceListener
 import de.raphaelgoetz.betterbuild.listeners.player.*
-import de.raphaelgoetz.betterbuild.listeners.player.connection.*
-import de.raphaelgoetz.betterbuild.listeners.raid.*
-import de.raphaelgoetz.betterbuild.listeners.vehicle.*
+import de.raphaelgoetz.betterbuild.listeners.player.connection.PlayerJoinListener
+import de.raphaelgoetz.betterbuild.listeners.player.connection.PlayerQuitListener
+import de.raphaelgoetz.betterbuild.listeners.raid.RaidTriggerListener
+import de.raphaelgoetz.betterbuild.listeners.vehicle.VehicleCreateListener
+import de.raphaelgoetz.betterbuild.listeners.vehicle.VehicleEnterListener
 import de.raphaelgoetz.betterbuild.listeners.world.WorldLoadListener
-import de.raphaelgoetz.betterbuild.manager.*
-
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
+import de.raphaelgoetz.betterbuild.manager.PlayerManager
+import de.raphaelgoetz.betterbuild.manager.WorldManager
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
@@ -44,7 +51,7 @@ class BetterBuild : JavaPlugin() {
         getCommand("world")?.setExecutor(MangeWorlds(this))
         getCommand("physics")?.setExecutor(ToggleWorldPhysics(this))
     }
-    
+
     private fun registerListener() {
 
         //BLOCK
@@ -87,6 +94,7 @@ class BetterBuild : JavaPlugin() {
         register(PlayerEggThrowListener())
         register(PlayerFishListener())
         register(PlayerInteractListener(this))
+        register(PlayerInteractEntityListener(this))
         register(PlayerItemConsumeListener())
         register(PlayerPortalListener())
         register(PlayerSwapHandItemsListener(this))

@@ -1,7 +1,6 @@
 package de.raphaelgoetz.betterbuild.commands.world
 
 import de.raphaelgoetz.betterbuild.BetterBuild
-import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
