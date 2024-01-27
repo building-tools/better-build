@@ -16,6 +16,7 @@ class WorldManager(val betterBuild: BetterBuild) {
 
     private val physics: MutableMap<World, Boolean> = mutableMapOf()
     private val worldQueue: MutableMap<String, MutableList<UUID>> = mutableMapOf()
+    val worldCreation: MutableMap<UUID, BuildWorld> = mutableMapOf()
 
     fun createEmptyWorld(name: String): World? {
 
@@ -90,16 +91,17 @@ class WorldManager(val betterBuild: BetterBuild) {
     fun togglePhysics(world: World) {
         val value = this.physics[world]
 
-        world.players.forEach {
-            betterBuild.languageManager.sendPlayerMessage(it, "manager.world.toggle")
-        }
-
         if (value == null) {
             this.physics[world] = false
             return
         }
 
         this.physics[world] = !value
+
+        world.players.forEach {
+           if (value) betterBuild.languageManager.sendPlayerMessage(it, "manager.world.enable")
+            else betterBuild.languageManager.sendPlayerMessage(it, "manager.world.disable")
+        }
     }
 
     private fun isWorldFolder(file: File): Boolean {

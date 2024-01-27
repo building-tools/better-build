@@ -106,7 +106,6 @@ class BetterBuild : JavaPlugin() {
         register(PlayerLitBlockListener(this))
         register(PlayerTerracottaInteractListener(this))
         register(PlayerIronDoorInteractListener(this))
-        register(PlayerSlabBreakListener(this))
     }
 
     private fun register(listener: Listener) {

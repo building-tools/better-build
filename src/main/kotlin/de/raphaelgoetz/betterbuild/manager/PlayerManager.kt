@@ -49,8 +49,12 @@ class PlayerManager(
     }
 
     fun toggleNightVision(player: Player) {
-        if (hasActiveNightVision(player)) player.removePotionEffect(PotionEffectType.NIGHT_VISION)
-        else player.addPotionEffect(
+        if (hasActiveNightVision(player)) {
+            betterBuild.languageManager.sendPlayerMessage(player, "gui.main.item.night.disable.name")
+            player.removePotionEffect(PotionEffectType.NIGHT_VISION)
+            return
+        }
+        player.addPotionEffect(
             PotionEffect(
                 PotionEffectType.NIGHT_VISION,
                 PotionEffect.INFINITE_DURATION,
@@ -60,6 +64,8 @@ class PlayerManager(
                 false
             )
         )
+
+        betterBuild.languageManager.sendPlayerMessage(player, "gui.main.item.night.enable.name")
     }
 
     fun cancelWhenBuilder(player: Player, event: Cancellable) {

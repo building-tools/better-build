@@ -1,6 +1,7 @@
 package de.raphaelgoetz.betterbuild.commands.world
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -19,7 +20,6 @@ data class ToggleWorldPhysics(val betterBuild: BetterBuild) : CommandExecutor {
 
         val world = sender.world
         betterBuild.worldManager.togglePhysics(world)
-        betterBuild.languageManager.sendPlayerMessage(sender, "command.world.physics.toggle")
         return false
     }
 }

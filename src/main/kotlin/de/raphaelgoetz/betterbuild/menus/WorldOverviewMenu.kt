@@ -50,13 +50,11 @@ data class WorldOverviewMenu(
             }
         }
 
-        /*
-    this.setSlot(49, ItemBuilder(Material.GRASS_BLOCK)
-        .setName(betterBuild.languageManager.getComponent("gui.world.item.create.name")).build(), consumer =  {
-        it.isCancelled = true
-        WorldCreationMenu(betterBuild, player, Component.text("create")).open()
-    })
-     */
+        this.setSlot(49, ItemBuilder(Material.GRASS_BLOCK)
+            .setName(betterBuild.languageManager.getComponent("gui.world.item.create.name")).build(), consumer =  {
+            it.isCancelled = true
+            WorldCreationMenu(betterBuild, player, Component.text("create new World")).open()
+        })
 
         this.setSlot(
             50,
