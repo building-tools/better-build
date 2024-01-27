@@ -7,6 +7,8 @@ website: 'https://uroria.com'
 description: "A useful Minecraft building tool, that manages the server on which you build."
 
 commands:
+  gm:
+    description: "Updates the player game-mode!"
   build:
     description: "Toggle Build-Mode. When activated players can interact with the world!"
   clip:

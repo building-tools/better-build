@@ -3,6 +3,10 @@ package de.raphaelgoetz.betterbuild
 import de.raphaelgoetz.betterbuild.commands.player.*
 import de.raphaelgoetz.betterbuild.commands.world.*
 import de.raphaelgoetz.betterbuild.listeners.block.*
+import de.raphaelgoetz.betterbuild.listeners.custom.PlayerIronDoorInteractListener
+import de.raphaelgoetz.betterbuild.listeners.custom.PlayerLitBlockListener
+import de.raphaelgoetz.betterbuild.listeners.custom.PlayerSlabBreakListener
+import de.raphaelgoetz.betterbuild.listeners.custom.PlayerTerracottaInteractListener
 import de.raphaelgoetz.betterbuild.listeners.hanging.*
 import de.raphaelgoetz.betterbuild.listeners.player.*
 import de.raphaelgoetz.betterbuild.listeners.player.connection.*
@@ -34,6 +38,7 @@ class BetterBuild : JavaPlugin() {
         getCommand("clip")?.setExecutor(TogglePlayerMode(this))
         getCommand("fly")?.setExecutor(TogglePlayerSpeed(this))
         getCommand("walk")?.setExecutor(TogglePlayerSpeed(this))
+        getCommand("gm")?.setExecutor(TogglePlayerGamemode(this))
 
         //WORLD
         getCommand("world")?.setExecutor(MangeWorlds(this))
@@ -70,11 +75,13 @@ class BetterBuild : JavaPlugin() {
 
         //PLAYER-INTERACTION
         register(PlayerArmorStandManipulateListener(this))
+        register(PlayerAsyncChatListener(this))
         register(PlayerBedEnterListener())
         register(PlayerBucketEmptyListener(this))
         register(PlayerBucketEntityListener(this))
         register(PlayerBucketFillListener(this))
         register(PlayerChangedWorldListener(this))
+        register(PlayerDamageListener())
         register(PlayerDeathListener())
         register(PlayerDropItemListener())
         register(PlayerEggThrowListener())
@@ -94,6 +101,12 @@ class BetterBuild : JavaPlugin() {
 
         //WORLD
         register(WorldLoadListener(this))
+
+        //CUSTOM
+        register(PlayerLitBlockListener(this))
+        register(PlayerTerracottaInteractListener(this))
+        register(PlayerIronDoorInteractListener(this))
+        register(PlayerSlabBreakListener(this))
     }
 
     private fun register(listener: Listener) {
