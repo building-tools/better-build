@@ -32,6 +32,12 @@ class BannerCreationMenu(
 
     private fun setBaseColor() {
 
+        if (bannerHistory.size >= 6) {
+            player.inventory.addItem(bannerHistory.last())
+            player.closeInventory()
+            return
+        }
+
         BannerColors.entries.forEach { bannerColors ->
             this.addSlot(bannerColors.banner, consumer = {
                 it.isCancelled = true
@@ -57,6 +63,12 @@ class BannerCreationMenu(
     }
 
     private fun generatePatterns() {
+
+        if (bannerHistory.size >= 6) {
+            player.inventory.addItem(bannerHistory.last())
+            player.closeInventory()
+            return
+        }
 
         if (bannerMeta!!.patterns.isEmpty() && bannerMeta!!.patterns.size > 5) {
             player.playSound(player, Sound.ENTITY_VILLAGER_TRADE, 1f, 1f)
@@ -88,10 +100,9 @@ class BannerCreationMenu(
                 consumer = { inventoryClickEvent ->
                     inventoryClickEvent.isCancelled = true
 
-
-                    if (inventoryClickEvent.currentItem == null) {
+                    if (inventoryClickEvent.currentItem != null) {
                         player.playSound(player, Sound.ENTITY_VILLAGER_TRADE, 1f, 1f)
-                        inventoryClickEvent.currentItem?.let { player.inventory.addItem(it) }
+                        player.inventory.addItem(bannerHistory[index])
                         player.inventory.close()
                     }
                 })
