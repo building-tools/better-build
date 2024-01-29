@@ -2,7 +2,7 @@ package de.raphaelgoetz.betterbuild.menus
 
 import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
-import de.raphaelgoetz.betterbuild.utils.menus.BukkitPlayerInventory
+import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
 import de.raphaelgoetz.betterbuild.world.BuildWorld
 import de.raphaelgoetz.betterbuild.world.BuildWorldTypes
 import net.kyori.adventure.text.Component
@@ -36,7 +36,7 @@ data class WorldCreationMenu(
         if (isVoid) {
             this.setSlot(0, ItemBuilder(Material.GREEN_STAINED_GLASS)
                 .setName(betterBuild.languageManager.getComponent("gui.world.item.void.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.void.lore")).build(),
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.generator.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -50,7 +50,7 @@ data class WorldCreationMenu(
         if (isFlat) {
             this.setSlot(0, ItemBuilder(Material.GRASS_BLOCK)
                 .setName(betterBuild.languageManager.getComponent("gui.world.item.flat.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.flat.lore")).build(),
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.generator.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -63,7 +63,7 @@ data class WorldCreationMenu(
         if(isNormal) {
             this.setSlot(0, ItemBuilder(Material.OAK_SAPLING)
                 .setName(betterBuild.languageManager.getComponent("gui.world.item.land.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.land.lore")).build(),
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.generator.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -79,7 +79,7 @@ data class WorldCreationMenu(
         if (isOverword) {
             this.setSlot(1, ItemBuilder(Material.GRASS_BLOCK)
                 .setName(betterBuild.languageManager.getComponent("gui.world.item.normal.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.normal.lore")).build(),
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.environment.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -92,7 +92,7 @@ data class WorldCreationMenu(
         if(isNether) {
             this.setSlot(1, ItemBuilder(Material.NETHERRACK)
                 .setName(betterBuild.languageManager.getComponent("gui.world.item.nether.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.nether.lore")).build(),
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.environment.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -106,7 +106,7 @@ data class WorldCreationMenu(
         if (isEnd) {
             this.setSlot(1, ItemBuilder(Material.END_STONE)
                 .setName(betterBuild.languageManager.getComponent("gui.world.item.end.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.end.lore")).build(),
+                .setLore(betterBuild.languageManager.getComponents("gui.world.item.environment.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -123,11 +123,11 @@ data class WorldCreationMenu(
 
         val trueItem = ItemBuilder(Material.GREEN_DYE)
             .setName(betterBuild.languageManager.getComponent("gui.world.item.true.name"))
-            .setLore(betterBuild.languageManager.getComponents("gui.world.item.true.lore")).build()
+            .setLore(betterBuild.languageManager.getComponents("gui.world.item.toggle.lore")).build()
 
         val falseItem = ItemBuilder(Material.RED_DYE)
             .setName(betterBuild.languageManager.getComponent("gui.world.item.false.name"))
-            .setLore(betterBuild.languageManager.getComponents("gui.world.item.false.lore")).build()
+            .setLore(betterBuild.languageManager.getComponents("gui.world.item.toggle.lore")).build()
 
         this.setSlot(2, if (world.generateStructures) trueItem else falseItem, consumer = {
             it.isCancelled = true

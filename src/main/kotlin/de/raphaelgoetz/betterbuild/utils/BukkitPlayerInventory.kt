@@ -1,4 +1,4 @@
-package de.raphaelgoetz.betterbuild.utils.menus
+package de.raphaelgoetz.betterbuild.utils
 
 import de.raphaelgoetz.betterbuild.BetterBuild
 import net.kyori.adventure.text.Component
