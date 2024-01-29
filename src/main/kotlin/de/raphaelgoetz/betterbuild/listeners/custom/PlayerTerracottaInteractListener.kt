@@ -1,7 +1,7 @@
 package de.raphaelgoetz.betterbuild.listeners.custom
 
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.utils.Terracotta
+import de.raphaelgoetz.betterbuild.utils.blocks.Terracotta
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.block.data.Directional

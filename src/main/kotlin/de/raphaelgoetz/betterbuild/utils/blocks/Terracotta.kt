@@ -1,4 +1,4 @@
-package de.raphaelgoetz.betterbuild.utils
+package de.raphaelgoetz.betterbuild.utils.blocks
 
 import org.bukkit.Material
 
