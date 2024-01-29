@@ -19,10 +19,7 @@ class PlayerChangedWorldListener(val betterBuild: BetterBuild) : Listener {
         if (lastWorld.players.isEmpty()) Bukkit.unloadWorld(lastWorld.name, true)
 
         player.playSound(player, Sound.ENTITY_ILLUSIONER_CAST_SPELL, 1f, 1f)
-        player.sendActionBar(
-            MiniMessage.miniMessage()
-                .deserialize("<gradient:#00b09b:#96c93d>You entered: " + player.world.name + "</gradient>")
-        )
+        player.sendActionBar(betterBuild.languageManager.getComponent("event.change.world.action", "%world%", player.world.name))
 
         player.playerListName(
             MiniMessage.miniMessage().deserialize(

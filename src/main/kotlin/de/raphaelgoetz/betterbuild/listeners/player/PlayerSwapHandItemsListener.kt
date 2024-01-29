@@ -13,6 +13,6 @@ class PlayerSwapHandItemsListener(val betterBuild: BetterBuild) : Listener {
     private fun onPlayerSwapHandItemsEvent(playerSwapHandItemsEvent: PlayerSwapHandItemsEvent) {
         playerSwapHandItemsEvent.isCancelled = true
         val player = playerSwapHandItemsEvent.player
-        MainMenu(betterBuild, Component.text("Main Menu"), player)
+        MainMenu(betterBuild, betterBuild.languageManager.getComponent("gui.main.title"), player)
     }
 }

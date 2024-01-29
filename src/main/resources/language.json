@@ -3,6 +3,7 @@
   "gui.world.title": "<gradient:#232526:#414345>World-Overview</gradient>",
   "gui.player.title": "<gradient:#232526:#414345>Player-Overview</gradient>",
   "gui.banner.title": "<gradient:#232526:#414345>Banner-Creator</gradient>",
+  "gui.main.title": "<gradient:#232526:#414345>Main-Menu</gradient>",
 
   "gui.main.item.world.name": "<gradient:#a8ff78:#78ffd6>Open World-Menu</gradient>",
   "gui.player.item.world.name": "<gradient:#a8ff78:#78ffd6>Open Player-Menu</gradient>",
@@ -22,6 +23,54 @@
   "gui.world.item.back.name": "<gradient:#EB3349:#F45C43>Back to main-menu</gradient>",
   "gui.world.item.category.name": "<gradient:#a8ff78:#78ffd6>%category%</gradient>",
   "gui.world.item.world.name": "<gradient:#a8ff78:#78ffd6>%world%</gradient>",
+  "gui.deletion.item.confirm.name": "<gradient:#a8ff78:#78ffd6>Confirm deleting world!</gradient>",
+  "gui.message.world.delete": "<gradient:#a8ff78:#78ffd6>World is successfully deleted!</gradient>",
+  "gui.deletion.item.delete.name": "<gradient:#EB3349:#F45C43>Cancel deleting world!</gradient>",
+  "gui.message.world.delete.error": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 Stopped deleting the world!</gradient>",
+  "gui.world.item.void.name": "<gradient:#a8ff78:#78ffd6>Void-Generator</gradient>",
+  "gui.world.item.flat.name": "<gradient:#a8ff78:#78ffd6>Flat-Generator</gradient>",
+  "gui.world.item.land.name": "<gradient:#a8ff78:#78ffd6>Default-Generator</gradient>",
+  "gui.world.item.normal.name": "<gradient:#a8ff78:#78ffd6>Overworld</gradient>",
+  "gui.world.item.nether.name": "<gradient:#a8ff78:#78ffd6>Nether</gradient>",
+  "gui.world.item.end.name": "<gradient:#a8ff78:#78ffd6>End</gradient>",
+  "gui.world.item.name.name": "<gradient:#a8ff78:#78ffd6>Set world-name</gradient>",
+  "gui.world.item.true.name": "<gradient:#a8ff78:#78ffd6>Structure generation enabled</gradient>",
+  "gui.world.item.false.name": "<gradient:#EB3349:#F45C43>Structure generation disabled</gradient>",
+  "gui.world.message.create": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 World successfully created!</gradient>",
+
+  "gui.world.item.name.lore": [
+    "<gray> | by interacting, you</gray>",
+    "<gray> | can set the worlds name</gray>",
+    "<gray> | by typing it in the chat.</gray>"
+  ],
+
+  "gui.world.item.toggle.lore": [
+    "<gray> | by interacting, the</gray>",
+    "<gray> | structure generation</gray>",
+    "<gray> | will be toggled.</gray>"
+  ],
+
+  "gui.world.item.generator.lore": [
+    "<gray> | by interacting, the</gray>",
+    "<gray> | generator for the world</gray>",
+    "<gray> | will be selected.</gray>"
+  ],
+
+  "gui.world.item.environment.lore": [
+    "<gray> | by interacting, the</gray>",
+    "<gray> | environment for the world</gray>",
+    "<gray> | will be selected.</gray>"
+  ],
+
+  "gui.deletion.item.confirm.lore": [
+    "<gray> | by interacting, the world</gray>",
+    "<gray> | will be deleted forever!</gray>"
+  ],
+
+  "gui.deletion.item.delete.lore": [
+    "<gray> | by interacting, the deletion</gray>",
+    "<gray> | of the world will be stopped!</gray>"
+  ],
 
   "gui.banner.item.world.lore": [
     "<gray> | by interacting, a menu</gray>",
@@ -70,11 +119,25 @@
   "command.world.manage.create": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You've successfully created a new world.</gradient>",
   "command.world.physics.enable": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 The physics of your current world are now activated.</gradient>",
   "command.world.physics.disable": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 The physics of your current world are now inactive.</gradient>",
+  "command.player.gamemode.missing": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Missing arguments. Please use /gm <0-3>!</gradient>",
+  "command.player.gamemode.error": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Only values from 0-3 are accept!</gradient>",
+
+  "command.player.gamemode.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.player.gamemode' to use this command!</gradient>",
+  "command.player.mode.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.player.mode' to use this command!</gradient>",
+  "command.player.speed.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.player.speed' to use this command!</gradient>",
+  "command.world.permission.create": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.create' to use this command!</gradient>",
+  "command.world.permission.deletion": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.delete' to use this command!</gradient>",
+  "command.world.physics.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.physics' to use this command!</gradient>",
 
   "manager.world.toggle": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You toggled the physics of the current world!</gradient>",
   "message.world.created": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You've successfully created a new world.</gradient>",
   "manager.player.build.remove": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You have been removed from the Build-Mode.</gradient>",
   "manager.player.build.add": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You have been added to the Build-Mode.</gradient>",
   "manager.player.clip.remove": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You have been removed from the Clip-Mode.</gradient>",
-  "manager.player.clip.add": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You have been added to the Clip-Mode.</gradient>"
+  "manager.player.clip.add": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You have been added to the Clip-Mode.</gradient>",
+
+  "event.quit.message": "<gradient:#EB3349:#F45C43>- %player%</gradient>",
+  "event.join.message": "<gradient:#a8ff78:#78ffd6>+ %player%</gradient>",
+  "event.join.list": "<gradient:#a8ff78:#78ffd6>%player% [%world%]</gradient>",
+  "event.change.world.action": "<gradient:#a8ff78:#78ffd6>You entered: %world%</gradient>"
 }

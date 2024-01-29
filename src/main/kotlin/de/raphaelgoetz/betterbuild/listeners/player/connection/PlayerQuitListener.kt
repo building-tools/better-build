@@ -1,15 +1,15 @@
 package de.raphaelgoetz.betterbuild.listeners.player.connection
 
-import net.kyori.adventure.text.minimessage.MiniMessage
+import de.raphaelgoetz.betterbuild.BetterBuild
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
 
-class PlayerQuitListener : Listener {
+data class PlayerQuitListener(val betterBuild: BetterBuild) : Listener {
 
     @EventHandler
     private fun onPlayerQuitEvent(playerQuitEvent: PlayerQuitEvent) {
         val player = playerQuitEvent.player
-        playerQuitEvent.quitMessage(MiniMessage.miniMessage().deserialize("<gradient:#EB3349:#F45C43>- " + player.name))
+        playerQuitEvent.quitMessage(betterBuild.languageManager.getComponent("event.quit.message", "%player%", player.name))
     }
 }
