@@ -2,10 +2,13 @@ package de.raphaelgoetz.betterbuild.commands.world
 
 import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.menus.ConfirmDeletionMenu
+import org.bukkit.Bukkit
+import org.bukkit.WorldCreator
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import java.io.File
 
 data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor {
 
@@ -23,6 +26,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor {
 
         if (operation == "create") createWorld(name, sender)
         if (operation == "delete") deleteWorld(name, sender)
+        if (operation == "rename") renameWorld(name, args[2], sender)
         return false
     }
 
@@ -55,5 +59,29 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor {
         }
 
         ConfirmDeletionMenu(betterBuild, player, name, betterBuild.languageManager.getComponent("gui.deletion.title"))
+    }
+
+    private fun renameWorld(from: String, to: String, player: Player) {
+
+        if (!player.hasPermission("betterbuild.world.rename")) {
+            betterBuild.languageManager.sendPlayerMessage(player, "command.world.permission.rename")
+            return
+        }
+
+        if (!betterBuild.worldManager.isWorld(from)) {
+            betterBuild.languageManager.sendPlayerMessage(player, "command.world.from.unknown")
+            return
+        }
+
+        if (betterBuild.worldManager.isWorld(to)) {
+            betterBuild.languageManager.sendPlayerMessage(player, "command.world.to.known")
+            return
+        }
+
+        val world = Bukkit.getWorld(from) ?: Bukkit.createWorld(WorldCreator(from))
+        val folder = world?.worldFolder
+
+        Bukkit.unloadWorld(from, true)
+        folder?.renameTo(File(to))
     }
 }
