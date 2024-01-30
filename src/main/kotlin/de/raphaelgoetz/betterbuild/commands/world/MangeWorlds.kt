@@ -42,7 +42,8 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor {
             return
         }
 
-        betterBuild.worldManager.createEmptyWorld(name)
+        val clearedText = name.replace(Regex("\\W"), "")
+        betterBuild.worldManager.createEmptyWorld(clearedText)
         betterBuild.languageManager.sendPlayerMessage(player, "command.world.manage.create")
     }
 

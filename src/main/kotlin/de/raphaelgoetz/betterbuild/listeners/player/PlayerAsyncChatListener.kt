@@ -15,7 +15,9 @@ data class PlayerAsyncChatListener(val betterBuild: BetterBuild) : Listener {
         if (!betterBuild.worldManager.worldCreation.contains(uuid)) return
         val buildWorld = betterBuild.worldManager.worldCreation[uuid] ?: return
         val message = playerAsyncChatEvent.message().toString()
-        println(message)
+
+        val clearedText = message.replace(Regex("\\W"), "")
+        betterBuild.worldManager.createEmptyWorld(clearedText)
 
         buildWorld.name = message
         Bukkit.getScheduler().runTask(betterBuild, Runnable {
