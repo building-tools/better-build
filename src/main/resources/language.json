@@ -121,6 +121,8 @@
   "command.world.physics.disable": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 The physics of your current world are now inactive.</gradient>",
   "command.player.gamemode.missing": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Missing arguments. Please use /gm <0-3>!</gradient>",
   "command.player.gamemode.error": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Only values from 0-3 are accept!</gradient>",
+  "command.world.from.known": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 The world you want to rename doesn't exists!</gradient>",
+  "command.world.to.known": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 The given rename name is already an existing world!</gradient>",
 
   "command.player.gamemode.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.player.gamemode' to use this command!</gradient>",
   "command.player.mode.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.player.mode' to use this command!</gradient>",
@@ -128,6 +130,7 @@
   "command.world.permission.create": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.create' to use this command!</gradient>",
   "command.world.permission.deletion": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.delete' to use this command!</gradient>",
   "command.world.physics.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.physics' to use this command!</gradient>",
+  "command.world.permission.rename": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.rename' to use this command!</gradient>",
 
   "manager.world.toggle": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You toggled the physics of the current world!</gradient>",
   "message.world.created": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You've successfully created a new world.</gradient>",
