@@ -141,11 +141,17 @@ data class WorldOverviewMenu(
                 consumer = { inventoryClickEvent ->
                     inventoryClickEvent.isCancelled = true
                     player.closeInventory()
-                    val bukkitWorld = Bukkit.getWorld(world)
-                    if (bukkitWorld == null) {
-                        betterBuild.worldManager.addPlayerToQueue(world, player.uniqueId)
-                        Bukkit.createWorld(WorldCreator(world))
-                    } else player.teleport(bukkitWorld.spawnLocation)
+
+                    var enterPermission = betterBuild.worldManager.getWorldPermission(world)
+                    if (enterPermission == "") enterPermission = "betterbuild.enter.free"
+
+                    if (player.hasPermission(enterPermission)) {
+                        val bukkitWorld = Bukkit.getWorld(world)
+                        if (bukkitWorld == null) {
+                            betterBuild.worldManager.addPlayerToQueue(world, player.uniqueId)
+                            Bukkit.createWorld(WorldCreator(world))
+                        } else player.teleport(bukkitWorld.spawnLocation)
+                    } else betterBuild.languageManager.sendPlayerMessage(player, "event.teleport.permission")
                 })
         }
     }

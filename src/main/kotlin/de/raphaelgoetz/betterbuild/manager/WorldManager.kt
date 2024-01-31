@@ -1,5 +1,8 @@
 package de.raphaelgoetz.betterbuild.manager
 
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.google.gson.JsonPrimitive
 import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.world.BuildWorld
 import de.raphaelgoetz.betterbuild.world.BuildWorldTypes
@@ -9,7 +12,9 @@ import org.bukkit.World
 import org.bukkit.WorldCreator
 import org.bukkit.WorldType
 import java.io.File
-import java.util.UUID
+import java.io.FileReader
+import java.io.FileWriter
+import java.util.*
 
 class WorldManager(val betterBuild: BetterBuild) {
 
@@ -62,7 +67,7 @@ class WorldManager(val betterBuild: BetterBuild) {
         return worldQueue[name]
     }
 
-    fun getWorldNames(): List<String> {
+    fun getWorldNames(): MutableList<String> {
 
         val worlds = mutableListOf<String>()
         val worldContainer = Bukkit.getWorldContainer()
@@ -98,7 +103,7 @@ class WorldManager(val betterBuild: BetterBuild) {
         this.physics[world] = !value
 
         world.players.forEach {
-           if (value) betterBuild.languageManager.sendPlayerMessage(it, "manager.world.enable")
+            if (value) betterBuild.languageManager.sendPlayerMessage(it, "manager.world.enable")
             else betterBuild.languageManager.sendPlayerMessage(it, "manager.world.disable")
         }
     }
@@ -117,6 +122,27 @@ class WorldManager(val betterBuild: BetterBuild) {
             if (folder.name != name) continue
             deleteFilesInsideFolder(folder)
         }
+    }
+
+    fun changeWorldPermission(world: String, permission: String) {
+        if (!isWorld(world)) return
+
+        val worldFolder = File(Bukkit.getWorldContainer().path + "/" + world)
+        val permissionFile = File(worldFolder.path + "/permission.json")
+        val jsonObject = JsonObject()
+
+        jsonObject.add("permission", JsonPrimitive(permission))
+        FileWriter(permissionFile).use { writer ->
+            writer.write(jsonObject.toString())
+        }
+    }
+
+    fun getWorldPermission(world: String): String {
+        if (!isWorld(world)) return ""
+        val worldFolder = File(Bukkit.getWorldContainer().path + "/" + world)
+        val permissionFile = File(worldFolder.path + "/permission.json")
+        val json = JsonParser.parseReader(FileReader(permissionFile)).asJsonObject
+        return json.get("permission").asString
     }
 
     private fun deleteFilesInsideFolder(file: File) {

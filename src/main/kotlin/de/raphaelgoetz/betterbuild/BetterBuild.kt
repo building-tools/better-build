@@ -49,6 +49,7 @@ class BetterBuild : JavaPlugin() {
 
         //WORLD
         getCommand("world")?.setExecutor(MangeWorlds(this))
+        getCommand("world")?.tabCompleter = MangeWorlds(this)
         getCommand("physics")?.setExecutor(ToggleWorldPhysics(this))
     }
 
@@ -77,8 +78,8 @@ class BetterBuild : JavaPlugin() {
         register(HangingPlaceListener(this))
 
         //PLAYER-CONNECTION
-        register(PlayerJoinListener())
-        register(PlayerQuitListener())
+        register(PlayerJoinListener(this))
+        register(PlayerQuitListener(this))
 
         //PLAYER-INTERACTION
         register(PlayerArmorStandManipulateListener(this))
