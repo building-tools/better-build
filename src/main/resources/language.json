@@ -113,7 +113,8 @@
   "command.player.speed.missing": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 Missing arguments (0 - 10)!</gradient>",
   "command.player.speed.error": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 Only values from 0 to 10!</gradient>",
   "command.player.speed.success": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Your speed has been updated to %speed%.</gradient>",
-  "command.world.manage.missing": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 Missing arguments (world-name)!</gradient>",
+  "command.world.manage.missing.first": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 Missing arguments (world-name)!</gradient>",
+  "command.world.manage.missing.second": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 Missing arguments (world-name) or (permission)!</gradient>",
   "command.world.manage.exists": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 World already exists!</gradient>",
   "command.world.manage.unknown": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 World doesn't exists!</gradient>",
   "command.world.manage.create": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You've successfully created a new world.</gradient>",
@@ -123,6 +124,8 @@
   "command.player.gamemode.error": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Only values from 0-3 are accept!</gradient>",
   "command.world.from.known": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 The world you want to rename doesn't exists!</gradient>",
   "command.world.to.known": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 The given rename name is already an existing world!</gradient>",
+  "command.world.spawn.changed": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Changed the spawn of the current world!</gradient>",
+  "command.world.enter.changed": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Changed the spawn of the permission world!</gradient>",
 
   "command.player.gamemode.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.player.gamemode' to use this command!</gradient>",
   "command.player.mode.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.player.mode' to use this command!</gradient>",
@@ -131,6 +134,8 @@
   "command.world.permission.deletion": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.delete' to use this command!</gradient>",
   "command.world.physics.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.physics' to use this command!</gradient>",
   "command.world.permission.rename": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.rename' to use this command!</gradient>",
+  "command.world.permission.spawn": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.spawn' to use this command!</gradient>",
+  "command.world.permission.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.permission' to use this command!</gradient>",
 
   "manager.world.toggle": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You toggled the physics of the current world!</gradient>",
   "message.world.created": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You've successfully created a new world.</gradient>",
@@ -142,5 +147,6 @@
   "event.quit.message": "<gradient:#EB3349:#F45C43>- %player%</gradient>",
   "event.join.message": "<gradient:#a8ff78:#78ffd6>+ %player%</gradient>",
   "event.join.list": "<gradient:#a8ff78:#78ffd6>%player% [%world%]</gradient>",
-  "event.change.world.action": "<gradient:#a8ff78:#78ffd6>You entered: %world%</gradient>"
+  "event.change.world.action": "<gradient:#a8ff78:#78ffd6>You entered: %world%</gradient>",
+  "event.teleport.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You don't have enough permission to enter the world.</gradient>"
 }
