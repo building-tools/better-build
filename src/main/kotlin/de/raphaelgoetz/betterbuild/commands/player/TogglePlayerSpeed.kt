@@ -17,7 +17,6 @@ data class TogglePlayerSpeed(val betterBuild: BetterBuild) : CommandExecutor {
             return true
         }
 
-
         if (args == null || args.size != 1) {
             betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.missing")
             return true

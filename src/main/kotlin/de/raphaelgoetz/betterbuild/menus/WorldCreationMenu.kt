@@ -41,7 +41,7 @@ data class WorldCreationMenu(
                 consumer = {
                     it.isCancelled = true
                     world.types = BuildWorldTypes.VOID
-                    generateGeneratorItems(true, false, false)
+                    generateGeneratorItems(false, true, false)
                 })
 
             return
@@ -55,7 +55,7 @@ data class WorldCreationMenu(
                 consumer = {
                     it.isCancelled = true
                     world.types = BuildWorldTypes.FLAT
-                    generateGeneratorItems(false, true, false)
+                    generateGeneratorItems(false, false, true)
                 })
             return
         }
@@ -68,7 +68,7 @@ data class WorldCreationMenu(
                 consumer = {
                     it.isCancelled = true
                     world.types = BuildWorldTypes.NORMAL
-                    generateGeneratorItems(false, false, true)
+                    generateGeneratorItems(true, false, false)
                 })
             return
         }
@@ -84,7 +84,7 @@ data class WorldCreationMenu(
                 consumer = {
                     it.isCancelled = true
                     world.environment = World.Environment.NORMAL
-                    generateEnvironmentItems(true, false, false)
+                    generateEnvironmentItems(false, true, false)
                 })
             return
         }
@@ -97,7 +97,7 @@ data class WorldCreationMenu(
                 consumer = {
                     it.isCancelled = true
                     world.environment = World.Environment.NETHER
-                    generateEnvironmentItems(false, true, false)
+                    generateEnvironmentItems(false, false, true)
                 })
 
             return
@@ -111,7 +111,7 @@ data class WorldCreationMenu(
                 consumer = {
                     it.isCancelled = true
                     world.environment = World.Environment.THE_END
-                    generateEnvironmentItems(false, false, true)
+                    generateEnvironmentItems(true, false, false)
                 })
 
             return

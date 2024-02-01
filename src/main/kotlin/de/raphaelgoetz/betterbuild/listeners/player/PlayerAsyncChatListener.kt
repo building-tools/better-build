@@ -15,18 +15,17 @@ data class PlayerAsyncChatListener(val betterBuild: BetterBuild) : Listener {
         val uuid = playerAsyncChatEvent.player.uniqueId
         if (!betterBuild.worldManager.worldCreation.contains(uuid)) return
         val buildWorld = betterBuild.worldManager.worldCreation[uuid] ?: return
-        val message = MiniMessage.miniMessage().serialize(playerAsyncChatEvent.message())
+        playerAsyncChatEvent.isCancelled = true
 
+        val message = MiniMessage.miniMessage().serialize(playerAsyncChatEvent.message())
         val clearedText = message.replace(Regex("\\W"), "")
         betterBuild.worldManager.createEmptyWorld(clearedText)
 
         buildWorld.name = message
         Bukkit.getScheduler().runTask(betterBuild, Runnable {
             betterBuild.worldManager.generateWorld(buildWorld)
+            betterBuild.languageManager.sendPlayerMessage(playerAsyncChatEvent.player, "message.world.created")
+            betterBuild.worldManager.worldCreation.remove(uuid)
         })
-
-        betterBuild.languageManager.sendPlayerMessage(playerAsyncChatEvent.player, "message.world.created")
-        betterBuild.worldManager.worldCreation.remove(uuid)
-        playerAsyncChatEvent.isCancelled = true
     }
 }
