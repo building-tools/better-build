@@ -62,7 +62,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
         if (args?.size == 1) return mutableListOf("create", "delete", "permission", "spawn", "rename")
 
         if (args?.size == 2) {
-            if (args[0] == "delete") return mutableListOf()
+            if (args[0] == "create") return mutableListOf()
             return betterBuild.worldManager.getWorldNames()
         }
 

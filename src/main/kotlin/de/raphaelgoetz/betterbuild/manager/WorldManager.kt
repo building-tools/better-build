@@ -141,6 +141,12 @@ class WorldManager(val betterBuild: BetterBuild) {
         if (!isWorld(world)) return ""
         val worldFolder = File(Bukkit.getWorldContainer().path + "/" + world)
         val permissionFile = File(worldFolder.path + "/permission.json")
+
+        if (!permissionFile.exists()) {
+            changeWorldPermission(world, "betterbuild.enter.free")
+            return "betterbuild.enter.free"
+        }
+
         val json = JsonParser.parseReader(FileReader(permissionFile)).asJsonObject
         return json.get("permission").asString
     }

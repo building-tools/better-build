@@ -14,7 +14,7 @@ class PlayerTeleportListener(val betterBuild: BetterBuild) : Listener {
         if (enterPermission == "") enterPermission = "betterbuild.enter.free"
         val player = playerTeleportEvent.player
 
-        if (!player.hasPermission(enterPermission)) {
+        if (!player.hasPermission(enterPermission) && enterPermission != "betterbuild.enter.free") {
             betterBuild.languageManager.sendPlayerMessage(player, "event.teleport.permission")
             player.teleport(playerTeleportEvent.from)
             return
