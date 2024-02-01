@@ -36,7 +36,7 @@
   "gui.world.item.name.name": "<gradient:#a8ff78:#78ffd6>Set world-name</gradient>",
   "gui.world.item.true.name": "<gradient:#a8ff78:#78ffd6>Structure generation enabled</gradient>",
   "gui.world.item.false.name": "<gradient:#EB3349:#F45C43>Structure generation disabled</gradient>",
-  "gui.world.message.create": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 World successfully created!</gradient>",
+  "gui.world.message.create": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Type a the name of the world you want to create in the chat!</gradient>",
 
   "gui.world.item.name.lore": [
     "<gray> | by interacting, you</gray>",
@@ -137,7 +137,7 @@
   "command.world.permission.spawn": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.spawn' to use this command!</gradient>",
   "command.world.permission.permission": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You are missing the permission 'betterbuild.world.permission' to use this command!</gradient>",
 
-  "manager.world.enable": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You enabled the physics of the current world!</gradient>",
+  "manager.world.enable": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You enabled the physics of the current world!</gradient>",
   "manager.world.disable": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You disabled the physics of the current world!</gradient>",
   "message.world.created": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You've successfully created a new world.</gradient>",
   "manager.player.build.remove": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You have been removed from Build-Mode.</gradient>",
