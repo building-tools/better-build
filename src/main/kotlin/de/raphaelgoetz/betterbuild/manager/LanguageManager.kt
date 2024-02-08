@@ -11,130 +11,129 @@ import org.bukkit.entity.Player
 
 import java.io.*
 
-class LanguageManager(
+class LanguageManager {
 
-    private val singleMessage: MutableMap<String, String> = mutableMapOf(),
-    private val multiMessage: MutableMap<String, List<String>> = mutableMapOf()
+    companion object {
 
-) {
-    init {
-        readConfig()
-    }
+        private val singleMessage: MutableMap<String, String> = mutableMapOf()
+        private val multiMessage: MutableMap<String, List<String>> = mutableMapOf()
 
-    fun sendPlayerMessage(player: Player, key: String) {
-        player.sendMessage(getComponent(key))
-    }
-
-    fun sendPlayerMessage(player: Player, key: String, regex: String, value: String) {
-        player.sendMessage(getComponent(key, regex, value))
-    }
-
-    fun sendPlayersMessage(players: Collection<Player>, key: String) {
-        players.forEach { player ->
-            sendPlayerMessage(player, key)
-        }
-    }
-
-    fun getComponent(key: String, regex: String, value: String): Component {
-        val string = getStringFromConfig(key).replace(regex, value)
-        return MiniMessage.miniMessage().deserialize(string)
-    }
-
-    fun getComponent(key: String): Component {
-        val string = getStringFromConfig(key)
-        return MiniMessage.miniMessage().deserialize(string)
-    }
-
-    fun getComponents(key: String): List<Component> {
-        return getStringsFromConfig(key).stream().map { string ->
-            MiniMessage.miniMessage().deserialize(string)
-        }.toList()
-    }
-
-    private fun readLangaugeFromResources(path: String) {
-
-        val inputStream = javaClass.classLoader.getResourceAsStream("language.json") ?: throw NullPointerException("RessourceSteam is empty!")
-        val reader = BufferedReader(InputStreamReader(inputStream))
-        val stringBuilder = StringBuilder()
-
-        var line: String? = reader.readLine()
-        while (line != null) {
-            stringBuilder.append(line)
-            line = reader.readLine()
+        fun sendPlayerMessage(player: Player, key: String) {
+            player.sendMessage(getComponent(key))
         }
 
-        val jsonString = stringBuilder.toString()
-        val jsonFile = Gson().fromJson(jsonString, JsonObject::class.java)
-
-        jsonFile.keySet().forEach { key ->
-            val element = jsonFile[key]
-            readConfigData(key, element)
+        fun sendPlayerMessage(player: Player, key: String, regex: String, value: String) {
+            player.sendMessage(getComponent(key, regex, value))
         }
 
-        writeFile("$path/language.json", jsonString)
-    }
-
-    private fun writeFile(path: String, data: String) {
-
-        val fileWriter = FileWriter(path)
-        fileWriter.write(data)
-        fileWriter.flush()
-
-    }
-
-    private fun readLanguageFileFromJson(file: File) {
-        val jsonFile = JsonParser.parseReader(FileReader(file)).asJsonObject
-
-        jsonFile.keySet().forEach { key ->
-            val element = jsonFile[key]
-            readConfigData(key, element)
+        fun sendPlayersMessage(players: Collection<Player>, key: String) {
+            players.forEach { player ->
+                sendPlayerMessage(player, key)
+            }
         }
-    }
 
-    private fun readConfigData(key: String, element: JsonElement) {
+        fun getComponent(key: String, regex: String, value: String): Component {
+            val string = getStringFromConfig(key).replace(regex, value)
+            return MiniMessage.miniMessage().deserialize(string)
+        }
 
-        if (element.isJsonArray) {
+        fun getComponent(key: String): Component {
+            val string = getStringFromConfig(key)
+            return MiniMessage.miniMessage().deserialize(string)
+        }
 
-            val list = mutableListOf<String>()
+        fun getComponents(key: String): List<Component> {
+            return getStringsFromConfig(key).stream().map { string ->
+                MiniMessage.miniMessage().deserialize(string)
+            }.toList()
+        }
 
-            for (jsonElement in element.asJsonArray.asList()) {
-                list.add(jsonElement.asString)
+        private fun readLangaugeFromResources(path: String) {
+
+            val inputStream = javaClass.classLoader.getResourceAsStream("language.json")
+                ?: throw NullPointerException("RessourceSteam is empty!")
+            val reader = BufferedReader(InputStreamReader(inputStream))
+            val stringBuilder = StringBuilder()
+
+            var line: String? = reader.readLine()
+            while (line != null) {
+                stringBuilder.append(line)
+                line = reader.readLine()
             }
 
-            this.multiMessage[key] = list
-            return
+            val jsonString = stringBuilder.toString()
+            val jsonFile = Gson().fromJson(jsonString, JsonObject::class.java)
+
+            jsonFile.keySet().forEach { key ->
+                val element = jsonFile[key]
+                readConfigData(key, element)
+            }
+
+            writeFile("$path/language.json", jsonString)
         }
 
-        this.singleMessage[key] = element.asString
-    }
+        private fun writeFile(path: String, data: String) {
 
-    private fun readConfig() {
+            val fileWriter = FileWriter(path)
+            fileWriter.write(data)
+            fileWriter.flush()
 
-        val path = Bukkit.getPluginsFolder().toString() + "/BetterBuild"
-        val file = File("$path/language.json")
-
-        if (!File(path).mkdir() && !File(path).exists()) throw FileNotFoundException()
-        if (file.exists()) {
-            readLanguageFileFromJson(file)
-            return
         }
 
-        readLangaugeFromResources(path)
-    }
+        private fun readLanguageFileFromJson(file: File) {
+            val jsonFile = JsonParser.parseReader(FileReader(file)).asJsonObject
 
-    private fun getStringFromConfig(key: String): String {
-        return this.singleMessage.getOrDefault(key, key)
-    }
+            jsonFile.keySet().forEach { key ->
+                val element = jsonFile[key]
+                readConfigData(key, element)
+            }
+        }
 
-    private fun getStringFromConfig(key: String, optional: String): String {
-        return this.singleMessage.getOrDefault(key, optional)
-    }
+        private fun readConfigData(key: String, element: JsonElement) {
 
-    private fun getStringsFromConfig(key: String): List<String> {
-        return this.multiMessage.getOrDefault(key, listOf(key))
-    }
+            if (element.isJsonArray) {
 
-    private fun getStringsFromConfig(key: String, optional: List<String>): List<String> {
-        return this.multiMessage.getOrDefault(key, optional)
+                val list = mutableListOf<String>()
+
+                for (jsonElement in element.asJsonArray.asList()) {
+                    list.add(jsonElement.asString)
+                }
+
+                this.multiMessage[key] = list
+                return
+            }
+
+            this.singleMessage[key] = element.asString
+        }
+
+        fun readConfig() {
+
+            val path = Bukkit.getPluginsFolder().toString() + "/BetterBuild"
+            val file = File("$path/language.json")
+
+            if (!File(path).mkdir() && !File(path).exists()) throw FileNotFoundException()
+            if (file.exists()) {
+                readLanguageFileFromJson(file)
+                return
+            }
+
+            readLangaugeFromResources(path)
+        }
+
+        private fun getStringFromConfig(key: String): String {
+            return this.singleMessage.getOrDefault(key, key)
+        }
+
+        private fun getStringFromConfig(key: String, optional: String): String {
+            return this.singleMessage.getOrDefault(key, optional)
+        }
+
+        private fun getStringsFromConfig(key: String): List<String> {
+            return this.multiMessage.getOrDefault(key, listOf(key))
+        }
+
+        private fun getStringsFromConfig(key: String, optional: List<String>): List<String> {
+            return this.multiMessage.getOrDefault(key, optional)
+        }
     }
 }

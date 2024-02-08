@@ -1,6 +1,7 @@
 package de.raphaelgoetz.betterbuild.commands.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -15,7 +16,7 @@ data class TogglePlayerMode(val betterBuild: BetterBuild) : CommandExecutor {
         if (args == null) return true
 
         if (!sender.hasPermission("betterbuild.player.mode")) {
-            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.mode.permission")
+            LanguageManager.sendPlayerMessage(sender, "command.player.mode.permission")
             return true
         }
 

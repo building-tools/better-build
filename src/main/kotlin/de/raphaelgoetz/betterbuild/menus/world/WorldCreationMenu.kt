@@ -1,6 +1,7 @@
-package de.raphaelgoetz.betterbuild.menus
+package de.raphaelgoetz.betterbuild.menus.world
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
 import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
 import de.raphaelgoetz.betterbuild.world.BuildWorld
@@ -35,8 +36,8 @@ data class WorldCreationMenu(
 
         if (isVoid) {
             this.setSlot(0, ItemBuilder(Material.GREEN_STAINED_GLASS)
-                .setName(betterBuild.languageManager.getComponent("gui.world.item.void.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.generator.lore")).build(),
+                .setName(("gui.world.item.void.name"))
+                .setLore(("gui.world.item.generator.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -49,8 +50,8 @@ data class WorldCreationMenu(
 
         if (isFlat) {
             this.setSlot(0, ItemBuilder(Material.GRASS_BLOCK)
-                .setName(betterBuild.languageManager.getComponent("gui.world.item.flat.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.generator.lore")).build(),
+                .setName(("gui.world.item.flat.name"))
+                .setLore(("gui.world.item.generator.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -62,8 +63,8 @@ data class WorldCreationMenu(
 
         if(isNormal) {
             this.setSlot(0, ItemBuilder(Material.OAK_SAPLING)
-                .setName(betterBuild.languageManager.getComponent("gui.world.item.land.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.generator.lore")).build(),
+                .setName(("gui.world.item.land.name"))
+                .setLore(("gui.world.item.generator.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -78,8 +79,8 @@ data class WorldCreationMenu(
 
         if (isOverword) {
             this.setSlot(1, ItemBuilder(Material.GRASS_BLOCK)
-                .setName(betterBuild.languageManager.getComponent("gui.world.item.normal.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.environment.lore")).build(),
+                .setName(("gui.world.item.normal.name"))
+                .setLore(("gui.world.item.environment.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -91,8 +92,8 @@ data class WorldCreationMenu(
 
         if(isNether) {
             this.setSlot(1, ItemBuilder(Material.NETHERRACK)
-                .setName(betterBuild.languageManager.getComponent("gui.world.item.nether.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.environment.lore")).build(),
+                .setName(("gui.world.item.nether.name"))
+                .setLore(("gui.world.item.environment.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -105,8 +106,8 @@ data class WorldCreationMenu(
 
         if (isEnd) {
             this.setSlot(1, ItemBuilder(Material.END_STONE)
-                .setName(betterBuild.languageManager.getComponent("gui.world.item.end.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.world.item.environment.lore")).build(),
+                .setName(("gui.world.item.end.name"))
+                .setLore(("gui.world.item.environment.lore")).build(),
 
                 consumer = {
                     it.isCancelled = true
@@ -122,12 +123,12 @@ data class WorldCreationMenu(
     private fun generateStructureToggleItems() {
 
         val trueItem = ItemBuilder(Material.GREEN_DYE)
-            .setName(betterBuild.languageManager.getComponent("gui.world.item.true.name"))
-            .setLore(betterBuild.languageManager.getComponents("gui.world.item.toggle.lore")).build()
+            .setName(("gui.world.item.true.name"))
+            .setLore("gui.world.item.toggle.lore").build()
 
         val falseItem = ItemBuilder(Material.RED_DYE)
-            .setName(betterBuild.languageManager.getComponent("gui.world.item.false.name"))
-            .setLore(betterBuild.languageManager.getComponents("gui.world.item.toggle.lore")).build()
+            .setName(("gui.world.item.false.name"))
+            .setLore("gui.world.item.toggle.lore").build()
 
         this.setSlot(2, if (world.generateStructures) trueItem else falseItem, consumer = {
             it.isCancelled = true
@@ -138,12 +139,12 @@ data class WorldCreationMenu(
 
     private fun generateNameItems() {
         this.setSlot(8, ItemBuilder(Material.NAME_TAG)
-            .setName(betterBuild.languageManager.getComponent("gui.world.item.name.name"))
-            .setLore(betterBuild.languageManager.getComponents("gui.world.item.name.lore")).build(),
+            .setName(("gui.world.item.name.name"))
+            .setLore("gui.world.item.name.lore").build(),
 
             consumer = {
                 it.isCancelled = true
-                betterBuild.languageManager.sendPlayerMessage(player, "gui.world.message.create")
+                LanguageManager.sendPlayerMessage(player, "gui.world.message.create")
                 betterBuild.worldManager.worldCreation[player.uniqueId] = this.world
                 player.closeInventory()
             })

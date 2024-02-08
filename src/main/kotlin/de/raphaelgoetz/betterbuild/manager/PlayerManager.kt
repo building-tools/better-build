@@ -27,30 +27,30 @@ class PlayerManager(
     fun toggleBuildMode(player: Player) {
 
         if (isActiveBuilder(player)) {
-            betterBuild.languageManager.sendPlayerMessage(player, "manager.player.build.remove")
+            LanguageManager.sendPlayerMessage(player, "manager.player.build.remove")
             buildMode.remove(player)
             return
         }
 
-        betterBuild.languageManager.sendPlayerMessage(player, "manager.player.build.add")
+        LanguageManager.sendPlayerMessage(player, "manager.player.build.add")
         buildMode.add(player)
     }
 
     fun toggleNoClipMode(player: Player) {
 
         if (isActiveNoClip(player)) {
-            betterBuild.languageManager.sendPlayerMessage(player, "manager.player.clip.remove")
+            LanguageManager.sendPlayerMessage(player, "manager.player.clip.remove")
             noClipMode.remove(player)
             return
         }
 
-        betterBuild.languageManager.sendPlayerMessage(player, "manager.player.clip.add")
+        LanguageManager.sendPlayerMessage(player, "manager.player.clip.add")
         noClipMode.add(player)
     }
 
     fun toggleNightVision(player: Player) {
         if (hasActiveNightVision(player)) {
-            betterBuild.languageManager.sendPlayerMessage(player, "gui.main.item.night.disable.name")
+            LanguageManager.sendPlayerMessage(player, "gui.main.item.night.disable.name")
             player.removePotionEffect(PotionEffectType.NIGHT_VISION)
             return
         }
@@ -65,7 +65,7 @@ class PlayerManager(
             )
         )
 
-        betterBuild.languageManager.sendPlayerMessage(player, "gui.main.item.night.enable.name")
+        LanguageManager.sendPlayerMessage(player, "gui.main.item.night.enable.name")
     }
 
     fun cancelWhenBuilder(player: Player, event: Cancellable) {

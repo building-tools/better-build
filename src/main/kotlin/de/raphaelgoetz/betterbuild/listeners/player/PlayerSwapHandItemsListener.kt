@@ -1,6 +1,7 @@
 package de.raphaelgoetz.betterbuild.listeners.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import de.raphaelgoetz.betterbuild.menus.MainMenu
 import net.kyori.adventure.text.Component
 import org.bukkit.event.EventHandler
@@ -13,6 +14,6 @@ class PlayerSwapHandItemsListener(val betterBuild: BetterBuild) : Listener {
     private fun onPlayerSwapHandItemsEvent(playerSwapHandItemsEvent: PlayerSwapHandItemsEvent) {
         playerSwapHandItemsEvent.isCancelled = true
         val player = playerSwapHandItemsEvent.player
-        MainMenu(betterBuild, betterBuild.languageManager.getComponent("gui.main.title"), player)
+        MainMenu(betterBuild, LanguageManager.getComponent("gui.main.title"), player)
     }
 }

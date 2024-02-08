@@ -84,6 +84,45 @@ class WorldManager(val betterBuild: BetterBuild) {
         return worlds
     }
 
+    fun getCategories(isArchive: Boolean): Map<String, MutableList<String>> {
+        val result: MutableMap<String, MutableList<String>> = HashMap()
+        val worldNames: Collection<String> = betterBuild.worldManager.getWorldNames()
+
+        if (worldNames.isEmpty()) return result
+
+        val categories: MutableCollection<String> = ArrayList()
+        val categoryLessWorld: MutableList<String> = ArrayList()
+
+        for (name in worldNames) {
+
+            if (isArchive != isArchived(name)) continue
+            if (name.contains("_")) {
+                val rest = name.substring(0, name.indexOf("_"))
+                if (!categories.contains(rest)) categories.add(rest)
+                continue
+            }
+
+            categoryLessWorld.add(name)
+        }
+
+        for (category in categories) {
+            val contents: MutableList<String> = ArrayList()
+
+            worldNames.forEach { worldName: String ->
+                if (worldName.startsWith(category) && worldName.contains("_")) contents.add(worldName)
+            }
+
+            if (contents.isEmpty()) continue
+            result[category] = contents
+        }
+
+        if (categoryLessWorld.isNotEmpty()) {
+            result["NONE"] = categoryLessWorld
+        }
+
+        return result
+    }
+
     fun isWorld(name: String): Boolean {
         return getWorldNames().contains(name)
     }
@@ -103,8 +142,8 @@ class WorldManager(val betterBuild: BetterBuild) {
         this.physics[world] = !value
 
         world.players.forEach {
-            if (value) betterBuild.languageManager.sendPlayerMessage(it, "manager.world.enable")
-            else betterBuild.languageManager.sendPlayerMessage(it, "manager.world.disable")
+            if (value) LanguageManager.sendPlayerMessage(it, "manager.world.enable")
+            else LanguageManager.sendPlayerMessage(it, "manager.world.disable")
         }
     }
 
@@ -135,6 +174,33 @@ class WorldManager(val betterBuild: BetterBuild) {
         FileWriter(permissionFile).use { writer ->
             writer.write(jsonObject.toString())
         }
+    }
+
+    private fun toggleWorldArchive(world: String) {
+        if (!isWorld(world)) return
+
+        val worldFolder = File(Bukkit.getWorldContainer().path + "/" + world)
+        val archiveFile = File(worldFolder.path + "/archive.json")
+        val jsonObject = JsonObject()
+
+        jsonObject.add("isArchive", JsonPrimitive(!isArchived(world)))
+        FileWriter(archiveFile).use { writer ->
+            writer.write(jsonObject.toString())
+        }
+    }
+
+    private fun isArchived(world: String): Boolean {
+        if (!isWorld(world)) return false
+        val worldFolder = File(Bukkit.getWorldContainer().path + "/" + world)
+        val archiveFile = File(worldFolder.path + "/archive.json")
+
+        if (!archiveFile.exists()) {
+            toggleWorldArchive(world)
+            return false
+        }
+
+        val json = JsonParser.parseReader(FileReader(archiveFile)).asJsonObject
+        return json.get("isArchive").asBoolean
     }
 
     fun getWorldPermission(world: String): String {

@@ -1,6 +1,7 @@
 package de.raphaelgoetz.betterbuild.listeners.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
@@ -24,7 +25,7 @@ data class PlayerAsyncChatListener(val betterBuild: BetterBuild) : Listener {
         buildWorld.name = message
         Bukkit.getScheduler().runTask(betterBuild, Runnable {
             betterBuild.worldManager.generateWorld(buildWorld)
-            betterBuild.languageManager.sendPlayerMessage(playerAsyncChatEvent.player, "message.world.created")
+            LanguageManager.sendPlayerMessage(playerAsyncChatEvent.player, "message.world.created")
             betterBuild.worldManager.worldCreation.remove(uuid)
         })
     }

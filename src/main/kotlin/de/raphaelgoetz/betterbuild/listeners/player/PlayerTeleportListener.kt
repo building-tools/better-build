@@ -1,6 +1,7 @@
 package de.raphaelgoetz.betterbuild.listeners.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerTeleportEvent
@@ -15,7 +16,7 @@ class PlayerTeleportListener(val betterBuild: BetterBuild) : Listener {
         val player = playerTeleportEvent.player
 
         if (!player.hasPermission(enterPermission) && enterPermission != "betterbuild.enter.free") {
-            betterBuild.languageManager.sendPlayerMessage(player, "event.teleport.permission")
+            LanguageManager.sendPlayerMessage(player, "event.teleport.permission")
             player.teleport(playerTeleportEvent.from)
             return
         }

@@ -1,6 +1,7 @@
 package de.raphaelgoetz.betterbuild.menus
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
 import net.kyori.adventure.text.Component
@@ -25,13 +26,13 @@ data class ConfirmDeletionMenu(
     private fun setConfirmItem() {
 
         setSlot(3, ItemBuilder(Material.GREEN_DYE)
-                .setName(betterBuild.languageManager.getComponent("gui.deletion.item.confirm.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.deletion.item.confirm.lore")).build(),
+                .setName(("gui.deletion.item.confirm.name"))
+                .setLore(("gui.deletion.item.confirm.lore")).build(),
 
             consumer = {
                 it.isCancelled = true
                 betterBuild.worldManager.deleteWorld(name)
-                betterBuild.languageManager.sendPlayerMessage(player, "gui.message.world.delete")
+                LanguageManager.sendPlayerMessage(player, "gui.message.world.delete")
                 player.closeInventory()
             })
     }
@@ -39,13 +40,13 @@ data class ConfirmDeletionMenu(
     private fun setCancelItem() {
 
         setSlot(5, ItemBuilder(Material.RED_DYE)
-                .setName(betterBuild.languageManager.getComponent("gui.deletion.item.delete.name"))
-                .setLore(betterBuild.languageManager.getComponents("gui.deletion.item.delete.lore")).build(),
+                .setName(("gui.deletion.item.delete.name"))
+                .setLore(("gui.deletion.item.delete.lore")).build(),
 
             consumer = {
                 it.isCancelled = true
                 player.closeInventory()
-                betterBuild.languageManager.sendPlayerMessage(player, "gui.message.world.delete.error")
+                LanguageManager.sendPlayerMessage(player, "gui.message.world.delete.error")
             })
     }
 }

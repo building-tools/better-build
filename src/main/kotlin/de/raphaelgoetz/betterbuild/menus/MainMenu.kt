@@ -1,6 +1,8 @@
 package de.raphaelgoetz.betterbuild.menus
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
+import de.raphaelgoetz.betterbuild.menus.world.WorldOverviewMenu
 import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
 import net.kyori.adventure.text.Component
@@ -29,34 +31,34 @@ data class MainMenu(
 
     private fun setWorldItems() {
         this.setSlot(1, ItemBuilder(Material.GRASS_BLOCK)
-            .setName(betterBuild.languageManager.getComponent("gui.main.item.world.name"))
-            .setLore(betterBuild.languageManager.getComponents("gui.main.item.world.lore")).build(),
+            .setName(("gui.main.item.world.name"))
+            .setLore(("gui.main.item.world.lore")).build(),
 
             consumer = {
                 it.isCancelled = true
-                WorldOverviewMenu(betterBuild, player, betterBuild.languageManager.getComponent("gui.world.title")).open()
+                WorldOverviewMenu(betterBuild, player, LanguageManager.getComponent("gui.world.title"), false).open()
         })
     }
 
     private fun setPlayerItems() {
         this.setSlot(2, ItemBuilder(Material.PLAYER_HEAD).setPlayerHead(player)
-            .setName(betterBuild.languageManager.getComponent("gui.player.item.world.name"))
-            .setLore(betterBuild.languageManager.getComponents("gui.player.item.world.lore")).build(),
+            .setName(("gui.player.item.world.name"))
+            .setLore(("gui.player.item.world.lore")).build(),
 
             consumer = {
                 it.isCancelled = true
-                PlayerOverviewMenu(player, betterBuild.languageManager.getComponent("gui.player.title")).open()
+                PlayerOverviewMenu(player, LanguageManager.getComponent("gui.player.title")).open()
         })
     }
 
     private fun setBannerItems() {
         this.setSlot(3, ItemBuilder(Material.GREEN_BANNER)
-            .setName(betterBuild.languageManager.getComponent("gui.banner.item.world.name"))
-            .setLore(betterBuild.languageManager.getComponents("gui.banner.item.world.lore")).build(),
+            .setName(("gui.banner.item.world.name"))
+            .setLore(("gui.banner.item.world.lore")).build(),
 
             consumer = {
                 it.isCancelled = true
-                BannerCreationMenu(player, betterBuild.languageManager.getComponent("gui.banner.title")).open()
+                BannerCreationMenu(player, LanguageManager.getComponent("gui.banner.title")).open()
         })
     }
 
@@ -64,8 +66,8 @@ data class MainMenu(
 
         val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.physics.enable.name" else "gui.main.item.physics.disable.name"
         this.setSlot(5, ItemBuilder(Material.GRAVEL)
-            .setName(betterBuild.languageManager.getComponent(name))
-            .setLore(betterBuild.languageManager.getComponents("gui.main.item.physics.lore")).build(),
+            .setName((name))
+            .setLore(("gui.main.item.physics.lore")).build(),
 
             consumer = {
                 it.isCancelled = true
@@ -78,8 +80,8 @@ data class MainMenu(
 
         val name = if (betterBuild.playerManager.isActiveBuilder(player)) "gui.main.item.build.enable.name" else "gui.main.item.build.disable.name"
         this.setSlot(6, ItemBuilder(Material.DIAMOND_AXE)
-            .setName(betterBuild.languageManager.getComponent(name))
-            .setLore(betterBuild.languageManager.getComponents("gui.main.item.build.lore")).build(),
+            .setName((name))
+            .setLore(("gui.main.item.build.lore")).build(),
 
             consumer = {
                 it.isCancelled = true
@@ -92,8 +94,8 @@ data class MainMenu(
 
         val name = if (betterBuild.playerManager.isActiveNoClip(player)) "gui.main.item.clip.enable.name" else "gui.main.item.clip.disable.name"
         this.setSlot(7, ItemBuilder(Material.ELYTRA)
-            .setName(betterBuild.languageManager.getComponent(name))
-            .setLore(betterBuild.languageManager.getComponents("gui.main.item.clip.lore")).build(),
+            .setName((name))
+            .setLore(("gui.main.item.clip.lore")).build(),
 
             consumer = {
                 it.isCancelled = true
@@ -106,8 +108,8 @@ data class MainMenu(
 
         val name = if (betterBuild.playerManager.hasActiveNightVision(player)) "gui.main.item.night.enable.name" else "gui.main.item.night.disable.name"
         this.setSlot(7, ItemBuilder(Material.ENDER_EYE)
-            .setName(betterBuild.languageManager.getComponent(name))
-            .setLore(betterBuild.languageManager.getComponents("gui.main.item.night.lore")).build(),
+            .setName((name))
+            .setLore(("gui.main.item.night.lore")).build(),
 
             consumer = {
                 it.isCancelled = true

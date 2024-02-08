@@ -1,6 +1,7 @@
 package de.raphaelgoetz.betterbuild.commands.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import org.bukkit.GameMode
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -15,18 +16,18 @@ data class TogglePlayerGamemode(val betterBuild: BetterBuild) : CommandExecutor 
         if (args == null) return true
 
         if (!sender.hasPermission("betterbuild.player.gamemode")) {
-            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.gamemode.permission")
+            LanguageManager.sendPlayerMessage(sender, "command.player.gamemode.permission")
             return true
         }
 
         if (args.size != 1) {
-            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.gamemode.missing")
+            LanguageManager.sendPlayerMessage(sender, "command.player.gamemode.missing")
             return true
         }
 
         val value = args[0].toInt()
         if (value > 3) {
-            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.gamemode.error")
+            LanguageManager.sendPlayerMessage(sender, "command.player.gamemode.error")
             return true
         }
 

@@ -1,6 +1,7 @@
 package de.raphaelgoetz.betterbuild.listeners.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Sound
@@ -19,7 +20,7 @@ class PlayerChangedWorldListener(val betterBuild: BetterBuild) : Listener {
         if (lastWorld.players.isEmpty()) Bukkit.unloadWorld(lastWorld.name, true)
 
         player.playSound(player, Sound.ENTITY_ILLUSIONER_CAST_SPELL, 1f, 1f)
-        player.sendActionBar(betterBuild.languageManager.getComponent("event.change.world.action", "%world%", player.world.name))
+        player.sendActionBar(LanguageManager.getComponent("event.change.world.action", "%world%", player.world.name))
 
         player.playerListName(
             MiniMessage.miniMessage().deserialize(

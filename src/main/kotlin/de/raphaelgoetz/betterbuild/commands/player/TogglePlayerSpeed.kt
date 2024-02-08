@@ -1,6 +1,7 @@
 package de.raphaelgoetz.betterbuild.commands.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -13,23 +14,23 @@ data class TogglePlayerSpeed(val betterBuild: BetterBuild) : CommandExecutor {
         if (sender !is Player) return true
 
         if (!sender.hasPermission("betterbuild.player.speed")) {
-            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.permission")
+            LanguageManager.sendPlayerMessage(sender, "command.player.speed.permission")
             return true
         }
 
         if (args == null || args.size != 1) {
-            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.missing")
+            LanguageManager.sendPlayerMessage(sender, "command.player.speed.missing")
             return true
         }
         val values = (0 until 11).map { it.toString() }
 
         if (!values.contains(args[0])) {
-            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.error")
+            LanguageManager.sendPlayerMessage(sender, "command.player.speed.error")
             return true
         }
 
         val speed = ((args[0]).toFloat() / 10)
-        betterBuild.languageManager.sendPlayerMessage(sender, "command.player.speed.success", "%speed%", speed.toString())
+        LanguageManager.sendPlayerMessage(sender, "command.player.speed.success", "%speed%", speed.toString())
 
         if ("fly" == label) sender.flySpeed = speed
         if ("walk" == label) sender.walkSpeed = speed

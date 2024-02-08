@@ -30,9 +30,11 @@ class BetterBuild : JavaPlugin() {
 
     val playerManager: PlayerManager = PlayerManager(this)
     val worldManager: WorldManager = WorldManager(this)
-    val languageManager: LanguageManager = LanguageManager()
 
     override fun onEnable() {
+
+        LanguageManager.readConfig()
+
         registerCommands()
         registerListener()
     }

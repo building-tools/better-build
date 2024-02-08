@@ -1,6 +1,7 @@
 package de.raphaelgoetz.betterbuild.commands.world
 
 import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -13,7 +14,7 @@ data class ToggleWorldPhysics(val betterBuild: BetterBuild) : CommandExecutor {
         if (sender !is Player) return true
 
         if (!sender.hasPermission("betterbuild.world.physics")) {
-            betterBuild.languageManager.sendPlayerMessage(sender, "command.player.teleport.permission")
+            LanguageManager.sendPlayerMessage(sender, "command.player.teleport.permission")
             return true
         }
 
