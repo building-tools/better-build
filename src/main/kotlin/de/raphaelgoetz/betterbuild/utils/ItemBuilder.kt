@@ -1,5 +1,6 @@
 package de.raphaelgoetz.betterbuild.utils
 
+import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -15,6 +16,13 @@ class ItemBuilder(material: Material) {
 
     private val itemStack = ItemStack(material)
 
+    fun setName(key: String): ItemBuilder {
+        val itemMeta = itemStack.itemMeta
+        itemMeta.displayName(LanguageManager.getComponent(key))
+        itemStack.setItemMeta(itemMeta)
+        return this
+    }
+
     fun setName(component: Component): ItemBuilder {
         val itemMeta = itemStack.itemMeta
         itemMeta.displayName(component)
@@ -22,9 +30,23 @@ class ItemBuilder(material: Material) {
         return this
     }
 
-    fun setLore(components: List<Component>): ItemBuilder {
+    fun setName(key: String, value: String, replace: String): ItemBuilder {
         val itemMeta = itemStack.itemMeta
-        itemMeta.lore(components)
+        itemMeta.displayName(LanguageManager.getComponent(key))
+        itemStack.setItemMeta(itemMeta)
+        return this
+    }
+
+    fun setLore(key: String): ItemBuilder {
+        val itemMeta = itemStack.itemMeta
+        itemMeta.lore(LanguageManager.getComponents(key))
+        itemStack.setItemMeta(itemMeta)
+        return this
+    }
+
+    fun setLore(component: List<Component>): ItemBuilder {
+        val itemMeta = itemStack.itemMeta
+        itemMeta.lore(component)
         itemStack.setItemMeta(itemMeta)
         return this
     }
