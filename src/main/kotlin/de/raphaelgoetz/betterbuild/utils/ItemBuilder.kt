@@ -32,7 +32,7 @@ class ItemBuilder(material: Material) {
 
     fun setName(key: String, value: String, replace: String): ItemBuilder {
         val itemMeta = itemStack.itemMeta
-        itemMeta.displayName(LanguageManager.getComponent(key))
+        itemMeta.displayName(LanguageManager.getComponent(key, value, replace))
         itemStack.setItemMeta(itemMeta)
         return this
     }
