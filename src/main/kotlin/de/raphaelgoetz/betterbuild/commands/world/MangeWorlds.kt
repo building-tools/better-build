@@ -48,11 +48,6 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
 
         val value = args[2]
 
-        if (operation == "rename") {
-            renameWorld(name, value, sender)
-            return true
-        }
-
         if (operation == "permission") setWorldEnterPermission(name, value, sender)
         return false
     }
@@ -60,7 +55,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
     override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>?): MutableList<String> {
 
         if (args?.size == 0) return mutableListOf()
-        if (args?.size == 1) return mutableListOf("create", "delete", "permission", "spawn", "rename")
+        if (args?.size == 1) return mutableListOf("create", "delete", "permission", "spawn")
 
         if (args?.size == 2) {
             if (args[0] == "create") return mutableListOf()
@@ -105,30 +100,6 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
         }
 
         ConfirmDeletionMenu(betterBuild, player, name, LanguageManager.getComponent("gui.deletion.title"))
-    }
-
-    private fun renameWorld(from: String, to: String, player: Player) {
-
-        if (!player.hasPermission("betterbuild.world.rename")) {
-            LanguageManager.sendPlayerMessage(player, "command.world.permission.rename")
-            return
-        }
-
-        if (!betterBuild.worldManager.isWorld(from)) {
-            LanguageManager.sendPlayerMessage(player, "command.world.from.unknown")
-            return
-        }
-
-        if (betterBuild.worldManager.isWorld(to)) {
-            LanguageManager.sendPlayerMessage(player, "command.world.to.known")
-            return
-        }
-
-        val world = Bukkit.getWorld(from) ?: Bukkit.createWorld(WorldCreator(from))
-        val folder = world?.worldFolder
-
-        Bukkit.unloadWorld(from, true)
-        folder?.renameTo(File(to))
     }
 
     private fun setWorldSpawn(player: Player) {
