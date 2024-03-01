@@ -12,6 +12,7 @@ import org.bukkit.Material
 import org.bukkit.WorldCreator
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.inventory.ItemStack
 import java.net.URL
 import java.util.function.Consumer
 
@@ -43,6 +44,12 @@ data class WorldOverviewMenu(
             it.isCancelled = true
 
             val player = it.whoClicked as Player
+
+            if (it.isRightClick) {
+                WorldConfigureMenu(betterBuild, player, Component.text("aaa"), worldName).open()
+                return@Consumer
+            }
+
             var enterPermission = betterBuild.worldManager.getWorldPermission(worldName)
             if (enterPermission == "") enterPermission = "betterbuild.enter.free"
 
@@ -68,7 +75,7 @@ data class WorldOverviewMenu(
     private fun onCategoryClick(category: String, worlds: List<String>): Consumer<InventoryClickEvent> {
         return Consumer {
             it.isCancelled = true
-            generateWorlds(category, worlds)
+            generateWorlds(worlds)
         }
     }
 
@@ -105,25 +112,28 @@ data class WorldOverviewMenu(
         return Consumer {
             it.isCancelled = true
             isArchive = !isArchive
+            generateCategories()
         }
     }
 
     private fun generateOverlay() {
 
         clearSlots()
-        val empty = ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName("gui.world.item.placeholder.name").build()
-        val spawn = ItemBuilder(Material.RESPAWN_ANCHOR).setName("gui.world.item.spawn.name").build()
-        val create = ItemBuilder(Material.GRASS_BLOCK).setName("gui.world.item.create.name").build()
-        val back = ItemBuilder(Material.STRUCTURE_VOID).setName("gui.world.item.back.name").build()
-        val close = ItemBuilder(Material.BARRIER).setName("gui.world.item.close.name").build()
-        val archive = ItemBuilder(Material.IRON_DOOR).setName("gui.world.item.archive.name").build()
+        val empty = ItemBuilder(Material.BLUE_STAINED_GLASS_PANE).setName("gui.world.item.placeholder.name").build()
+        val spawn = getItemWithURL(Material.RESPAWN_ANCHOR, SkullURL.GUI_SPAWN.url).setName("gui.world.item.spawn.name").build()
+        val create = getItemWithURL(Material.GRASS_BLOCK, SkullURL.GUI_WORLD.url).setName("gui.world.item.create.name").build()
+        val back = getItemWithURL(Material.STRUCTURE_VOID, SkullURL.GUI_BACK.url).setName("gui.world.item.back.name").build()
+        val close = getItemWithURL(Material.BARRIER, SkullURL.GUI_CLOSE.url).setName("gui.world.item.close.name").build()
+        val archive = getItemWithURL(Material.IRON_DOOR, SkullURL.GUI_ARCHIVE.url).setName("gui.world.item.archive.name").build()
 
-        this.setSlot(47, empty, onEmptyClick())
-        this.setSlot(48, spawn, onSpawnClick())
-        this.setSlot(49, create, onCreateWorldClick())
-        this.setSlot(50, back, onCloseClick())
-        this.setSlot(51, close, onCloseClick())
-        this.setSlot(52, archive, onToggleArchive())
+        this.setSlot(45, empty, onEmptyClick())
+        this.setSlot(46, empty, onEmptyClick())
+        this.setSlot(47, spawn, onSpawnClick())
+        this.setSlot(48, create, onCreateWorldClick())
+        this.setSlot(49, back, onBackClick())
+        this.setSlot(50, close, onCloseClick())
+        this.setSlot(51, archive, onToggleArchive())
+        this.setSlot(52, empty, onEmptyClick())
         this.setSlot(53, empty, onEmptyClick())
     }
 
@@ -135,7 +145,7 @@ data class WorldOverviewMenu(
 
             category.value.sort()
             val description = getCategoryDescription(category.value)
-            val categoryItem = getItemWithURL(Material.NAME_TAG, SkullURL.CATEGORY.url)
+            val categoryItem = getItemWithURL(Material.NAME_TAG, SkullURL.ITEM_CATEGORY.url)
                 .setName("gui.world.item.category.name", "%category%", category.key)
                 .setLore(description).build()
 
@@ -143,15 +153,23 @@ data class WorldOverviewMenu(
         }
     }
 
-    private fun generateWorlds(category: String, worlds: List<String>) {
+    private fun generateWorlds(worlds: List<String>) {
         generateOverlay()
+        for (world in worlds) addSlot(getWorldItem(world), onWorldClick(world))
+    }
 
-        for (world in worlds) {
+    private fun getWorldItem(world: String): ItemStack {
 
-            val worldItem = getItemWithURL(Material.GRASS_BLOCK, SkullURL.WORLD.url)
-                .setName("gui.world.item.world.name", "%world%", world).build()
-            addSlot(worldItem, onWorldClick(world))
+        val url = when (betterBuild.worldManager.getWorldPermission(world)) {
+            "betterbuild.enter.free" -> SkullURL.ITEM_WORLD_1.url
+            "betterbuild.enter.low" -> SkullURL.ITEM_WORLD_2.url
+            "betterbuild.enter.medium" -> SkullURL.ITEM_WORLD_3.url
+            "betterbuild.enter.high" -> SkullURL.ITEM_WORLD_4.url
+            else -> SkullURL.ITEM_WORLD_5.url
         }
+
+        val name = if (betterBuild.worldManager.isArchived(world)) "gui.world.item.archive.name" else "gui.world.item.world.name"
+        return getItemWithURL(Material.GRASS_BLOCK, url).setName(name, "%world%", world).build()
     }
 
     private fun getCategoryDescription(worlds: MutableList<String>): List<Component> {

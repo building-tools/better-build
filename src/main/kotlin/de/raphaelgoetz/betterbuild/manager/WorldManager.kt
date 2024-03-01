@@ -176,26 +176,26 @@ class WorldManager(val betterBuild: BetterBuild) {
         }
     }
 
-    private fun toggleWorldArchive(world: String) {
+    fun toggleWorldArchive(world: String, value: Boolean) {
         if (!isWorld(world)) return
 
         val worldFolder = File(Bukkit.getWorldContainer().path + "/" + world)
         val archiveFile = File(worldFolder.path + "/archive.json")
         val jsonObject = JsonObject()
 
-        jsonObject.add("isArchive", JsonPrimitive(!isArchived(world)))
+        jsonObject.add("isArchive", JsonPrimitive(value))
         FileWriter(archiveFile).use { writer ->
             writer.write(jsonObject.toString())
         }
     }
 
-    private fun isArchived(world: String): Boolean {
+    fun isArchived(world: String): Boolean {
         if (!isWorld(world)) return false
         val worldFolder = File(Bukkit.getWorldContainer().path + "/" + world)
         val archiveFile = File(worldFolder.path + "/archive.json")
 
         if (!archiveFile.exists()) {
-            toggleWorldArchive(world)
+            toggleWorldArchive(world, false)
             return false
         }
 
