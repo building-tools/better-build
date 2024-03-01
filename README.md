@@ -52,12 +52,6 @@ betterbuild.world.delete
 ```
 The permission to delete a world.
 
-
-```
-betterbuild.world.rename
-```
-The permission to rename a world.
-
 ```
 betterbuild.world.spawn
 ```
@@ -109,11 +103,6 @@ By using the command /world delete the world by the given name will be deleted.
 /world create <name> <category>
 ```
 By using the command /world create a new world by the given name will be created. When a category is given, it will be automatically sorted by the given category.
-
-```
-/world rename <from> <to>
-```
-By using the command /world rename the given world will be renamed!
 
 ```
 /world permission <permission>
