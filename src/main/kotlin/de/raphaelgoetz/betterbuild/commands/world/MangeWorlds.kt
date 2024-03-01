@@ -3,14 +3,11 @@ package de.raphaelgoetz.betterbuild.commands.world
 import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import de.raphaelgoetz.betterbuild.menus.ConfirmDeletionMenu
-import org.bukkit.Bukkit
-import org.bukkit.WorldCreator
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
-import java.io.File
 
 data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompleter {
 
