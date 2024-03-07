@@ -17,8 +17,6 @@ class PlayerChangedWorldListener(val betterBuild: BetterBuild) : Listener {
         val player = playerChangedWorldEvent.player
         val lastWorld = playerChangedWorldEvent.from
 
-        if (lastWorld.players.isEmpty()) Bukkit.unloadWorld(lastWorld.name, true)
-
         player.playSound(player, Sound.ENTITY_ILLUSIONER_CAST_SPELL, 1f, 1f)
         player.sendActionBar(LanguageManager.getComponent("event.change.world.action", "%world%", player.world.name))
 
@@ -27,5 +25,9 @@ class PlayerChangedWorldListener(val betterBuild: BetterBuild) : Listener {
                 "<gradient:#a8ff78:#78ffd6>" + player.name + " <gradient:#00b09b:#96c93d>[" + player.world.name + "]"
             )
         )
+
+        if (lastWorld.name == "world") return
+        if (lastWorld.players.isNotEmpty()) return
+        Bukkit.unloadWorld(lastWorld.name, true)
     }
 }
