@@ -50,7 +50,7 @@ class PlayerManager(
 
     fun toggleNightVision(player: Player) {
         if (hasActiveNightVision(player)) {
-            LanguageManager.sendPlayerMessage(player, "gui.main.item.night.disable.name")
+            LanguageManager.sendPlayerMessage(player, "gui.main.item.night.disable.message")
             player.removePotionEffect(PotionEffectType.NIGHT_VISION)
             return
         }
@@ -65,7 +65,7 @@ class PlayerManager(
             )
         )
 
-        LanguageManager.sendPlayerMessage(player, "gui.main.item.night.enable.name")
+        LanguageManager.sendPlayerMessage(player, "gui.main.item.night.enable.message")
     }
 
     fun cancelWhenBuilder(player: Player, event: Cancellable) {

@@ -48,10 +48,10 @@ class LanguageManager {
             }.toList()
         }
 
-        private fun readLangaugeFromResources(path: String) {
+        fun readConfig() {
 
             val inputStream = javaClass.classLoader.getResourceAsStream("language.json")
-                ?: throw NullPointerException("RessourceSteam is empty!")
+                ?: throw NullPointerException("ResourceSteam is empty!")
             val reader = BufferedReader(InputStreamReader(inputStream))
             val stringBuilder = StringBuilder()
 
@@ -63,25 +63,6 @@ class LanguageManager {
 
             val jsonString = stringBuilder.toString()
             val jsonFile = Gson().fromJson(jsonString, JsonObject::class.java)
-
-            jsonFile.keySet().forEach { key ->
-                val element = jsonFile[key]
-                readConfigData(key, element)
-            }
-
-            writeFile("$path/language.json", jsonString)
-        }
-
-        private fun writeFile(path: String, data: String) {
-
-            val fileWriter = FileWriter(path)
-            fileWriter.write(data)
-            fileWriter.flush()
-
-        }
-
-        private fun readLanguageFileFromJson(file: File) {
-            val jsonFile = JsonParser.parseReader(FileReader(file)).asJsonObject
 
             jsonFile.keySet().forEach { key ->
                 val element = jsonFile[key]
@@ -104,20 +85,6 @@ class LanguageManager {
             }
 
             this.singleMessage[key] = element.asString
-        }
-
-        fun readConfig() {
-
-            val path = Bukkit.getPluginsFolder().toString() + "/BetterBuild"
-            val file = File("$path/language.json")
-
-            if (!File(path).mkdir() && !File(path).exists()) throw FileNotFoundException()
-            if (file.exists()) {
-                readLanguageFileFromJson(file)
-                return
-            }
-
-            readLangaugeFromResources(path)
         }
 
         private fun getStringFromConfig(key: String): String {
