@@ -46,7 +46,9 @@ data class WorldOverviewMenu(
             val player = it.whoClicked as Player
 
             if (it.isRightClick) {
-                WorldConfigureMenu(betterBuild, player, Component.text("aaa"), worldName).open()
+                val bool = !betterBuild.worldManager.isArchived(worldName)
+                betterBuild.worldManager.toggleWorldArchive(worldName, bool)
+                generateCategories()
                 return@Consumer
             }
 
@@ -124,7 +126,9 @@ data class WorldOverviewMenu(
         val create = getItemWithURL(Material.GRASS_BLOCK, SkullURL.GUI_WORLD.url).setName("gui.world.item.create.name").build()
         val back = getItemWithURL(Material.STRUCTURE_VOID, SkullURL.GUI_BACK.url).setName("gui.world.item.back.name").build()
         val close = getItemWithURL(Material.BARRIER, SkullURL.GUI_CLOSE.url).setName("gui.world.item.close.name").build()
-        val archive = getItemWithURL(Material.IRON_DOOR, SkullURL.GUI_ARCHIVE.url).setName("gui.world.item.archive.name").build()
+
+        val archiveName = if (isArchive) "gui.world.item.archives.name.active" else "gui.world.item.archives.name.inactive"
+        val archive = getItemWithURL(Material.IRON_DOOR, SkullURL.GUI_ARCHIVE.url).setName(archiveName).build()
 
         this.setSlot(45, empty, onEmptyClick())
         this.setSlot(46, empty, onEmptyClick())
@@ -169,7 +173,7 @@ data class WorldOverviewMenu(
         }
 
         val name = if (betterBuild.worldManager.isArchived(world)) "gui.world.item.archive.name" else "gui.world.item.world.name"
-        return getItemWithURL(Material.GRASS_BLOCK, url).setName(name, "%world%", world).build()
+        return getItemWithURL(Material.GRASS_BLOCK, url).setName(name, "%world%", world).setLore("gui.world.item.archive.lore").build()
     }
 
     private fun getCategoryDescription(worlds: MutableList<String>): List<Component> {

@@ -89,35 +89,21 @@ class WorldManager(val betterBuild: BetterBuild) {
         val worldNames: Collection<String> = betterBuild.worldManager.getWorldNames()
 
         if (worldNames.isEmpty()) return result
-
-        val categories: MutableCollection<String> = ArrayList()
         val categoryLessWorld: MutableList<String> = ArrayList()
 
         for (name in worldNames) {
-
             if (isArchive != isArchived(name)) continue
             if (name.contains("_")) {
                 val rest = name.substring(0, name.indexOf("_"))
-                if (!categories.contains(rest)) categories.add(rest)
+                result.putIfAbsent(rest, mutableListOf())
+                result[rest]?.add(name)
                 continue
             }
-
             categoryLessWorld.add(name)
         }
 
-        for (category in categories) {
-            val contents: MutableList<String> = ArrayList()
-
-            worldNames.forEach { worldName: String ->
-                if (worldName.startsWith(category) && worldName.contains("_")) contents.add(worldName)
-            }
-
-            if (contents.isEmpty()) continue
-            result[category] = contents
-        }
-
         if (categoryLessWorld.isNotEmpty()) {
-            result["NONE"] = categoryLessWorld
+            result["none"] = categoryLessWorld
         }
 
         return result
