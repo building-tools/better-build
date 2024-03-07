@@ -92,7 +92,7 @@ By using the command /walk the walking-speed will be updated.
 ```
 /physics
 ```
-By using the command /physics the physics of the world where the command has been executed will be toggled..
+By using the command /physics the physics of the world where the command has been executed will be toggled.
 
 ```
 /world delete <name>
@@ -127,7 +127,7 @@ By using the command /world spawn the current spawn of the world will be updated
 - The player is the only entity on the server that is permitted to interact with the worlds
 - Dropping items is only possible when sneaking
 - Iron-Trapdoors will open/close on right+sneak-click
-- Lightable blocks will lit/unlit on right+sneak-click
+- Lightable blocks will light up/unlit on right+sneak-click
 - Glazed-Terracotta will rotate by 90degree on right+sneak-click
 
 **ATTENTION:** This plugin manipulates the server extensively. This plugin is only made for better building experience and shouldn't be used for other things.
