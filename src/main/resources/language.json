@@ -14,8 +14,8 @@
   "gui.main.item.build.disable.name": "<gradient:#EB3349:#F45C43>Build-Mode disabled</gradient>",
   "gui.main.item.clip.enable.name": "<gradient:#a8ff78:#78ffd6>Clip-Mode enabled</gradient>",
   "gui.main.item.clip.disable.name": "<gradient:#EB3349:#F45C43>Clip-Mode disabled</gradient>",
-  "gui.main.item.night.enable.name": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Night-Vision enabled</gradient>",
-  "gui.main.item.night.disable.name": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 Night-Vision disabled</gradient>",
+  "gui.main.item.night.enable.name": "<gradient:#a8ff78:#78ffd6>Night-Vision enabled</gradient>",
+  "gui.main.item.night.disable.name": "<gradient:#EB3349:#F45C43>Night-Vision disabled</gradient>",
   "gui.world.item.placeholder.name": " ",
   "gui.world.item.spawn.name": "<gradient:#a8ff78:#78ffd6>Back to spawn</gradient>",
   "gui.world.item.create.name": "<gradient:#a8ff78:#78ffd6>Create a new world!</gradient>",
@@ -24,6 +24,8 @@
   "gui.world.item.category.name": "<gradient:#a8ff78:#78ffd6>%category%</gradient>",
   "gui.world.item.world.name": "<gradient:#a8ff78:#78ffd6>%world%</gradient>",
   "gui.world.item.archive.name": "<gradient:#a8ff78:#78ffd6>%world% (Archived)</gradient>",
+  "gui.world.item.archives.name.active": "<gradient:#EB3349:#F45C43>Archived worlds are shown!</gradient>",
+  "gui.world.item.archives.name.inactive": "<gradient:#a8ff78:#78ffd6>Archived worlds are hidden!</gradient>",
   "gui.deletion.item.confirm.name": "<gradient:#a8ff78:#78ffd6>Confirm deleting world!</gradient>",
   "gui.message.world.delete": "<gradient:#a8ff78:#78ffd6>World is successfully deleted!</gradient>",
   "gui.deletion.item.delete.name": "<gradient:#EB3349:#F45C43>Cancel deleting world!</gradient>",
@@ -38,6 +40,11 @@
   "gui.world.item.true.name": "<gradient:#a8ff78:#78ffd6>Structure generation enabled</gradient>",
   "gui.world.item.false.name": "<gradient:#EB3349:#F45C43>Structure generation disabled</gradient>",
   "gui.world.message.create": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Type a the name of the world you want to create in the chat!</gradient>",
+
+  "gui.world.item.archive.lore": [
+    "<gray> | left-click to teleport</gray>",
+    "<gray> | right-click to archive</gray>"
+  ],
 
   "gui.world.item.name.lore": [
     "<gray> | by interacting, you</gray>",
@@ -145,7 +152,8 @@
   "manager.player.build.add": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You have been added to Build-Mode.</gradient>",
   "manager.player.clip.remove": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 You have been removed from Clip-Mode.</gradient>",
   "manager.player.clip.add": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 You have been added to Clip-Mode.</gradient>",
-
+  "gui.main.item.night.enable.message": "<gradient:#a8ff78:#78ffd6>\uD83D\uDEE0 Night-Vision enabled!</gradient>",
+  "gui.main.item.night.disable.message": "<gradient:#EB3349:#F45C43>\uD83D\uDEE0 Night-Vision disabled!</gradient>",
   "event.quit.message": "<gradient:#EB3349:#F45C43>- %player%</gradient>",
   "event.join.message": "<gradient:#a8ff78:#78ffd6>+ %player%</gradient>",
   "event.join.list": "<gradient:#a8ff78:#78ffd6>%player% [%world%]</gradient>",
