@@ -12,5 +12,7 @@ data class PlayerQuitListener(val betterBuild: BetterBuild) : Listener {
     private fun onPlayerQuitEvent(playerQuitEvent: PlayerQuitEvent) {
         val player = playerQuitEvent.player
         playerQuitEvent.quitMessage(LanguageManager.getComponent("event.quit.message", "%player%", player.name))
+
+        betterBuild.playerManager.clearPlayer(player)
     }
 }
