@@ -28,7 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class BetterBuild : JavaPlugin() {
 
-    val playerManager: PlayerManager = PlayerManager(this)
+    val playerManager: PlayerManager = PlayerManager()
     val worldManager: WorldManager = WorldManager(this)
 
     override fun onEnable() {
@@ -58,6 +58,7 @@ class BetterBuild : JavaPlugin() {
     private fun registerListener() {
 
         //BLOCK
+        register(BlockBreakListener(this))
         register(BlockBurnListener())
         register(BlockDispenseArmorListener())
         register(BlockDispenseListener())
