@@ -11,6 +11,7 @@ import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.WorldCreator
 import org.bukkit.WorldType
+import org.bukkit.entity.Player
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -20,7 +21,6 @@ class WorldManager(val betterBuild: BetterBuild) {
 
     private val physics: MutableMap<World, Boolean> = mutableMapOf()
     private val worldQueue: MutableMap<String, MutableList<UUID>> = mutableMapOf()
-    val worldCreation: MutableMap<UUID, BuildWorld> = mutableMapOf()
 
     fun createEmptyWorld(name: String): World? {
 
