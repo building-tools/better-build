@@ -9,6 +9,7 @@ version = '1.0.0'
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         name = "papermc-repo"
         url = "https://repo.papermc.io/repository/maven-public/"
@@ -20,8 +21,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "de.raphaelgoetz:astralis:0.0.1-alpha"
 }
 
 shadowJar {
@@ -32,7 +32,7 @@ shadowJar {
 
 shadowJar.finalizedBy(tasks.build)
 
-def targetJavaVersion = 17
+def targetJavaVersion = 21
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     if (JavaVersion.current() < javaVersion) {
@@ -55,5 +55,5 @@ processResources {
     }
 }
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
