@@ -1,5 +1,6 @@
 package de.raphaelgoetz.betterbuild.utils.tasks
 
+import de.raphaelgoetz.astralis.task.Task
 import de.raphaelgoetz.betterbuild.BetterBuild
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
