@@ -39,7 +39,7 @@ class BetterBuild : JavaPlugin() {
         registerBlockEvents()
         registerCustomEvents()
         registerHangingEvents()
-        registerPlayerEvents(this)
+        registerPlayerEvents()
         registerRaidEvents()
         registerVehicleEvents()
         registerWorldEvents()

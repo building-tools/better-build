@@ -1,7 +1,7 @@
 package de.raphaelgoetz.betterbuild.listeners
 
 import de.raphaelgoetz.astralis.event.listen
-import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.isActiveBuilder
 import de.raphaelgoetz.betterbuild.utils.blocks.Terracotta
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -13,11 +13,11 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 
-fun registerCustomEvents(betterBuild: BetterBuild) {
+fun registerCustomEvents() {
 
     //iron door interaction
     listen<PlayerInteractEvent> { playerInteractEvent ->
-        if (!playerInteractEvent.defaultCheck(betterBuild)) return@listen
+        if (!playerInteractEvent.defaultCheck()) return@listen
         if (playerInteractEvent.item != null) return@listen
         val block = playerInteractEvent.clickedBlock ?: return@listen
 
@@ -36,7 +36,7 @@ fun registerCustomEvents(betterBuild: BetterBuild) {
 
     //Lit unlit candles with hand
     listen<PlayerInteractEvent> { playerInteractEvent ->
-        if (!playerInteractEvent.defaultCheck(betterBuild)) return@listen
+        if (!playerInteractEvent.defaultCheck()) return@listen
         if (playerInteractEvent.item != null && playerInteractEvent.item!!.type != Material.FLINT_AND_STEEL) return@listen
 
         val block = playerInteractEvent.clickedBlock ?: return@listen
@@ -53,7 +53,7 @@ fun registerCustomEvents(betterBuild: BetterBuild) {
 
     //Rotate terracotta
     listen<PlayerInteractEvent> { playerInteractEvent ->
-        if (!playerInteractEvent.defaultCheck(betterBuild)) return@listen
+        if (!playerInteractEvent.defaultCheck()) return@listen
         if (playerInteractEvent.item != null) return@listen
 
         val block = playerInteractEvent.clickedBlock ?: return@listen
@@ -90,8 +90,8 @@ private fun getNextBlockFace(face: BlockFace): BlockFace {
     }
 }
 
-private fun PlayerInteractEvent.defaultCheck(betterBuild: BetterBuild): Boolean {
-    if (!betterBuild.playerManager.isActiveBuilder(this.player)) return false
+private fun PlayerInteractEvent.defaultCheck(): Boolean {
+    if (!player.isActiveBuilder()) return false
     if (this.action != Action.RIGHT_CLICK_BLOCK) return false
     if (!this.action.isRightClick) return false
     if (!this.player.isSneaking) return false

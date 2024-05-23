@@ -2,8 +2,9 @@ package de.raphaelgoetz.betterbuild.listeners
 
 import de.raphaelgoetz.astralis.event.listen
 import de.raphaelgoetz.astralis.event.listenCancelled
+import de.raphaelgoetz.astralis.schedule.doNow
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.manager.LanguageManager
+import de.raphaelgoetz.betterbuild.manager.*
 import de.raphaelgoetz.betterbuild.menus.MainMenu
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -15,7 +16,7 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.*
 
-fun registerPlayerEvents(betterBuild: BetterBuild) {
+fun registerPlayerEvents() {
 
     listen<PlayerJoinEvent> { playerJoinEvent ->
         val player = playerJoinEvent.player
@@ -35,23 +36,24 @@ fun registerPlayerEvents(betterBuild: BetterBuild) {
     listen<PlayerQuitEvent> { playerQuitEvent ->
         val player = playerQuitEvent.player
         playerQuitEvent.quitMessage(LanguageManager.getComponent("event.quit.message", "%player%", player.name))
-        betterBuild.playerManager.clearPlayer(player)
+        player.clearPlayer()
     }
 
     listen<AsyncChatEvent> { playerAsyncChatEvent ->
         val uuid = playerAsyncChatEvent.player.uniqueId
-        if (!betterBuild.playerManager.worldCreation.contains(uuid)) return@listen
-        val buildWorld = betterBuild.playerManager.worldCreation[uuid] ?: return@listen
+        if (!worldCreation.contains(uuid)) return@listen
+        val buildWorld = worldCreation[uuid] ?: return@listen
         playerAsyncChatEvent.isCancelled = true
 
         val message = MiniMessage.miniMessage().serialize(playerAsyncChatEvent.message())
         buildWorld.name = message.replace(Regex("\\W"), "")
 
-        Bukkit.getScheduler().callSyncMethod(betterBuild) {
-            betterBuild.worldManager.generateWorld(buildWorld)
+        doNow(function = {
+            generateWorld(buildWorld)
             LanguageManager.sendPlayerMessage(playerAsyncChatEvent.player, "message.world.created")
-            betterBuild.playerManager.worldCreation.remove(uuid)
-        }
+            worldCreation.remove(uuid)
+        })
+
     }
 
     listen<PlayerChangedWorldEvent> { playerChangedWorldEvent ->
@@ -89,7 +91,7 @@ fun registerPlayerEvents(betterBuild: BetterBuild) {
     }
 
     listen<PlayerTeleportEvent> { playerTeleportEvent ->
-        var enterPermission = betterBuild.worldManager.getWorldPermission(playerTeleportEvent.to.world.name)
+        var enterPermission = getWorldPermission(playerTeleportEvent.to.world.name)
         if (enterPermission == "") enterPermission = "betterbuild.enter.free"
         val player = playerTeleportEvent.player
 
@@ -99,7 +101,7 @@ fun registerPlayerEvents(betterBuild: BetterBuild) {
             return@listen
         }
 
-        betterBuild.playerManager.setLastLocation(playerTeleportEvent.player, playerTeleportEvent.from)
+        player.uniqueId.setLastLocation(playerTeleportEvent.from)
     }
 
     listen<PlayerEggThrowEvent> { event -> event.isHatching = false }
@@ -109,18 +111,18 @@ fun registerPlayerEvents(betterBuild: BetterBuild) {
     listenCancelled<PlayerItemConsumeEvent>()
     listenCancelled<PlayerPortalEvent>()
 
-    listenBuildMode<PlayerArmorStandManipulateEvent>(betterBuild)
-    listenBuildMode<PlayerBucketEmptyEvent>(betterBuild)
-    listenBuildMode<PlayerBucketEntityEvent>(betterBuild)
-    listenBuildMode<PlayerBucketFillEvent>(betterBuild)
-    listenBuildMode<PlayerInteractEvent>(betterBuild)
-    listenBuildMode<PlayerInteractEntityEvent>(betterBuild)
+    listenBuildMode<PlayerArmorStandManipulateEvent>()
+    listenBuildMode<PlayerBucketEmptyEvent>()
+    listenBuildMode<PlayerBucketEntityEvent>()
+    listenBuildMode<PlayerBucketFillEvent>()
+    listenBuildMode<PlayerInteractEvent>()
+    listenBuildMode<PlayerInteractEntityEvent>()
 
 }
 
-inline fun <reified T : org.bukkit.event.player.PlayerEvent> listenBuildMode(betterBuild: BetterBuild) {
+inline fun <reified T : PlayerEvent> listenBuildMode() {
     listen<T> { event ->
-        if (betterBuild.playerManager.isActiveBuilder(event.player)) return@listen
+        if (event.player.isActiveBuilder()) return@listen
         if (event !is Cancellable) return@listen
         event.isCancelled = true
     }

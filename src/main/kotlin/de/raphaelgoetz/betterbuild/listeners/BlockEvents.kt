@@ -2,18 +2,21 @@ package de.raphaelgoetz.betterbuild.listeners
 
 import de.raphaelgoetz.astralis.event.listen
 import de.raphaelgoetz.astralis.event.listenCancelled
-import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.cancelWhenBuilder
+import de.raphaelgoetz.betterbuild.manager.hasPhysics
+import de.raphaelgoetz.betterbuild.manager.isActiveBuilder
+import de.raphaelgoetz.betterbuild.manager.isActiveGhost
 import de.raphaelgoetz.betterbuild.utils.blocks.Doors
 import org.bukkit.Material
 import org.bukkit.entity.BlockDisplay
 import org.bukkit.event.block.*
 
-fun registerBlockEvents(betterBuild: BetterBuild) {
+fun registerBlockEvents() {
 
     listen<BlockBreakEvent> { blockBreakEvent ->
         val player = blockBreakEvent.player
 
-        if (!betterBuild.playerManager.isActiveBuilder(player)) blockBreakEvent.isCancelled = true
+        if (!player.isActiveBuilder()) blockBreakEvent.isCancelled = true
         if (player.itemInHand.type == Material.WOODEN_AXE) blockBreakEvent.isCancelled = true
     }
 
@@ -22,15 +25,15 @@ fun registerBlockEvents(betterBuild: BetterBuild) {
 
         if (material.isDoor()) return@listen
         val world = blockPhysicsEvent.block.world
-        val value = betterBuild.worldManager.hasPhysics(world)
+        val value = world.hasPhysics()
         blockPhysicsEvent.isCancelled = !value
     }
 
     listen<BlockPlaceEvent> { blockPlaceEvent ->
         val player = blockPlaceEvent.player
-        betterBuild.playerManager.cancelWhenBuilder(player, blockPlaceEvent)
+        player.cancelWhenBuilder(blockPlaceEvent)
 
-        if (!betterBuild.playerManager.isActiveGhost(player)) return@listen
+        if (!player.isActiveGhost()) return@listen
         val data = blockPlaceEvent.block.blockData
         val location = blockPlaceEvent.block.location
 

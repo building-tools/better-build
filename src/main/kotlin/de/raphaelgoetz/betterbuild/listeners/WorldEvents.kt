@@ -1,15 +1,16 @@
 package de.raphaelgoetz.betterbuild.listeners
 
 import de.raphaelgoetz.astralis.event.listen
-import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.getWaitingPlayers
+import de.raphaelgoetz.betterbuild.manager.removeFromQueue
 import org.bukkit.Bukkit
 import org.bukkit.event.world.WorldLoadEvent
 
-fun registerWorldEvents(betterBuild: BetterBuild) {
+fun registerWorldEvents() {
 
     listen<WorldLoadEvent> { worldLoadEvent ->
         val worldName = worldLoadEvent.world.name
-        val players = betterBuild.worldManager.getWaitingPlayers(worldName) ?: return@listen
+        val players = getWaitingPlayers(worldName) ?: return@listen
 
         for (uuid in players) {
             val player = Bukkit.getPlayer(uuid)
@@ -17,7 +18,7 @@ fun registerWorldEvents(betterBuild: BetterBuild) {
             player.teleport(worldLoadEvent.world.spawnLocation)
         }
 
-        betterBuild.worldManager.removeFromQueue(worldName)
+        removeFromQueue(worldName)
 
     }
 

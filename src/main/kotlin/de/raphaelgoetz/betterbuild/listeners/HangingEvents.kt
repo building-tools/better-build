@@ -1,24 +1,24 @@
 package de.raphaelgoetz.betterbuild.listeners
 
 import de.raphaelgoetz.astralis.event.listen
-import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.betterbuild.manager.cancelWhenBuilder
 import org.bukkit.entity.Player
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.hanging.HangingPlaceEvent
 
-fun registerHangingEvents(betterBuild: BetterBuild) {
+fun registerHangingEvents() {
 
     listen<HangingBreakByEntityEvent> { hangingBreakEvent ->
 
         val player = hangingBreakEvent.entity
         if (player is Player) {
-            betterBuild.playerManager.cancelWhenBuilder(player, hangingBreakEvent)
+            player.cancelWhenBuilder(hangingBreakEvent)
         }
     }
 
     listen<HangingPlaceEvent> { hangingPlaceEvent ->
-        if (hangingPlaceEvent.player == null) return@listen
-        betterBuild.playerManager.cancelWhenBuilder(hangingPlaceEvent.player!!, hangingPlaceEvent)
+        val player = hangingPlaceEvent.player ?: return@listen
+        player.cancelWhenBuilder(hangingPlaceEvent)
     }
 
 }
