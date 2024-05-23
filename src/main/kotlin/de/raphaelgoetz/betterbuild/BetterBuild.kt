@@ -36,71 +36,12 @@ class BetterBuild : JavaPlugin() {
     }
 
     private fun registerListener() {
-
-        //BLOCK
-        register(BlockBreakListener(this))
-        register(BlockBurnListener())
-        register(BlockDispenseArmorListener())
-        register(BlockDispenseListener())
-        register(BlockDropItemListener())
-        register(BlockExplodeListener())
-        register(BlockFadeListener())
-        register(BlockGrowListener())
-        register(BlockIgniteListener())
-        register(BlockPhysicsListener(this))
-        register(BlockPistonExtendListener())
-        register(BlockPistonRetractListener())
-        register(BlockPlaceListener(this))
-        register(BlockReceiveGameListener())
-        register(BlockSpreadListener())
-        register(FluidLevelChangeListener())
-        register(LeavesDecayListener())
-
-        //PICTURES
-        register(HangingBreakByEntityListener(this))
-        register(HangingPlaceListener(this))
-
-        //PLAYER-CONNECTION
-        register(PlayerJoinListener(this))
-        register(PlayerQuitListener(this))
-
-        //PLAYER-INTERACTION
-        register(PlayerArmorStandManipulateListener(this))
-        register(PlayerAsyncChatListener(this))
-        register(PlayerBedEnterListener())
-        register(PlayerBucketEmptyListener(this))
-        register(PlayerBucketEntityListener(this))
-        register(PlayerBucketFillListener(this))
-        register(PlayerChangedWorldListener(this))
-        register(PlayerDamageListener())
-        register(PlayerDeathListener())
-        register(PlayerDropItemListener())
-        register(PlayerEggThrowListener())
-        register(PlayerFishListener())
-        register(PlayerInteractListener(this))
-        register(PlayerInteractEntityListener(this))
-        register(PlayerItemConsumeListener())
-        register(PlayerPortalListener())
-        register(PlayerSwapHandItemsListener(this))
-        register(PlayerTeleportListener(this))
-
-        //RAID
-        register(RaidTriggerListener())
-
-        //VEHICLE
-        register(VehicleCreateListener())
-        register(VehicleEnterListener())
-
-        //WORLD
-        register(WorldLoadListener(this))
-
-        //CUSTOM
-        register(PlayerLitBlockListener(this))
-        register(PlayerTerracottaInteractListener(this))
-        register(PlayerIronDoorInteractListener(this))
-    }
-
-    private fun register(listener: Listener) {
-        Bukkit.getPluginManager().registerEvents(listener, this)
+        registerBlockEvents()
+        registerCustomEvents()
+        registerHangingEvents()
+        registerPlayerEvents(this)
+        registerRaidEvents()
+        registerVehicleEvents()
+        registerWorldEvents()
     }
 }
