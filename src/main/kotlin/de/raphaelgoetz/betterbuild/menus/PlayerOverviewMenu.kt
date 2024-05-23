@@ -1,52 +1,45 @@
 package de.raphaelgoetz.betterbuild.menus
 
-import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
-import de.raphaelgoetz.betterbuild.utils.ItemBuilder
+import de.raphaelgoetz.astralis.items.basicItemWithoutMeta
+import de.raphaelgoetz.astralis.items.createSmartItem
+import de.raphaelgoetz.astralis.items.data.InteractionType
+import de.raphaelgoetz.astralis.ui.builder.SmartClick
+import de.raphaelgoetz.astralis.ui.data.InventoryRows
+import de.raphaelgoetz.astralis.ui.data.InventorySlots
+import de.raphaelgoetz.astralis.ui.openPageInventory
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.inventory.meta.SkullMeta
+import java.util.function.Consumer
 
-data class PlayerOverviewMenu(
+fun Player.openPlayerOverviewMenu(title: Component) {
 
-    val player: Player,
-    val title: Component
-
-) : BukkitPlayerInventory(title, 6) {
-
-    init {
-        setPlayerItems()
+    val players = Bukkit.getOnlinePlayers().map { player ->
+        val item = createSmartItem<SkullMeta>(name, Material.PLAYER_HEAD, interactionType = InteractionType.SUCCESS)
+        SmartClick(item, onClick(name))
     }
 
-    fun open() {
-        this.openInventory(player)
+    val inventory = this.openPageInventory(
+        title, InventoryRows.ROW6, players, InventorySlots.SLOT1ROW1, InventorySlots.SLOT9ROW5
+    ) {
+        val left = basicItemWithoutMeta(Material.ARROW)
+        val right = basicItemWithoutMeta(Material.ARROW)
+        pageLeft(InventorySlots.SLOT1ROW6, left)
+        pageRight(InventorySlots.SLOT9ROW6, right)
     }
 
-    private fun setPlayerItems() {
+}
 
-        val players = Bukkit.getOnlinePlayers()
-
-        for (player in players) {
-
-            if (player == this.player) continue
-
-            this.addSlot(ItemBuilder(Material.PLAYER_HEAD).setPlayerHead(player)
-                .setName(MiniMessage.miniMessage().deserialize(player.name)).build(),
-
-                consumer = {
-                    onClick(it, player.name)
-                }
-            )
-        }
-    }
-
-    private fun onClick(inventoryClickEvent: InventoryClickEvent, name: String) {
-        val player = inventoryClickEvent.whoClicked as Player
+private fun onClick(name: String): Consumer<InventoryClickEvent> {
+    return Consumer { event ->
+        val player = event.whoClicked as Player
         val target = Bukkit.getPlayer(name)
 
-        if (target == null || !target.isOnline) return
+        if (target == null || !target.isOnline) return@Consumer
         player.teleport(target)
     }
+
 }
