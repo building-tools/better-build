@@ -10,110 +10,105 @@ import java.util.UUID
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class PlayerManager(
+private val buildMode: MutableCollection<UUID> = ArrayList()
+private val ghostMode: MutableCollection<UUID> = ArrayList()
+private val noClipMode: MutableCollection<UUID> = ArrayList()
+private val lastPlayerLocation: MutableMap<UUID, Location> = HashMap()
+val worldCreation: MutableMap<UUID, BuildWorld> = mutableMapOf()
 
-    private val buildMode: MutableCollection<UUID> = ArrayList(),
-    private val ghostMode: MutableCollection<UUID> = ArrayList(),
-    private val noClipMode: MutableCollection<UUID> = ArrayList(),
-    private val lastPlayerLocation: MutableMap<UUID, Location> = HashMap(),
-    private val worldCreation: MutableMap<UUID, BuildWorld> = mutableMapOf()
+fun UUID.getLastLocation(): Location? {
+    return lastPlayerLocation[this]
+}
 
-) {
+fun UUID.setLastLocation(location: Location) {
+    lastPlayerLocation[this] = location
+}
 
-    fun getLastLocation(player: Player): Location? {
-        return lastPlayerLocation[player.uniqueId]
+fun Player.toggleBuildMode() {
+
+    if (this.isActiveBuilder()) {
+        LanguageManager.sendPlayerMessage(this, "manager.player.build.remove")
+        buildMode.remove(this.uniqueId)
+        return
     }
 
-    fun setLastLocation(player: Player, location: Location) {
-        this.lastPlayerLocation[player.uniqueId] = location
+    LanguageManager.sendPlayerMessage(this, "manager.player.build.add")
+    buildMode.add(this.uniqueId)
+}
+
+fun Player.toggleNoClipMode() {
+
+    if (this.isActiveNoClip()) {
+        LanguageManager.sendPlayerMessage(this, "manager.player.clip.remove")
+        noClipMode.remove(this.uniqueId)
+        return
     }
 
-    fun toggleBuildMode(player: Player) {
+    LanguageManager.sendPlayerMessage(this, "manager.player.clip.add")
+    noClipMode.add(this.uniqueId)
+}
 
-        if (isActiveBuilder(player)) {
-            LanguageManager.sendPlayerMessage(player, "manager.player.build.remove")
-            buildMode.remove(player.uniqueId)
-            return
-        }
-
-        LanguageManager.sendPlayerMessage(player, "manager.player.build.add")
-        buildMode.add(player.uniqueId)
+fun Player.toggleNightVision() {
+    if (this.hasActiveNightVision()) {
+        LanguageManager.sendPlayerMessage(this, "gui.main.item.night.disable.message")
+        this.removePotionEffect(PotionEffectType.NIGHT_VISION)
+        return
     }
-
-    fun toggleNoClipMode(player: Player) {
-
-        if (isActiveNoClip(player)) {
-            LanguageManager.sendPlayerMessage(player, "manager.player.clip.remove")
-            noClipMode.remove(player.uniqueId)
-            return
-        }
-
-        LanguageManager.sendPlayerMessage(player, "manager.player.clip.add")
-        noClipMode.add(player.uniqueId)
-    }
-
-    fun toggleNightVision(player: Player) {
-        if (hasActiveNightVision(player)) {
-            LanguageManager.sendPlayerMessage(player, "gui.main.item.night.disable.message")
-            player.removePotionEffect(PotionEffectType.NIGHT_VISION)
-            return
-        }
-        player.addPotionEffect(
-            PotionEffect(
-                PotionEffectType.NIGHT_VISION,
-                PotionEffect.INFINITE_DURATION,
-                1,
-                false,
-                false,
-                false
-            )
+    this.addPotionEffect(
+        PotionEffect(
+            PotionEffectType.NIGHT_VISION,
+            PotionEffect.INFINITE_DURATION,
+            1,
+            false,
+            false,
+            false
         )
+    )
 
-        LanguageManager.sendPlayerMessage(player, "gui.main.item.night.enable.message")
+    LanguageManager.sendPlayerMessage(this, "gui.main.item.night.enable.message")
+}
+
+fun Player.toggleGhostMode() {
+    if (this.isActiveGhost()) {
+        LanguageManager.sendPlayerMessage(this, "manager.player.ghost.remove")
+        ghostMode.remove(this.uniqueId)
+        return
     }
 
-    fun toggleGhostMode(player: Player) {
-        if (isActiveGhost(player)) {
-            LanguageManager.sendPlayerMessage(player, "manager.player.ghost.remove")
-            ghostMode.remove(player.uniqueId)
-            return
-        }
+    LanguageManager.sendPlayerMessage(this, "manager.player.ghost.add")
+    ghostMode.add(this.uniqueId)
+}
 
-        LanguageManager.sendPlayerMessage(player, "manager.player.ghost.add")
-        ghostMode.add(player.uniqueId)
+fun Player.cancelWhenBuilder(event: Cancellable) {
+    event.isCancelled = !this.isActiveBuilder()
+}
+
+fun Player.isActiveBuilder(): Boolean {
+    return buildMode.contains(this.uniqueId)
+}
+
+fun Player.isActiveNoClip(): Boolean {
+    return noClipMode.contains(this.uniqueId)
+}
+
+fun Player.isActiveGhost(): Boolean {
+    return ghostMode.contains(this.uniqueId)
+}
+
+fun Player.hasActiveNightVision(): Boolean {
+
+    for (potions in this.activePotionEffects) {
+
+        if (potions.type != PotionEffectType.NIGHT_VISION) continue
+        return true
     }
 
-    fun cancelWhenBuilder(player: Player, event: Cancellable) {
-        event.isCancelled = !isActiveBuilder(player)
-    }
+    return false
+}
 
-    fun isActiveBuilder(player: Player): Boolean {
-        return buildMode.contains(player.uniqueId)
-    }
-
-    fun isActiveNoClip(player: Player): Boolean {
-        return noClipMode.contains(player.uniqueId)
-    }
-
-    fun isActiveGhost(player: Player): Boolean {
-        return ghostMode.contains(player.uniqueId)
-    }
-
-    fun hasActiveNightVision(player: Player): Boolean {
-
-        for (potions in player.activePotionEffects) {
-
-            if (potions.type != PotionEffectType.NIGHT_VISION) continue
-            return true
-        }
-
-        return false
-    }
-
-    fun clearPlayer(player: Player) {
-        lastPlayerLocation.remove(player.uniqueId)
-        buildMode.remove(player.uniqueId)
-        noClipMode.remove(player.uniqueId)
-        worldCreation.remove(player.uniqueId)
-    }
+fun Player.clearPlayer() {
+    lastPlayerLocation.remove(this.uniqueId)
+    buildMode.remove(this.uniqueId)
+    noClipMode.remove(this.uniqueId)
+    worldCreation.remove(this.uniqueId)
 }
