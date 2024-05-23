@@ -83,7 +83,7 @@ class ItemBuilder(material: Material) {
     fun setGlowing(value: Boolean): ItemBuilder {
         if (value.not()) return this
         val itemMeta = itemStack.itemMeta
-        itemMeta.addEnchant(Enchantment.PROTECTION_FALL, 1, false)
+        itemMeta.addEnchant(Enchantment.FEATHER_FALLING, 1, false)
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
         itemStack.setItemMeta(itemMeta)
         return this
