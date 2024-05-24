@@ -1,6 +1,5 @@
 package de.raphaelgoetz.betterbuild.manager
 
-import de.raphaelgoetz.betterbuild.world.BuildWorld
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
@@ -14,7 +13,6 @@ private val buildMode: MutableCollection<UUID> = ArrayList()
 private val ghostMode: MutableCollection<UUID> = ArrayList()
 private val noClipMode: MutableCollection<UUID> = ArrayList()
 private val lastPlayerLocation: MutableMap<UUID, Location> = HashMap()
-val worldCreation: MutableMap<UUID, BuildWorld> = mutableMapOf()
 
 fun UUID.getLastLocation(): Location? {
     return lastPlayerLocation[this]
@@ -110,5 +108,4 @@ fun Player.clearPlayer() {
     lastPlayerLocation.remove(this.uniqueId)
     buildMode.remove(this.uniqueId)
     noClipMode.remove(this.uniqueId)
-    worldCreation.remove(this.uniqueId)
 }
