@@ -2,6 +2,7 @@ package de.raphaelgoetz.betterbuild.commands.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.manager.LanguageManager
+import de.raphaelgoetz.betterbuild.manager.getLastLocation
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -14,7 +15,7 @@ data class TeleportToLastLocation(val betterBuild: BetterBuild) : CommandExecuto
         if (sender !is Player) return true
         if (args == null || args.isNotEmpty()) return true
 
-        val lastLocation = betterBuild.playerManager.getLastLocation(sender)
+        val lastLocation = sender.uniqueId.getLastLocation()
 
         if (!sender.hasPermission("betterbuild.player.back")) {
             LanguageManager.sendPlayerMessage(sender, "command.player.teleport.permission")

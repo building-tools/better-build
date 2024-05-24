@@ -2,6 +2,8 @@ package de.raphaelgoetz.betterbuild.commands.player
 
 import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.manager.LanguageManager
+import de.raphaelgoetz.betterbuild.manager.toggleBuildMode
+import de.raphaelgoetz.betterbuild.manager.toggleNoClipMode
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -26,8 +28,8 @@ data class TogglePlayerMode(val betterBuild: BetterBuild) : CommandExecutor {
         if (target == null) return true
         if (!target.isOnline) return true
 
-        if ("build" == label) betterBuild.playerManager.toggleBuildMode(target)
-        if ("clip" == label) betterBuild.playerManager.toggleNoClipMode(target)
+        if ("build" == label) target.toggleBuildMode()
+        if ("clip" == label) target.toggleNoClipMode()
 
         return false
     }
