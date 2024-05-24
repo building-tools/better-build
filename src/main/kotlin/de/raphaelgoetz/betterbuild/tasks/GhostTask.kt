@@ -1,4 +1,4 @@
-package de.raphaelgoetz.betterbuild.utils.tasks
+package de.raphaelgoetz.betterbuild.tasks
 
 import de.raphaelgoetz.astralis.task.Task
 import de.raphaelgoetz.betterbuild.BetterBuild
