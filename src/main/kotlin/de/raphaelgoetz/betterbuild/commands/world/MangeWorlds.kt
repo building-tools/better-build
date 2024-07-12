@@ -6,7 +6,7 @@ import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import de.raphaelgoetz.betterbuild.manager.changeWorldPermission
 import de.raphaelgoetz.betterbuild.manager.isWorld
-import de.raphaelgoetz.betterbuild.menus.ConfirmDeletionMenu
+import de.raphaelgoetz.betterbuild.menus.openConfirmWorldDeletionMenu
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -100,7 +100,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
             return
         }
 
-        ConfirmDeletionMenu(betterBuild, player, name, LanguageManager.getComponent("gui.deletion.title"))
+        player.openConfirmWorldDeletionMenu(name, LanguageManager.getComponent("gui.deletion.title"))
     }
 
     private fun setWorldSpawn(player: Player) {

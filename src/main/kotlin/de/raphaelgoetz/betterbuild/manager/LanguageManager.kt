@@ -93,6 +93,11 @@ class LanguageManager {
             return this.singleMessage.getOrDefault(key, optional)
         }
 
+        fun getString(key: String, toReplace: String, value: String): String {
+            val message = this.singleMessage.getOrDefault(key, key)
+            return message.replace(toReplace, value)
+        }
+
         fun getStringsFromConfig(key: String): List<String> {
             return this.multiMessage.getOrDefault(key, listOf(key))
         }
