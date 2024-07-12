@@ -1,120 +1,136 @@
 package de.raphaelgoetz.betterbuild.menus
 
-import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.manager.LanguageManager
-import de.raphaelgoetz.betterbuild.menus.world.WorldOverviewMenu
-import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
-import de.raphaelgoetz.betterbuild.utils.ItemBuilder
+import de.raphaelgoetz.astralis.items.createSmartItem
+import de.raphaelgoetz.astralis.items.data.InteractionType
+import de.raphaelgoetz.astralis.items.smartItemWithoutMeta
+import de.raphaelgoetz.astralis.ui.data.InventoryRows
+import de.raphaelgoetz.astralis.ui.data.InventorySlots
+import de.raphaelgoetz.astralis.ui.openInventory
+import de.raphaelgoetz.betterbuild.manager.*
+import de.raphaelgoetz.betterbuild.menus.world.openWorldOverviewMenu
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.meta.SkullMeta
 
-data class MainMenu(
+fun Player.openMainMenu(title: Component) {
 
-    private val betterBuild: BetterBuild,
-    private val title: Component,
-    private val player: Player
+    val inventoryHolder = this
 
-) : BukkitPlayerInventory(title, 1) {
+    this.openInventory(title, InventoryRows.ROW1) {
 
-    init {
-        setWorldItems()
-        setPlayerItems()
-        setBannerItems()
+        val worldItem = smartItemWithoutMeta(
+            name = LanguageManager.getStringFromConfig("gui.main.item.world.name"),
+            description = LanguageManager.getStringFromConfig("gui.main.item.world.lore"),
+            material = Material.GRASS_BLOCK,
+            interactionType = InteractionType.CLICK
+        )
 
-        setPhysicItems()
-        setBuildItems()
-        setNightVisionItems()
+        val playerItem = createSmartItem<SkullMeta>(
+            name = LanguageManager.getStringFromConfig("gui.player.item.world.name"),
+            description = LanguageManager.getStringFromConfig("gui.player.item.world.lore"),
+            material = Material.PLAYER_HEAD,
+            interactionType = InteractionType.CLICK
+        ) { owningPlayer = inventoryHolder }
 
-        openInventory(player)
-    }
+        val bannerItem = smartItemWithoutMeta(
+            name = LanguageManager.getStringFromConfig("gui.banner.item.world.name"),
+            description = LanguageManager.getStringFromConfig("gui.banner.item.world.lore"),
+            material = Material.GRASS_BLOCK,
+            interactionType = InteractionType.CLICK
+        )
 
-    private fun setWorldItems() {
-        this.setSlot(1, ItemBuilder(Material.GRASS_BLOCK)
-            .setName(("gui.main.item.world.name"))
-            .setLore(("gui.main.item.world.lore")).build(),
+        this.setBlockedSlot(InventorySlots.SLOT1ROW1, worldItem) {
+            inventoryHolder.openWorldOverviewMenu(LanguageManager.getComponent("gui.world.title"))
+        }
 
-            consumer = {
-                it.isCancelled = true
-                WorldOverviewMenu(betterBuild, player, LanguageManager.getComponent("gui.world.title"), false).open()
-        })
-    }
+        this.setBlockedSlot(InventorySlots.SLOT2ROW1, playerItem) {
+            inventoryHolder.openPlayerOverviewMenu(LanguageManager.getComponent("gui.player.title"))
+        }
 
-    private fun setPlayerItems() {
-        this.setSlot(2, ItemBuilder(Material.PLAYER_HEAD).setPlayerHead(player)
-            .setName(("gui.player.item.world.name"))
-            .setLore(("gui.player.item.world.lore")).build(),
+        this.setBlockedSlot(InventorySlots.SLOT3ROW1, bannerItem) {
+            inventoryHolder.openBannerCreationMenu(LanguageManager.getComponent("gui.banner.title"))
+        }
 
-            consumer = {
-                it.isCancelled = true
-                PlayerOverviewMenu(player, LanguageManager.getComponent("gui.player.title")).open()
-        })
-    }
+        fun setPhysicItems() {
 
-    private fun setBannerItems() {
-        this.setSlot(3, ItemBuilder(Material.GREEN_BANNER)
-            .setName(("gui.banner.item.world.name"))
-            .setLore(("gui.banner.item.world.lore")).build(),
+            val world = inventoryHolder.world
+            val name =
+                if (world.hasPhysics()) "gui.main.item.physics.enable.name" else "gui.main.item.physics.disable.name"
 
-            consumer = {
-                it.isCancelled = true
-                BannerCreationMenu(player, LanguageManager.getComponent("gui.banner.title")).open()
-        })
-    }
+            val item = smartItemWithoutMeta(
+                name = name,
+                description = LanguageManager.getStringFromConfig("gui.main.item.physics.lore"),
+                material = Material.GRAVEL,
+                interactionType = InteractionType.CLICK
+            )
 
-    private fun setPhysicItems() {
-
-        val name = if (betterBuild.worldManager.hasPhysics(player.world)) "gui.main.item.physics.enable.name" else "gui.main.item.physics.disable.name"
-        this.setSlot(5, ItemBuilder(Material.GRAVEL)
-            .setName((name))
-            .setLore(("gui.main.item.physics.lore")).build(),
-
-            consumer = {
-                it.isCancelled = true
-                betterBuild.worldManager.togglePhysics(player.world)
+            this.setBlockedSlot(InventorySlots.SLOT5ROW1, item) {
+                world.togglePhysics()
                 setPhysicItems()
-            })
-    }
+            }
+        }
 
-    private fun setBuildItems() {
+        fun setBuildItems() {
 
-        val name = if (betterBuild.playerManager.isActiveBuilder(player)) "gui.main.item.build.enable.name" else "gui.main.item.build.disable.name"
-        this.setSlot(6, ItemBuilder(Material.DIAMOND_AXE)
-            .setName((name))
-            .setLore(("gui.main.item.build.lore")).build(),
+            val name =
+                if (inventoryHolder.isActiveBuilder()) "gui.main.item.build.enable.name" else "gui.main.item.build.disable.name"
 
-            consumer = {
-                it.isCancelled = true
-                betterBuild.playerManager.toggleBuildMode(player)
+            val item = smartItemWithoutMeta(
+                name = name,
+                description = LanguageManager.getStringFromConfig("gui.main.item.build.lore"),
+                material = Material.DIAMOND_AXE,
+                interactionType = InteractionType.CLICK
+            )
+
+            this.setBlockedSlot(InventorySlots.SLOT6ROW1, item) {
+                inventoryHolder.toggleBuildMode()
                 setBuildItems()
-        })
-    }
+            }
+        }
 
-    private fun setClipItems() {
+        fun setClipItems() {
 
-        val name = if (betterBuild.playerManager.isActiveNoClip(player)) "gui.main.item.clip.enable.name" else "gui.main.item.clip.disable.name"
-        this.setSlot(7, ItemBuilder(Material.ELYTRA)
-            .setName((name))
-            .setLore(("gui.main.item.clip.lore")).build(),
+            val name =
+                if (inventoryHolder.isActiveNoClip()) "gui.main.item.clip.enable.name" else "gui.main.item.clip.disable.name"
 
-            consumer = {
-                it.isCancelled = true
-                betterBuild.playerManager.toggleNoClipMode(player)
+            val item = smartItemWithoutMeta(
+                name = name,
+                description = LanguageManager.getStringFromConfig("gui.main.item.clip.lore"),
+                material = Material.ELYTRA,
+                interactionType = InteractionType.CLICK
+            )
+
+            this.setBlockedSlot(InventorySlots.SLOT7ROW1, item) {
+                inventoryHolder.toggleNoClipMode()
                 setClipItems()
-            })
-    }
+            }
+        }
 
-    private fun setNightVisionItems() {
+        fun setNightVisionItems() {
 
-        val name = if (betterBuild.playerManager.hasActiveNightVision(player)) "gui.main.item.night.enable.name" else "gui.main.item.night.disable.name"
-        this.setSlot(7, ItemBuilder(Material.ENDER_EYE)
-            .setName((name))
-            .setLore(("gui.main.item.night.lore")).build(),
+            val name =
+                if (inventoryHolder.hasActiveNightVision()) "gui.main.item.night.enable.name" else "gui.main.item.night.disable.name"
 
-            consumer = {
-                it.isCancelled = true
-                betterBuild.playerManager.toggleNightVision(player)
+            val item = smartItemWithoutMeta(
+                name = name,
+                description = LanguageManager.getStringFromConfig("gui.main.item.night.lore"),
+                material = Material.ENDER_EYE,
+                interactionType = InteractionType.CLICK
+            )
+
+            this.setBlockedSlot(InventorySlots.SLOT7ROW1, item) {
+                inventoryHolder.toggleNightVision()
                 setNightVisionItems()
-            })
+            }
+        }
+
+        fun init() {
+            setNightVisionItems()
+            setPhysicItems()
+            setBuildItems()
+        }
+
+        init()
     }
 }
