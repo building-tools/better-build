@@ -1,5 +1,6 @@
 package de.raphaelgoetz.betterbuild
 
+import de.raphaelgoetz.astralis.Astralis
 import de.raphaelgoetz.betterbuild.commands.player.TeleportToLastLocation
 import de.raphaelgoetz.betterbuild.commands.player.TogglePlayerGamemode
 import de.raphaelgoetz.betterbuild.commands.player.TogglePlayerMode
@@ -8,11 +9,10 @@ import de.raphaelgoetz.betterbuild.commands.world.MangeWorlds
 import de.raphaelgoetz.betterbuild.commands.world.ToggleWorldPhysics
 import de.raphaelgoetz.betterbuild.listeners.*
 import de.raphaelgoetz.betterbuild.manager.LanguageManager
-import org.bukkit.plugin.java.JavaPlugin
 
-class BetterBuild : JavaPlugin() {
+class BetterBuild : Astralis() {
 
-    override fun onEnable() {
+    override fun enable() {
         LanguageManager.readConfig()
 
         registerCommands()
