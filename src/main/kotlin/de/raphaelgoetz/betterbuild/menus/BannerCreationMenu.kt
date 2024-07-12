@@ -13,6 +13,10 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.BannerMeta
 
+fun Player.openBannerCreationMenu(title: Component) {
+
+}
+
 class BannerCreationMenu(
 
     val player: Player,

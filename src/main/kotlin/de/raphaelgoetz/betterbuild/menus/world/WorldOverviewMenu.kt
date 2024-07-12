@@ -1,7 +1,10 @@
 package de.raphaelgoetz.betterbuild.menus.world
 
+import de.raphaelgoetz.astralis.items.builder.SmartItem
+import de.raphaelgoetz.astralis.items.createSmartItem
+import de.raphaelgoetz.astralis.ui.openInventory
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.manager.LanguageManager
+import de.raphaelgoetz.betterbuild.manager.*
 import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
 import de.raphaelgoetz.betterbuild.utils.ItemBuilder
 import de.raphaelgoetz.betterbuild.utils.SkullURL
@@ -13,8 +16,19 @@ import org.bukkit.WorldCreator
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.SkullMeta
 import java.net.URL
 import java.util.function.Consumer
+
+fun Player.openWorldOverviewMenu(title: Component, isArchived: Boolean = false) {
+
+    this.openInventory(title) {
+
+
+
+    }
+
+}
 
 data class WorldOverviewMenu(
 
@@ -46,13 +60,13 @@ data class WorldOverviewMenu(
             val player = it.whoClicked as Player
 
             if (it.isRightClick) {
-                val bool = !betterBuild.worldManager.isArchived(worldName)
-                betterBuild.worldManager.toggleWorldArchive(worldName, bool)
+                val bool = !isArchived(worldName)
+                toggleWorldArchive(worldName, bool)
                 generateCategories()
                 return@Consumer
             }
 
-            var enterPermission = betterBuild.worldManager.getWorldPermission(worldName)
+            var enterPermission = getWorldPermission(worldName)
             if (enterPermission == "") enterPermission = "betterbuild.enter.free"
 
             if (!player.hasPermission(enterPermission) && enterPermission != "betterbuild.enter.free") {
@@ -63,7 +77,7 @@ data class WorldOverviewMenu(
             val bukkitWorld = Bukkit.getWorld(worldName)
 
             if (bukkitWorld == null) {
-                betterBuild.worldManager.addPlayerToQueue(worldName, player.uniqueId)
+                player.uniqueId.addToQueue(worldName)
                 Bukkit.createWorld(WorldCreator(worldName))
                 player.closeInventory()
                 return@Consumer
@@ -74,7 +88,7 @@ data class WorldOverviewMenu(
         }
     }
 
-    private fun onCategoryClick(category: String, worlds: List<String>): Consumer<InventoryClickEvent> {
+    private fun onCategoryClick(worlds: List<String>): Consumer<InventoryClickEvent> {
         return Consumer {
             it.isCancelled = true
             generateWorlds(worlds)
@@ -189,12 +203,14 @@ data class WorldOverviewMenu(
         return description
     }
 
-    private fun getItemWithURL(material: Material, url: String): ItemBuilder {
+    private fun getItemWithURL(material: Material, url: String, name: String): SmartItem {
 
         try {
 
             val categoryTextureURL = URL(url)
-            return ItemBuilder(Material.PLAYER_HEAD).setPlayerHeadTexture(categoryTextureURL)
+            return createSmartItem<SkullMeta>(name, Material.PLAYER_HEAD) {
+                //TODO: Add texture url
+            }
 
         } catch (exception: Exception) {
 
