@@ -3,10 +3,8 @@ package de.raphaelgoetz.betterbuild.manager
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 import java.io.*
@@ -87,19 +85,19 @@ class LanguageManager {
             this.singleMessage[key] = element.asString
         }
 
-        private fun getStringFromConfig(key: String): String {
+        fun getStringFromConfig(key: String): String {
             return this.singleMessage.getOrDefault(key, key)
         }
 
-        private fun getStringFromConfig(key: String, optional: String): String {
+        fun getStringFromConfig(key: String, optional: String): String {
             return this.singleMessage.getOrDefault(key, optional)
         }
 
-        private fun getStringsFromConfig(key: String): List<String> {
+        fun getStringsFromConfig(key: String): List<String> {
             return this.multiMessage.getOrDefault(key, listOf(key))
         }
 
-        private fun getStringsFromConfig(key: String, optional: List<String>): List<String> {
+        fun getStringsFromConfig(key: String, optional: List<String>): List<String> {
             return this.multiMessage.getOrDefault(key, optional)
         }
     }

@@ -1,7 +1,11 @@
 package de.raphaelgoetz.betterbuild.commands.world
 
+import de.raphaelgoetz.astralis.world.createBuildingWorld
+import de.raphaelgoetz.astralis.world.existingWorlds
 import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.manager.LanguageManager
+import de.raphaelgoetz.betterbuild.manager.changeWorldPermission
+import de.raphaelgoetz.betterbuild.manager.isWorld
 import de.raphaelgoetz.betterbuild.menus.ConfirmDeletionMenu
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -56,7 +60,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
 
         if (args?.size == 2) {
             if (args[0] == "create") return mutableListOf()
-            return betterBuild.worldManager.getWorldNames()
+            return existingWorlds.toMutableList()
         }
 
         if (args?.size == 3) {
@@ -73,14 +77,14 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
             return
         }
 
-        if (betterBuild.worldManager.isWorld(name)) {
+        if (isWorld(name)) {
             LanguageManager.sendPlayerMessage(player, "command.world.manage.exists")
             return
         }
 
         val clearedText = name.replace(Regex("\\W"), "")
-        betterBuild.worldManager.createEmptyWorld(clearedText)
-        betterBuild.worldManager.changeWorldPermission(name, "betterbuild.enter.free")
+        createBuildingWorld(clearedText)
+        changeWorldPermission(name, "betterbuild.enter.free")
         LanguageManager.sendPlayerMessage(player, "command.world.manage.create")
     }
 
@@ -91,7 +95,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
             return
         }
 
-        if (!betterBuild.worldManager.isWorld(name)) {
+        if (!isWorld(name)) {
             LanguageManager.sendPlayerMessage(player, "command.world.manage.unknown")
             return
         }
@@ -117,7 +121,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
             return
         }
 
-        if (!betterBuild.worldManager.isWorld(world)) {
+        if (!isWorld(world)) {
             LanguageManager.sendPlayerMessage(player, "command.world.manage.unknown")
             return
         }
@@ -129,6 +133,6 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
         if (permission == "high") newPermission = "betterbuild.enter.high"
 
         LanguageManager.sendPlayerMessage(player, "command.world.enter.changed", "%permission%", newPermission)
-        betterBuild.worldManager.changeWorldPermission(world, newPermission)
+        changeWorldPermission(world, newPermission)
     }
 }

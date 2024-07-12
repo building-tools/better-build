@@ -2,11 +2,8 @@ package de.raphaelgoetz.betterbuild.listeners
 
 import de.raphaelgoetz.astralis.event.listen
 import de.raphaelgoetz.astralis.event.listenCancelled
-import de.raphaelgoetz.astralis.schedule.doNow
-import de.raphaelgoetz.betterbuild.BetterBuild
 import de.raphaelgoetz.betterbuild.manager.*
-import de.raphaelgoetz.betterbuild.menus.MainMenu
-import io.papermc.paper.event.player.AsyncChatEvent
+import de.raphaelgoetz.betterbuild.menus.openMainMenu
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
@@ -39,6 +36,8 @@ fun registerPlayerEvents() {
         player.clearPlayer()
     }
 
+    //TODO: AWAIT PLAYER-WORLD-CREATE RESPONSE
+    /*
     listen<AsyncChatEvent> { playerAsyncChatEvent ->
         val uuid = playerAsyncChatEvent.player.uniqueId
         if (!worldCreation.contains(uuid)) return@listen
@@ -55,6 +54,7 @@ fun registerPlayerEvents() {
         })
 
     }
+     */
 
     listen<PlayerChangedWorldEvent> { playerChangedWorldEvent ->
         val player = playerChangedWorldEvent.player
@@ -87,7 +87,7 @@ fun registerPlayerEvents() {
     listen<PlayerSwapHandItemsEvent> { playerSwapHandItemsEvent ->
         playerSwapHandItemsEvent.isCancelled = true
         val player = playerSwapHandItemsEvent.player
-        MainMenu(betterBuild, LanguageManager.getComponent("gui.main.title"), player)
+        player.openMainMenu(LanguageManager.getComponent("gui.main.title"))
     }
 
     listen<PlayerTeleportEvent> { playerTeleportEvent ->
