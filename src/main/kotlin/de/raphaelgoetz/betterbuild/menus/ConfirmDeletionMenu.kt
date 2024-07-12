@@ -1,52 +1,58 @@
 package de.raphaelgoetz.betterbuild.menus
 
-import de.raphaelgoetz.betterbuild.BetterBuild
+import de.raphaelgoetz.astralis.items.data.InteractionType
+import de.raphaelgoetz.astralis.items.smartItemWithoutMeta
+import de.raphaelgoetz.astralis.text.communication.CommunicationType
+import de.raphaelgoetz.astralis.text.sendText
+import de.raphaelgoetz.astralis.ui.data.InventoryRows
+import de.raphaelgoetz.astralis.ui.data.InventorySlots
+import de.raphaelgoetz.astralis.ui.openInventory
 import de.raphaelgoetz.betterbuild.manager.LanguageManager
-import de.raphaelgoetz.betterbuild.utils.BukkitPlayerInventory
-import de.raphaelgoetz.betterbuild.utils.ItemBuilder
+import de.raphaelgoetz.betterbuild.manager.deleteWorld
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-data class ConfirmDeletionMenu(
+fun Player.openConfirmWorldDeletionMenu(name: String, title: Component) {
 
-    private val betterBuild: BetterBuild,
-    private val player: Player,
-    private val name: String,
-    private val title: Component
+    val inventoryPlayer = this
 
-) : BukkitPlayerInventory(title, 1) {
+    val confirm = smartItemWithoutMeta(
+        name = LanguageManager.getStringFromConfig("gui.deletion.item.confirm.name"),
+        description = LanguageManager.getStringFromConfig("gui.deletion.item.confirm.lore"),
+        material = Material.GREEN_DYE,
+        interactionType = InteractionType.SUCCESS
+    )
 
-    init {
-        setConfirmItem()
-        setCancelItem()
-        openInventory(player)
+    val cancel = smartItemWithoutMeta(
+        name = LanguageManager.getStringFromConfig("gui.deletion.item.delete.name"),
+        description = LanguageManager.getStringFromConfig("gui.deletion.item.delete.lore"),
+        material = Material.RED_DYE,
+        interactionType = InteractionType.ERROR
+    )
+
+    this.openInventory(title, InventoryRows.ROW1) {
+
+        setBlockedSlot(InventorySlots.SLOT3ROW1, confirm) {
+            deleteWorld(name)
+            val message = LanguageManager.getStringFromConfig("gui.message.world.delete")
+            inventoryPlayer.sendText(message) {
+                type = CommunicationType.SUCCESS
+            }
+
+            inventoryPlayer.closeInventory()
+        }
+
+        setBlockedSlot(InventorySlots.SLOT6ROW1, cancel) {
+            val message = LanguageManager.getStringFromConfig("gui.message.world.delete.error")
+
+            inventoryPlayer.sendText(message) {
+                type = CommunicationType.ERROR
+            }
+
+            inventoryPlayer.closeInventory()
+        }
+
     }
 
-    private fun setConfirmItem() {
-
-        setSlot(3, ItemBuilder(Material.GREEN_DYE)
-                .setName(("gui.deletion.item.confirm.name"))
-                .setLore(("gui.deletion.item.confirm.lore")).build(),
-
-            consumer = {
-                it.isCancelled = true
-                betterBuild.worldManager.deleteWorld(name)
-                LanguageManager.sendPlayerMessage(player, "gui.message.world.delete")
-                player.closeInventory()
-            })
-    }
-
-    private fun setCancelItem() {
-
-        setSlot(5, ItemBuilder(Material.RED_DYE)
-                .setName(("gui.deletion.item.delete.name"))
-                .setLore(("gui.deletion.item.delete.lore")).build(),
-
-            consumer = {
-                it.isCancelled = true
-                player.closeInventory()
-                LanguageManager.sendPlayerMessage(player, "gui.message.world.delete.error")
-            })
-    }
 }
