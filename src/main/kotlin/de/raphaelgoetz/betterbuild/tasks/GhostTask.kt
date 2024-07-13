@@ -8,8 +8,8 @@ import org.bukkit.entity.Interaction
 import org.bukkit.entity.Player
 
 class GhostTask(
-        val betterBuild: BetterBuild,
-        val player: Player,
+    private val betterBuild: BetterBuild,
+    val player: Player,
 ) : Task {
 
     private var taskId: Int = 0;

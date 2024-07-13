@@ -7,8 +7,8 @@ import de.raphaelgoetz.astralis.items.smartItemWithoutMeta
 import de.raphaelgoetz.astralis.ui.builder.InventoryBuilder
 import de.raphaelgoetz.astralis.ui.data.InventoryRows
 import de.raphaelgoetz.astralis.ui.openInventory
+import de.raphaelgoetz.astralis.ui.openTransInventory
 import de.raphaelgoetz.betterbuild.utils.BannerColors
-import net.kyori.adventure.text.Component
 import org.bukkit.DyeColor
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -18,11 +18,11 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.BannerMeta
 
-fun Player.openBannerCreationMenu(title: Component) {
+fun Player.openBannerCreationMenu(title: String) {
     BannerCreationMenu(this, title).open()
 }
 
-class BannerCreationMenu(val player: Player, private val title: Component) {
+class BannerCreationMenu(val player: Player, private val title: String) {
 
     private val bannerHistory: MutableList<SmartItem> = ArrayList()
     private var dyeColor: DyeColor? = null
@@ -31,7 +31,7 @@ class BannerCreationMenu(val player: Player, private val title: Component) {
 
     fun open() {
 
-        player.openInventory(title, InventoryRows.ROW6) {
+        player.openTransInventory(title, rows = InventoryRows.ROW6) {
             setBaseColor()
         }
 

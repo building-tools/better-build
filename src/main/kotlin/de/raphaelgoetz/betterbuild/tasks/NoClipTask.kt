@@ -9,8 +9,8 @@ import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 
 class NoClipTask(
-        val betterBuild: BetterBuild,
-        val player: Player
+    private val betterBuild: BetterBuild,
+    val player: Player
 ) : Task {
 
     private var taskId = 0

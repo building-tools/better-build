@@ -1,5 +1,7 @@
 package de.raphaelgoetz.betterbuild.manager
 
+import de.raphaelgoetz.astralis.text.communication.CommunicationType
+import de.raphaelgoetz.astralis.text.translation.sendTransText
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
@@ -25,30 +27,38 @@ fun UUID.setLastLocation(location: Location) {
 fun Player.toggleBuildMode() {
 
     if (this.isActiveBuilder()) {
-        LanguageManager.sendPlayerMessage(this, "manager.player.build.remove")
+        this.sendTransText("manager.player.build.remove") {
+            type = CommunicationType.UPDATE
+        }
         buildMode.remove(this.uniqueId)
         return
     }
-
-    LanguageManager.sendPlayerMessage(this, "manager.player.build.add")
+    this.sendTransText("manager.player.build.add") {
+        type = CommunicationType.UPDATE
+    }
     buildMode.add(this.uniqueId)
 }
 
 fun Player.toggleNoClipMode() {
 
     if (this.isActiveNoClip()) {
-        LanguageManager.sendPlayerMessage(this, "manager.player.clip.remove")
+        this.sendTransText("manager.player.clip.remove") {
+            type = CommunicationType.UPDATE
+        }
         noClipMode.remove(this.uniqueId)
         return
     }
-
-    LanguageManager.sendPlayerMessage(this, "manager.player.clip.add")
+    this.sendTransText("manager.player.clip.add") {
+        type = CommunicationType.UPDATE
+    }
     noClipMode.add(this.uniqueId)
 }
 
 fun Player.toggleNightVision() {
     if (this.hasActiveNightVision()) {
-        LanguageManager.sendPlayerMessage(this, "gui.main.item.night.disable.message")
+        this.sendTransText("gui.main.item.night.disable.message") {
+            type = CommunicationType.UPDATE
+        }
         this.removePotionEffect(PotionEffectType.NIGHT_VISION)
         return
     }
@@ -62,18 +72,22 @@ fun Player.toggleNightVision() {
             false
         )
     )
-
-    LanguageManager.sendPlayerMessage(this, "gui.main.item.night.enable.message")
+    this.sendTransText("gui.main.item.night.enable.message") {
+        type = CommunicationType.UPDATE
+    }
 }
 
 fun Player.toggleGhostMode() {
     if (this.isActiveGhost()) {
-        LanguageManager.sendPlayerMessage(this, "manager.player.ghost.remove")
+        this.sendTransText("manager.player.ghost.remove") {
+            type = CommunicationType.UPDATE
+        }
         ghostMode.remove(this.uniqueId)
         return
     }
-
-    LanguageManager.sendPlayerMessage(this, "manager.player.ghost.add")
+    this.sendTransText("manager.player.ghost.add") {
+        type = CommunicationType.UPDATE
+    }
     ghostMode.add(this.uniqueId)
 }
 

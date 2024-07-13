@@ -1,12 +1,14 @@
 package de.raphaelgoetz.betterbuild.commands.world
 
+import de.raphaelgoetz.astralis.text.communication.CommunicationType
+import de.raphaelgoetz.astralis.text.translation.sendTransText
 import de.raphaelgoetz.astralis.world.createBuildingWorld
 import de.raphaelgoetz.astralis.world.existingWorlds
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import de.raphaelgoetz.betterbuild.manager.changeWorldPermission
 import de.raphaelgoetz.betterbuild.manager.isWorld
 import de.raphaelgoetz.betterbuild.menus.openConfirmWorldDeletionMenu
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -19,8 +21,12 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
 
         if (sender !is Player) return true
         if (args == null || args.isEmpty()) return true
+        val player: Player = sender
+
         if (args.size < 2) {
-            LanguageManager.sendPlayerMessage(sender, "command.world.manage.missing.first")
+            player.sendTransText("command.world.manage.missing.first") {
+                type = CommunicationType.ERROR
+            }
             return true
         }
 
@@ -43,7 +49,9 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
         }
 
         if (args.size < 3) {
-            LanguageManager.sendPlayerMessage(sender, "command.world.manage.missing.second")
+            player.sendTransText("command.world.manage.missing.second") {
+                type = CommunicationType.ERROR
+            }
             return true
         }
 
@@ -73,56 +81,74 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
     private fun createWorld(name: String, player: Player) {
 
         if (!player.hasPermission("betterbuild.world.create")) {
-            LanguageManager.sendPlayerMessage(player, "command.world.permission.create")
+            player.sendTransText("command.world.permission.create") {
+                type = CommunicationType.ERROR
+            }
             return
         }
 
         if (isWorld(name)) {
-            LanguageManager.sendPlayerMessage(player, "command.world.manage.exists")
+            player.sendTransText("command.world.manage.exists") {
+                type = CommunicationType.ERROR
+            }
             return
         }
 
         val clearedText = name.replace(Regex("\\W"), "")
         createBuildingWorld(clearedText)
         changeWorldPermission(name, "betterbuild.enter.free")
-        LanguageManager.sendPlayerMessage(player, "command.world.manage.create")
+        player.sendTransText("command.world.manage.create") {
+            type = CommunicationType.SUCCESS
+        }
     }
 
     private fun deleteWorld(name: String, player: Player) {
 
         if (!player.hasPermission("betterbuild.world.delete")) {
-            LanguageManager.sendPlayerMessage(player, "command.world.permission.deletion")
+            player.sendTransText("command.world.permission.deletion") {
+                type = CommunicationType.ERROR
+            }
             return
         }
 
         if (!isWorld(name)) {
-            LanguageManager.sendPlayerMessage(player, "command.world.manage.unknown")
+            player.sendTransText("command.world.manage.unknown") {
+                type = CommunicationType.ERROR
+            }
             return
         }
 
-        player.openConfirmWorldDeletionMenu(name, LanguageManager.getComponent("gui.deletion.title"))
+        player.openConfirmWorldDeletionMenu(name, "gui.deletion.title")
     }
 
     private fun setWorldSpawn(player: Player) {
 
         if (!player.hasPermission("betterbuild.world.spawn")) {
-            LanguageManager.sendPlayerMessage(player, "command.world.permission.spawn")
+            player.sendTransText("command.world.permission.spawn") {
+                type = CommunicationType.ERROR
+            }
             return
         }
 
         player.world.spawnLocation  = player.location
-        LanguageManager.sendPlayerMessage(player, "command.world.spawn.changed")
+        player.sendTransText("command.world.spawn.changed") {
+            type = CommunicationType.SUCCESS
+        }
     }
 
     private fun setWorldEnterPermission(world: String, permission: String, player: Player) {
 
         if (!player.hasPermission("betterbuild.world.permission")) {
-            LanguageManager.sendPlayerMessage(player, "command.world.permission.permission")
+            player.sendTransText("command.world.permission.permission") {
+                type = CommunicationType.ERROR
+            }
             return
         }
 
         if (!isWorld(world)) {
-            LanguageManager.sendPlayerMessage(player, "command.world.manage.unknown")
+            player.sendTransText("command.world.manage.unknown") {
+                type = CommunicationType.ERROR
+            }
             return
         }
 
@@ -132,7 +158,10 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
         if (permission == "medium") newPermission = "betterbuild.enter.medium"
         if (permission == "high") newPermission = "betterbuild.enter.high"
 
-        LanguageManager.sendPlayerMessage(player, "command.world.enter.changed", "%permission%", newPermission)
+        player.sendTransText("command.world.enter.changed") {
+            type = CommunicationType.ERROR
+            resolver = arrayOf(Placeholder.parsed("%permission%", newPermission))
+        }
         changeWorldPermission(world, newPermission)
     }
 }

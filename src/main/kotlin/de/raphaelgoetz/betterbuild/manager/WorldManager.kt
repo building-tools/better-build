@@ -3,6 +3,8 @@ package de.raphaelgoetz.betterbuild.manager
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
+import de.raphaelgoetz.astralis.text.communication.CommunicationType
+import de.raphaelgoetz.astralis.text.translation.sendTransText
 import de.raphaelgoetz.astralis.world.existingWorlds
 import org.bukkit.Bukkit
 import org.bukkit.World
@@ -78,8 +80,12 @@ fun World.togglePhysics() {
     physics[this] = !value
 
     players.forEach {
-        if (value) LanguageManager.sendPlayerMessage(it, "manager.world.enable")
-        else LanguageManager.sendPlayerMessage(it, "manager.world.disable")
+        if (value) it.sendTransText("manager.world.enable") {
+            type = CommunicationType.UPDATE
+        }
+        else it.sendTransText("manager.world.disable") {
+            type = CommunicationType.UPDATE
+        }
     }
 }
 

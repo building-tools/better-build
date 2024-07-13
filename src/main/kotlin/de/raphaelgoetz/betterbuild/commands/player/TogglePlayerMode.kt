@@ -1,7 +1,8 @@
 package de.raphaelgoetz.betterbuild.commands.player
 
+import de.raphaelgoetz.astralis.text.communication.CommunicationType
+import de.raphaelgoetz.astralis.text.translation.sendTransText
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import de.raphaelgoetz.betterbuild.manager.toggleBuildMode
 import de.raphaelgoetz.betterbuild.manager.toggleNoClipMode
 import org.bukkit.Bukkit
@@ -17,8 +18,12 @@ data class TogglePlayerMode(val betterBuild: BetterBuild) : CommandExecutor {
         if (sender !is Player) return true
         if (args == null) return true
 
+        val player: Player = sender
+
         if (!sender.hasPermission("betterbuild.player.mode")) {
-            LanguageManager.sendPlayerMessage(sender, "command.player.mode.permission")
+            player.sendTransText("command.player.mode.permission") {
+                type = CommunicationType.ERROR
+            }
             return true
         }
 

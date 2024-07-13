@@ -1,7 +1,8 @@
 package de.raphaelgoetz.betterbuild.commands.player
 
+import de.raphaelgoetz.astralis.text.communication.CommunicationType
+import de.raphaelgoetz.astralis.text.translation.sendTransText
 import de.raphaelgoetz.betterbuild.BetterBuild
-import de.raphaelgoetz.betterbuild.manager.LanguageManager
 import de.raphaelgoetz.betterbuild.manager.getLastLocation
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -15,24 +16,33 @@ data class TeleportToLastLocation(val betterBuild: BetterBuild) : CommandExecuto
         if (sender !is Player) return true
         if (args == null || args.isNotEmpty()) return true
 
+        val player: Player = sender
         val lastLocation = sender.uniqueId.getLastLocation()
 
         if (!sender.hasPermission("betterbuild.player.back")) {
-            LanguageManager.sendPlayerMessage(sender, "command.player.teleport.permission")
+            player.sendTransText("command.player.teleport.permission") {
+                type = CommunicationType.ERROR
+            }
             return true
         }
 
         if (lastLocation == null) {
-            LanguageManager.sendPlayerMessage(sender, "command.player.teleport.error")
+            player.sendTransText("command.player.teleport.error") {
+                type = CommunicationType.ERROR
+            }
             return true
         }
 
         if (lastLocation.world == null) {
-            LanguageManager.sendPlayerMessage(sender, "command.player.teleport.unloaded")
+            player.sendTransText("command.player.teleport.unloaded") {
+                type = CommunicationType.ERROR
+            }
             return true
         }
 
-        LanguageManager.sendPlayerMessage(sender, "command.player.teleport.success")
+        player.sendTransText("command.player.teleport.success") {
+            type = CommunicationType.SUCCESS
+        }
         sender.teleport(lastLocation)
         return false
     }

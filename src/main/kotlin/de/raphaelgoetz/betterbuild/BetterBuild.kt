@@ -8,13 +8,10 @@ import de.raphaelgoetz.betterbuild.commands.player.TogglePlayerSpeed
 import de.raphaelgoetz.betterbuild.commands.world.MangeWorlds
 import de.raphaelgoetz.betterbuild.commands.world.ToggleWorldPhysics
 import de.raphaelgoetz.betterbuild.listeners.*
-import de.raphaelgoetz.betterbuild.manager.LanguageManager
 
 class BetterBuild : Astralis() {
 
     override fun enable() {
-        LanguageManager.readConfig()
-
         registerCommands()
         registerListener()
     }

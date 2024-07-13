@@ -2,9 +2,14 @@ package de.raphaelgoetz.betterbuild.listeners
 
 import de.raphaelgoetz.astralis.event.listen
 import de.raphaelgoetz.astralis.event.listenCancelled
+import de.raphaelgoetz.astralis.text.communication.CommunicationType
+import de.raphaelgoetz.astralis.text.components.adventureText
+import de.raphaelgoetz.astralis.text.translation.getValue
+import de.raphaelgoetz.astralis.text.translation.sendTransText
+import de.raphaelgoetz.astralis.ux.color.Colorization
 import de.raphaelgoetz.betterbuild.manager.*
 import de.raphaelgoetz.betterbuild.menus.openMainMenu
-import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Sound
@@ -22,17 +27,27 @@ fun registerPlayerEvents() {
         val world = Bukkit.getWorld("world")
         if (world != null) player.teleport(world.spawnLocation)
 
-        playerJoinEvent.joinMessage(LanguageManager.getComponent("event.join.message", "%player%", player.name))
-        player.playerListName(
-            MiniMessage.miniMessage().deserialize(
-                "<gradient:#a8ff78:#78ffd6>" + player.name + " <gradient:#00b09b:#96c93d>[" + player.world.name + "]"
-            )
-        )
+        player.sendTransText("event.join.message") {
+            type = CommunicationType.SUCCESS
+            resolver = arrayOf(Placeholder.parsed("player", player.name))
+        }
+
+        val list = adventureText(player.name + " in " + player.world.name) {
+            color = Colorization.GREEN
+        }
+
+        playerJoinEvent.joinMessage(null)
+        player.playerListName(list)
     }
 
     listen<PlayerQuitEvent> { playerQuitEvent ->
         val player = playerQuitEvent.player
-        playerQuitEvent.quitMessage(LanguageManager.getComponent("event.quit.message", "%player%", player.name))
+        playerQuitEvent.quitMessage(null)
+        player.sendTransText("event.quit.message") {
+            type = CommunicationType.ERROR
+            resolver = arrayOf(Placeholder.parsed("%player%", player.name))
+        }
+
         player.clearPlayer()
     }
 
@@ -61,13 +76,18 @@ fun registerPlayerEvents() {
         val lastWorld = playerChangedWorldEvent.from
 
         player.playSound(player, Sound.ENTITY_ILLUSIONER_CAST_SPELL, 1f, 1f)
-        player.sendActionBar(LanguageManager.getComponent("event.change.world.action", "%world%", player.world.name))
 
-        player.playerListName(
-            MiniMessage.miniMessage().deserialize(
-                "<gradient:#a8ff78:#78ffd6>" + player.name + " <gradient:#00b09b:#96c93d>[" + player.world.name + "]"
-            )
-        )
+        val actionBar = adventureText(player.locale().getValue("event.change.world.action")) {
+            color = Colorization.GREEN
+            resolver = arrayOf(Placeholder.parsed("%world%", player.world.name))
+        }
+
+        val list = adventureText(player.name + " in " + player.world.name) {
+            color = Colorization.GREEN
+        }
+
+        player.playerListName(list)
+        player.sendActionBar(actionBar)
 
         if (lastWorld.name == "world") return@listen
         if (lastWorld.players.isNotEmpty()) return@listen
@@ -87,7 +107,7 @@ fun registerPlayerEvents() {
     listen<PlayerSwapHandItemsEvent> { playerSwapHandItemsEvent ->
         playerSwapHandItemsEvent.isCancelled = true
         val player = playerSwapHandItemsEvent.player
-        player.openMainMenu(LanguageManager.getComponent("gui.main.title"))
+        player.openMainMenu("gui.main.title")
     }
 
     listen<PlayerTeleportEvent> { playerTeleportEvent ->
@@ -96,7 +116,9 @@ fun registerPlayerEvents() {
         val player = playerTeleportEvent.player
 
         if (!player.hasPermission(enterPermission) && enterPermission != "betterbuild.enter.free") {
-            LanguageManager.sendPlayerMessage(player, "event.teleport.permission")
+            player.sendTransText("event.teleport.permission") {
+                type = CommunicationType.ERROR
+            }
             player.teleport(playerTeleportEvent.from)
             return@listen
         }

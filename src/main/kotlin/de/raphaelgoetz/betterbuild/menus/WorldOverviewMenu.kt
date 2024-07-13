@@ -1,15 +1,18 @@
 package de.raphaelgoetz.betterbuild.menus.world
 
+import de.raphaelgoetz.astralis.items.basicSmartTransItem
 import de.raphaelgoetz.astralis.items.builder.SmartItem
 import de.raphaelgoetz.astralis.items.createSmartItem
 import de.raphaelgoetz.astralis.items.smartItemWithoutMeta
+import de.raphaelgoetz.astralis.text.communication.CommunicationType
+import de.raphaelgoetz.astralis.text.translation.getValue
+import de.raphaelgoetz.astralis.text.translation.sendTransText
 import de.raphaelgoetz.astralis.ui.builder.InventoryBuilder
 import de.raphaelgoetz.astralis.ui.data.InventoryRows
 import de.raphaelgoetz.astralis.ui.data.InventorySlots
-import de.raphaelgoetz.astralis.ui.openInventory
+import de.raphaelgoetz.astralis.ui.openTransInventory
 import de.raphaelgoetz.betterbuild.manager.*
 import de.raphaelgoetz.betterbuild.utils.SkullURL
-import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.WorldCreator
@@ -20,18 +23,18 @@ import java.net.URL
 import java.util.*
 import java.util.function.Consumer
 
-fun Player.openWorldOverviewMenu(title: Component, isArchive: Boolean = false) =
+fun Player.openWorldOverviewMenu(title: String, isArchive: Boolean = false) =
     WorldOverviewMenu(isArchive, this, title).open()
 
 class WorldOverviewMenu(
     private var isArchive: Boolean,
     private val player: Player,
-    private val title: Component,
+    private val title: String,
 ) {
 
     fun open() {
 
-        player.openInventory(title, InventoryRows.ROW6) {
+        player.openTransInventory(title, "Overview", InventoryRows.ROW6) {
             generateCategories()
         }
 
@@ -99,7 +102,9 @@ class WorldOverviewMenu(
             if (enterPermission == "") enterPermission = "betterbuild.enter.free"
 
             if (!player.hasPermission(enterPermission) && enterPermission != "betterbuild.enter.free") {
-                LanguageManager.sendPlayerMessage(player, "event.teleport.permission")
+                player.sendTransText("event.teleport.permission") {
+                    type = CommunicationType.ERROR
+                }
                 return@Consumer
             }
 
@@ -121,34 +126,34 @@ class WorldOverviewMenu(
     private fun InventoryBuilder.generateOverlay() {
         clear()
 
-        val empty = smartItemWithoutMeta(
+        val empty = player.basicSmartTransItem(
             material = Material.BLUE_STAINED_GLASS_PANE,
-            name = LanguageManager.getStringFromConfig("gui.world.item.placeholder.name")
+            key = "gui.world.item.placeholder.name"
         )
 
         val spawn = getItemWithURL(
             Material.RESPAWN_ANCHOR, SkullURL.GUI_SPAWN.url,
-            LanguageManager.getStringFromConfig("gui.world.item.spawn.name")
+            player.locale().getValue("gui.world.item.spawn.name")
         )
 
         val create = getItemWithURL(
             Material.GRASS_BLOCK, SkullURL.GUI_WORLD.url,
-            LanguageManager.getStringFromConfig("gui.world.item.create.name")
+            player.locale().getValue("gui.world.item.create.name")
         )
 
         val back = getItemWithURL(
             Material.STRUCTURE_VOID, SkullURL.GUI_BACK.url,
-            LanguageManager.getStringFromConfig("gui.world.item.back.name")
+            player.locale().getValue("gui.world.item.back.name")
         )
 
         val close = getItemWithURL(
             Material.BARRIER, SkullURL.GUI_CLOSE.url,
-            LanguageManager.getStringFromConfig("gui.world.item.close.name")
+            player.locale().getValue("gui.world.item.close.name")
         )
 
         val archiveName =
             if (isArchive) "gui.world.item.archives.name.active" else "gui.world.item.archives.name.inactive"
-        val archive = getItemWithURL(Material.IRON_DOOR, SkullURL.GUI_ARCHIVE.url, archiveName)
+        val archive = getItemWithURL(Material.IRON_DOOR, SkullURL.GUI_ARCHIVE.url, player.locale().getValue(archiveName))
 
         this.setBlockedSlot(InventorySlots.SLOT1ROW6, empty)
         this.setBlockedSlot(InventorySlots.SLOT2ROW6, empty)
@@ -171,7 +176,7 @@ class WorldOverviewMenu(
 
             val categoryItem = getItemWithURL(
                 Material.NAME_TAG, SkullURL.ITEM_CATEGORY.url,
-                LanguageManager.getString("gui.world.item.category.name", "%category%", category.key),
+                player.locale().getValue("gui.world.item.category.name").replace("%category%", category.key),
                 description
             )
 
@@ -198,8 +203,8 @@ class WorldOverviewMenu(
         return getItemWithURL(
             Material.GRASS_BLOCK,
             url,
-            LanguageManager.getString(name, "%world%", world),
-            LanguageManager.getStringFromConfig("gui.world.item.archive.lore")
+            player.locale().getValue(name).replace("%world%", world),
+            player.locale().getValue("gui.world.item.archive.lore")
         )
     }
 
@@ -214,11 +219,13 @@ class WorldOverviewMenu(
         try {
             val categoryTextureURL = URL(url)
             return createSmartItem<SkullMeta>(name, Material.PLAYER_HEAD, description) {
-                val playerProfile = Bukkit.createProfile(UUID.randomUUID())
-                val playerTextures = playerProfile.textures
-                playerTextures.skin = categoryTextureURL
+                val newPlayerProfile = Bukkit.createProfile(UUID.randomUUID())
+                val playerTextures = newPlayerProfile.textures
 
-                this.playerProfile = playerProfile
+                playerTextures.skin = categoryTextureURL
+                newPlayerProfile.setTextures(playerTextures)
+
+                playerProfile = newPlayerProfile
             }
         } catch (exception: Exception) {
             player.sendMessage("Player Textures couldn't be loaded, so used normal items instead")
