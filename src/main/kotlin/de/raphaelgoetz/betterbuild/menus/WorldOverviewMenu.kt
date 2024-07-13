@@ -3,16 +3,23 @@ package de.raphaelgoetz.betterbuild.menus.world
 import de.raphaelgoetz.astralis.items.basicSmartTransItem
 import de.raphaelgoetz.astralis.items.builder.SmartItem
 import de.raphaelgoetz.astralis.items.createSmartItem
+import de.raphaelgoetz.astralis.items.data.InteractionType
 import de.raphaelgoetz.astralis.items.smartItemWithoutMeta
+import de.raphaelgoetz.astralis.schedule.doNow
 import de.raphaelgoetz.astralis.text.communication.CommunicationType
+import de.raphaelgoetz.astralis.text.components.adventureMessage
+import de.raphaelgoetz.astralis.text.components.adventureText
+import de.raphaelgoetz.astralis.text.interrogate.interrogate
 import de.raphaelgoetz.astralis.text.translation.getValue
 import de.raphaelgoetz.astralis.text.translation.sendTransText
 import de.raphaelgoetz.astralis.ui.builder.InventoryBuilder
 import de.raphaelgoetz.astralis.ui.data.InventoryRows
 import de.raphaelgoetz.astralis.ui.data.InventorySlots
 import de.raphaelgoetz.astralis.ui.openTransInventory
+import de.raphaelgoetz.astralis.world.createBuildingWorld
 import de.raphaelgoetz.betterbuild.manager.*
 import de.raphaelgoetz.betterbuild.utils.SkullURL
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.WorldCreator
@@ -59,10 +66,41 @@ class WorldOverviewMenu(
     private fun onCreateWorldClick(): Consumer<InventoryClickEvent> {
         return Consumer {
             val player = (it.whoClicked as Player)
-            //TODO: WorldCreationMenu gets called here but currently I cant find it
-            //WorldCreationMenu(betterBuild, player, Component.text("create new World")).open()
+            player.closeInventory()
+
+            val question =
+                adventureMessage("Write the name of the world you want to create in the chat. Folders get automatically created! (Hover to see example)") {
+                    type = CommunicationType.INFO
+                    onHoverText(adventureText("By just typing the <name> a world with the name: <name> gets created. It will be put in the none folder. To create a custom folder just type a prefix in front of the worlds name: <folder>_<name>. Dont forget the _ between folder and name!") {
+                        type = CommunicationType.DEBUG
+                    })
+                }
+
+            val nothing =
+                adventureMessage("You didn't answer. The task of creation a world is stopped!") {
+                    type = CommunicationType.ALERT
+                }
+
+            player.interrogate(question, nothing) { _, isAnswered, event ->
+
+                if (!isAnswered) return@interrogate
+                if (event == null) return@interrogate
+                event.isCancelled = true
+
+                val message = MiniMessage.miniMessage().serialize(event.message())
+                val name = message.replace(Regex("\\W"), "")
+
+                doNow {
+                    createBuildingWorld(name)
+                    player.sendTransText("message.world.created") {
+                        type = CommunicationType.SUCCESS
+                    }
+                }
+            }
+
         }
     }
+
 
     private fun InventoryBuilder.onCategoryClick(worlds: List<String>): Consumer<InventoryClickEvent> {
         return Consumer {
@@ -127,33 +165,29 @@ class WorldOverviewMenu(
         clear()
 
         val empty = player.basicSmartTransItem(
-            material = Material.BLUE_STAINED_GLASS_PANE,
-            key = "gui.world.item.placeholder.name"
+            material = Material.GRAY_STAINED_GLASS_PANE, key = "gui.world.item.placeholder.name"
         )
 
         val spawn = getItemWithURL(
-            Material.RESPAWN_ANCHOR, SkullURL.GUI_SPAWN.url,
-            player.locale().getValue("gui.world.item.spawn.name")
+            Material.RESPAWN_ANCHOR, SkullURL.GUI_SPAWN.url, player.locale().getValue("gui.world.item.spawn.name")
         )
 
         val create = getItemWithURL(
-            Material.GRASS_BLOCK, SkullURL.GUI_WORLD.url,
-            player.locale().getValue("gui.world.item.create.name")
+            Material.GRASS_BLOCK, SkullURL.GUI_WORLD.url, player.locale().getValue("gui.world.item.create.name")
         )
 
         val back = getItemWithURL(
-            Material.STRUCTURE_VOID, SkullURL.GUI_BACK.url,
-            player.locale().getValue("gui.world.item.back.name")
+            Material.STRUCTURE_VOID, SkullURL.GUI_BACK.url, player.locale().getValue("gui.world.item.back.name")
         )
 
         val close = getItemWithURL(
-            Material.BARRIER, SkullURL.GUI_CLOSE.url,
-            player.locale().getValue("gui.world.item.close.name")
+            Material.BARRIER, SkullURL.GUI_CLOSE.url, player.locale().getValue("gui.world.item.close.name")
         )
 
         val archiveName =
             if (isArchive) "gui.world.item.archives.name.active" else "gui.world.item.archives.name.inactive"
-        val archive = getItemWithURL(Material.IRON_DOOR, SkullURL.GUI_ARCHIVE.url, player.locale().getValue(archiveName))
+        val archive =
+            getItemWithURL(Material.IRON_DOOR, SkullURL.GUI_ARCHIVE.url, player.locale().getValue(archiveName))
 
         this.setBlockedSlot(InventorySlots.SLOT1ROW6, empty)
         this.setBlockedSlot(InventorySlots.SLOT2ROW6, empty)
@@ -175,8 +209,9 @@ class WorldOverviewMenu(
             val description = getCategoryDescription(category.value)
 
             val categoryItem = getItemWithURL(
-                Material.NAME_TAG, SkullURL.ITEM_CATEGORY.url,
-                player.locale().getValue("gui.world.item.category.name").replace("%category%", category.key),
+                Material.NAME_TAG,
+                SkullURL.ITEM_CATEGORY.url,
+                player.locale().getValue("gui.world.item.category.name").replace("category", category.key),
                 description
             )
 
@@ -203,7 +238,7 @@ class WorldOverviewMenu(
         return getItemWithURL(
             Material.GRASS_BLOCK,
             url,
-            player.locale().getValue(name).replace("%world%", world),
+            player.locale().getValue(name).replace("world", world),
             player.locale().getValue("gui.world.item.archive.lore")
         )
     }
@@ -218,7 +253,9 @@ class WorldOverviewMenu(
     private fun getItemWithURL(material: Material, url: String, name: String, description: String = ""): SmartItem {
         try {
             val categoryTextureURL = URL(url)
-            return createSmartItem<SkullMeta>(name, Material.PLAYER_HEAD, description) {
+            return createSmartItem<SkullMeta>(
+                name, Material.PLAYER_HEAD, description, interactionType = InteractionType.DISPLAY_CLICK
+            ) {
                 val newPlayerProfile = Bukkit.createProfile(UUID.randomUUID())
                 val playerTextures = newPlayerProfile.textures
 
