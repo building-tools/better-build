@@ -4,6 +4,7 @@ import de.raphaelgoetz.astralis.event.listen
 import de.raphaelgoetz.astralis.event.listenCancelled
 import de.raphaelgoetz.astralis.text.communication.CommunicationType
 import de.raphaelgoetz.astralis.text.components.adventureText
+import de.raphaelgoetz.astralis.text.sendText
 import de.raphaelgoetz.astralis.text.translation.getValue
 import de.raphaelgoetz.astralis.text.translation.sendTransText
 import de.raphaelgoetz.astralis.ux.color.Colorization
@@ -27,9 +28,22 @@ fun registerPlayerEvents() {
         val world = Bukkit.getWorld("world")
         if (world != null) player.teleport(world.spawnLocation)
 
-        player.sendTransText("event.join.message") {
-            type = CommunicationType.SUCCESS
+        for (onlinePlayer in Bukkit.getOnlinePlayers()) {
+            if (onlinePlayer.uniqueId == player.uniqueId) continue
+            onlinePlayer.sendTransText("event.join.message") {
+                type = CommunicationType.SUCCESS
+                resolver = arrayOf(Placeholder.parsed("player", player.name))
+            }
+        }
+
+        player.sendText("Welcome <player> to the server. Have fun building :). (Click for tutorial)") {
+            type = CommunicationType.INFO
             resolver = arrayOf(Placeholder.parsed("player", player.name))
+
+            onOpenURL("https://github.com/building-tools/better-build")
+            onHoverText(adventureText("This Plugin is still in alpha. Please report any bugs/errors to the Github linked to the plugin (or click the message). Feature request are also very appreciated") {
+                type = CommunicationType.DEBUG
+            })
         }
 
         val list = adventureText(player.name + " in " + player.world.name) {
@@ -45,31 +59,11 @@ fun registerPlayerEvents() {
         playerQuitEvent.quitMessage(null)
         player.sendTransText("event.quit.message") {
             type = CommunicationType.ERROR
-            resolver = arrayOf(Placeholder.parsed("%player%", player.name))
+            resolver = arrayOf(Placeholder.parsed("player", player.name))
         }
 
         player.clearPlayer()
     }
-
-    //TODO: AWAIT PLAYER-WORLD-CREATE RESPONSE
-    /*
-    listen<AsyncChatEvent> { playerAsyncChatEvent ->
-        val uuid = playerAsyncChatEvent.player.uniqueId
-        if (!worldCreation.contains(uuid)) return@listen
-        val buildWorld = worldCreation[uuid] ?: return@listen
-        playerAsyncChatEvent.isCancelled = true
-
-        val message = MiniMessage.miniMessage().serialize(playerAsyncChatEvent.message())
-        buildWorld.name = message.replace(Regex("\\W"), "")
-
-        doNow(function = {
-            generateWorld(buildWorld)
-            LanguageManager.sendPlayerMessage(playerAsyncChatEvent.player, "message.world.created")
-            worldCreation.remove(uuid)
-        })
-
-    }
-     */
 
     listen<PlayerChangedWorldEvent> { playerChangedWorldEvent ->
         val player = playerChangedWorldEvent.player
@@ -79,7 +73,7 @@ fun registerPlayerEvents() {
 
         val actionBar = adventureText(player.locale().getValue("event.change.world.action")) {
             color = Colorization.GREEN
-            resolver = arrayOf(Placeholder.parsed("%world%", player.world.name))
+            resolver = arrayOf(Placeholder.parsed("world", player.world.name))
         }
 
         val list = adventureText(player.name + " in " + player.world.name) {
