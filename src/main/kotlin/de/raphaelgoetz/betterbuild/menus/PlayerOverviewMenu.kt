@@ -6,9 +6,7 @@ import de.raphaelgoetz.astralis.items.data.InteractionType
 import de.raphaelgoetz.astralis.ui.builder.SmartClick
 import de.raphaelgoetz.astralis.ui.data.InventoryRows
 import de.raphaelgoetz.astralis.ui.data.InventorySlots
-import de.raphaelgoetz.astralis.ui.openPageInventory
 import de.raphaelgoetz.astralis.ui.openTransPageInventory
-import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -19,11 +17,13 @@ import java.util.function.Consumer
 fun Player.openPlayerOverviewMenu(title: String) {
 
     val players = Bukkit.getOnlinePlayers().map { player ->
-        val item = createSmartItem<SkullMeta>(name, Material.PLAYER_HEAD, interactionType = InteractionType.SUCCESS)
+        val item = createSmartItem<SkullMeta>(name, Material.PLAYER_HEAD, interactionType = InteractionType.SUCCESS) {
+            owningPlayer = player
+        }
         SmartClick(item, onClick(name))
     }
 
-    val inventory = this.openTransPageInventory(
+    openTransPageInventory(
         title,"Players", InventoryRows.ROW6, players, InventorySlots.SLOT1ROW1, InventorySlots.SLOT9ROW5
     ) {
         val left = basicItemWithoutMeta(Material.ARROW)

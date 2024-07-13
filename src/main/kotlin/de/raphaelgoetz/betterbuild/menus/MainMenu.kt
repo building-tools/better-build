@@ -22,21 +22,21 @@ fun Player.openMainMenu(title: String) {
             key = "gui.main.item.world.name",
             descriptionKey = "gui.main.item.world.lore",
             material = Material.GRASS_BLOCK,
-            interactionType = InteractionType.CLICK
+            interactionType = InteractionType.DISPLAY_CLICK
         )
 
         val playerItem = smartTransItem<SkullMeta>(
             key = "gui.player.item.world.name",
             descriptionKey = "gui.player.item.world.lore",
             material = Material.PLAYER_HEAD,
-            interactionType = InteractionType.CLICK
+            interactionType = InteractionType.DISPLAY_CLICK
         ) { owningPlayer = inventoryHolder }
 
         val bannerItem = basicSmartTransItem(
             key = "gui.banner.item.world.name",
             descriptionKey = "gui.banner.item.world.lore",
             material = Material.GRASS_BLOCK,
-            interactionType = InteractionType.CLICK
+            interactionType = InteractionType.DISPLAY_CLICK
         )
 
         this.setBlockedSlot(InventorySlots.SLOT2ROW1, worldItem) {
@@ -61,7 +61,7 @@ fun Player.openMainMenu(title: String) {
                 key = name,
                 descriptionKey = "gui.main.item.physics.lore",
                 material = Material.GRAVEL,
-                interactionType = InteractionType.CLICK
+                interactionType = InteractionType.DISPLAY_CLICK
             )
 
             this.setBlockedSlot(InventorySlots.SLOT6ROW1, item) {
@@ -79,7 +79,7 @@ fun Player.openMainMenu(title: String) {
                 key = name,
                 descriptionKey = "gui.main.item.build.lore",
                 material = Material.DIAMOND_AXE,
-                interactionType = InteractionType.CLICK
+                interactionType = InteractionType.DISPLAY_CLICK
             )
 
             this.setBlockedSlot(InventorySlots.SLOT7ROW1, item) {
@@ -97,7 +97,7 @@ fun Player.openMainMenu(title: String) {
                 key = name,
                 descriptionKey = "gui.main.item.clip.lore",
                 material = Material.ELYTRA,
-                interactionType = InteractionType.CLICK
+                interactionType = InteractionType.DISPLAY_CLICK
             )
 
             this.setBlockedSlot(InventorySlots.SLOT8ROW1, item) {
@@ -115,7 +115,7 @@ fun Player.openMainMenu(title: String) {
                 key = name,
                 descriptionKey = "gui.main.item.night.lore",
                 material = Material.ENDER_EYE,
-                interactionType = InteractionType.CLICK
+                interactionType = InteractionType.DISPLAY_CLICK
             )
 
             this.setBlockedSlot(InventorySlots.SLOT8ROW1, item) {

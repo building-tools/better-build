@@ -40,7 +40,7 @@ fun Player.openConfirmWorldDeletionMenu(name: String, title: String) {
             inventoryPlayer.closeInventory()
         }
 
-        setBlockedSlot(InventorySlots.SLOT6ROW1, cancel) {
+        setBlockedSlot(InventorySlots.SLOT7ROW1, cancel) {
             inventoryPlayer.sendTransText("gui.message.world.delete.error") {
                 type = CommunicationType.ERROR
             }

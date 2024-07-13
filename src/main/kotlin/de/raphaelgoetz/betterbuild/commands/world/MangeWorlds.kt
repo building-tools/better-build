@@ -160,7 +160,7 @@ data class MangeWorlds(val betterBuild: BetterBuild) : CommandExecutor, TabCompl
 
         player.sendTransText("command.world.enter.changed") {
             type = CommunicationType.ERROR
-            resolver = arrayOf(Placeholder.parsed("%permission%", newPermission))
+            resolver = arrayOf(Placeholder.parsed("permission", newPermission))
         }
         changeWorldPermission(world, newPermission)
     }

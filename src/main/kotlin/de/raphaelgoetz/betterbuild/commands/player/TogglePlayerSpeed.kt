@@ -41,7 +41,7 @@ data class TogglePlayerSpeed(val betterBuild: BetterBuild) : CommandExecutor {
         val speed = ((args[0]).toFloat() / 10)
         player.sendTransText("command.player.speed.success") {
             type = CommunicationType.SUCCESS
-            resolver = arrayOf(Placeholder.parsed("%speed%", speed.toString()))
+            resolver = arrayOf(Placeholder.parsed("speed", speed.toString()))
         }
         if ("fly" == label) sender.flySpeed = speed
         if ("walk" == label) sender.walkSpeed = speed
