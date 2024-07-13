@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    api "de.raphaelgoetz:astralis:0.0.2-alpha"
+    api "de.raphaelgoetz:astralis:0.0.4-alpha"
 }
 
 shadowJar {
